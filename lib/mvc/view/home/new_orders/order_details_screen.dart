@@ -31,7 +31,6 @@ class OrderDetailsScreen extends StatefulWidget {
 }
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
-  List<String> items = List.generate(10, (index) => 'Item $index');
   List<bool> checked = List.generate(10, (index) => false);
   bool selectAll = false;
   final MedicineController controller = Get.put(MedicineController());
