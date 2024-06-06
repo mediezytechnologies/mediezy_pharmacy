@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mediezy_medical/demo/demo.dart';
-import 'package:mediezy_medical/presentation/screens/common/builder_card_widget.dart';
+import 'package:mediezy_medical/presentation/screens/common_widgets/builder_card_widget.dart';
 import 'package:mediezy_medical/presentation/screens/recent_orders/completed_details_screen/completed_details_screen.dart';
 import 'package:mediezy_medical/presentation/screens/recent_orders/new_orders/order_details_screen.dart';
 import 'package:mediezy_medical/presentation/core/app_colors.dart';

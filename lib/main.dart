@@ -12,6 +12,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureInjection();
   await GetStorage.init();
+  // jhhgsfhgvksdgkshg
   runApp(const MediezyMedical());
 }
 

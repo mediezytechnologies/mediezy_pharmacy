@@ -4,9 +4,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mediezy_medical/demo/demo.dart';
 import 'package:mediezy_medical/demo/demo_model.dart';
-import 'package:mediezy_medical/presentation/screens/common/common_button_widget.dart';
-import 'package:mediezy_medical/presentation/screens/common/horizontal_spacing_widget.dart';
-import 'package:mediezy_medical/presentation/screens/common/vertical_spacing_widget.dart';
+import 'package:mediezy_medical/presentation/screens/common_widgets/common_button_widget.dart';
+import 'package:mediezy_medical/presentation/screens/common_widgets/horizontal_spacing_widget.dart';
+import 'package:mediezy_medical/presentation/screens/common_widgets/vertical_spacing_widget.dart';
 
 // ignore: must_be_immutable
 class OrderDetailsScreen extends StatefulWidget {
