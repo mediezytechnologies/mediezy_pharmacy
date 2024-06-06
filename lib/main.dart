@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:mediezy_medical/application/auth_bloc/auth_bloc.dart';
-import 'package:mediezy_medical/application/new_order/new_bloc_bloc.dart';
-import 'package:mediezy_medical/domain/core/dependency/injectable.dart';
-import 'package:mediezy_medical/presentation/core/app_theme_style.dart';
-import 'package:mediezy_medical/presentation/screens/auth/login_screen.dart';
+import 'package:mediezy_medical/ddd/application/auth_bloc/auth_bloc.dart';
+import 'package:mediezy_medical/ddd/domain/core/dependency/injectable.dart';
+import 'package:mediezy_medical/ddd/core/app_theme_style.dart';
+import 'package:mediezy_medical/mvc/view/auth/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,9 +30,6 @@ class MediezyMedical extends StatelessWidget {
           providers: [
             BlocProvider(
               create: (context) => getIt<AuthBloc>(),
-            ),
-            BlocProvider(
-              create: (context) => getIt<NewBlocBloc>(),
             ),
           ],
           child: MaterialApp(
