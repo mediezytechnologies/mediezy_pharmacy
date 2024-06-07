@@ -58,9 +58,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         title: const Text("Order num 2133"),
         centerTitle: true,
       ),
-      bottomNavigationBar: widget.type == 1
-          ? Container()
-          : Padding(
+      bottomNavigationBar:
+      // widget.type == 1
+      //     ? Container()
+      //     : 
+          Padding(
               padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
               child: CommonButtonWidget(
                   title: "Submit",

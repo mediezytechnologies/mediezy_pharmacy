@@ -73,6 +73,8 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+
+                  Text(widget.checkBoxId.toString()),
                   ShortNamesWidget(
                     typeId: 1,
                     firstText: "Medicine : ",
