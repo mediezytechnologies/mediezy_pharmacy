@@ -76,7 +76,7 @@ class _NewOrderScreenState extends State<NewOrderScreen>
                     ),
                     child: const Align(
                       alignment: Alignment.center,
-                      child: Text("Past orders"),
+                      child: Text("Completed"),
                     ),
                   ),
                 ),
@@ -126,6 +126,14 @@ class _NewOrderScreenState extends State<NewOrderScreen>
                                     .toString(),
                                 patientImage:
                                     controller.medicineOrder![index].userImage,
+                                drId: controller.medicineOrder![index].doctorId
+                                    .toString(),
+                                patientId: controller
+                                    .medicineOrder![index].patientId
+                                    .toString(),
+                                tokenId: controller
+                                    .medicineOrder![index].tokenId
+                                    .toString(),
                               ),
                             ),
                           );

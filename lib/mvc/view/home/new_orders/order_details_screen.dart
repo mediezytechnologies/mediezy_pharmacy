@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
-import 'package:mediezy_medical/mvc/model/new_order_model.dart';
+import 'package:mediezy_medical/mvc/controller/controller/new_order_submit/new_order_submit_controller.dart';
+import 'package:mediezy_medical/mvc/model/new_order/new_order_model.dart';
 import 'package:mediezy_medical/ddd/core/app_colors.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/common_button_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/horizontal_spacing_widget.dart';
@@ -19,10 +20,16 @@ class OrderDetailsScreen extends StatefulWidget {
     required this.medicines,
     required this.drName,
     required this.patientImage,
+    this.patientId,
+    this.tokenId,
+    this.drId,
   });
   final String? name;
   final String? date;
   final int? itemCount;
+  final String? patientId;
+  final String? tokenId;
+  final String? drId;
   final String drName;
   final String? patientImage;
   List<Medicines>? medicines;
@@ -34,7 +41,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   List<String> items = List.generate(10, (index) => 'Item $index');
   List<bool> checked = List.generate(10, (index) => false);
   bool selectAll = false;
-  final MedicineController controller = Get.put(MedicineController());
+  final MedicineController medicineController = Get.put(MedicineController());
+  final NewOrderSubmitController newOrderSubmitController =
+      Get.put(NewOrderSubmitController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +55,16 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
-        child: CommonButtonWidget(title: "Apply", onTapFunction: () {}),
+        child: CommonButtonWidget(
+            title: "Submit",
+            onTapFunction: () {
+              newOrderSubmitController.addNewOrderSubmit(
+                  patientId: widget.patientId!,
+                  tokenId: widget.tokenId!,
+                  doctorId: widget.drId!,
+                  orderStatus: "1",
+                  medicineList: [100, 102]);
+            }),
       ),
       body: SingleChildScrollView(
         child: Padding(
