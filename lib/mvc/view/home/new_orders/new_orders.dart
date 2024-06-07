@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mediezy_medical/mvc/controller/controller/completed/completed_controller.dart';
 import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/builder_card_widget.dart';
-import 'package:mediezy_medical/mvc/view/home/completed_details_screen/completed_details_screen.dart';
-import 'package:mediezy_medical/mvc/view/home/new_orders/order_details_screen.dart';
 import 'package:mediezy_medical/ddd/core/app_colors.dart';
+import 'package:mediezy_medical/mvc/view/home/new_orders/order_details_screen.dart';
 
 // ignore: must_be_immutable
 class NewOrderScreen extends StatefulWidget {
@@ -25,7 +25,10 @@ class _NewOrderScreenState extends State<NewOrderScreen>
     tabController = TabController(length: 2, vsync: this);
   }
 
-  final MedicineController controller = Get.put(MedicineController());
+  final MedicineController medicineController = Get.put(MedicineController());
+
+  final CompletedController completedController =
+      Get.put(CompletedController());
 
   @override
   Widget build(BuildContext context) {
@@ -88,10 +91,10 @@ class _NewOrderScreenState extends State<NewOrderScreen>
               controller: tabController,
               children: [
                 Obx(() {
-                  if (controller.loding.value) {
+                  if (medicineController.loding.value) {
                     return Center(child: CircularProgressIndicator());
                   }
-                  if (controller.medicineOrder!.isEmpty) {
+                  if (medicineController.medicineOrder!.isEmpty) {
                     return Center(
                       child: Image(
                         height: 200.h,
@@ -104,7 +107,7 @@ class _NewOrderScreenState extends State<NewOrderScreen>
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: controller.medicineOrder!.length,
+                    itemCount: medicineController.medicineOrder!.length,
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
@@ -112,65 +115,125 @@ class _NewOrderScreenState extends State<NewOrderScreen>
                             context,
                             MaterialPageRoute(
                               builder: (ctx) => OrderDetailsScreen(
-                                name: controller
+                                name: medicineController
                                     .medicineOrder![index].patientName
                                     .toString(),
-                                date: controller.medicineOrder![index].date
+                                date: medicineController
+                                    .medicineOrder![index].date
                                     .toString(),
-                                itemCount: controller
+                                itemCount: medicineController
                                     .medicineOrder![index].medicines!.length,
-                                medicines:
-                                    controller.medicineOrder![index].medicines,
-                                drName: controller
+                                medicines: medicineController
+                                    .medicineOrder![index].medicines,
+                                drName: medicineController
                                     .medicineOrder![index].doctorName
                                     .toString(),
-                                patientImage:
-                                    controller.medicineOrder![index].userImage,
-                                drId: controller.medicineOrder![index].doctorId
+                                patientImage: medicineController
+                                    .medicineOrder![index].userImage,
+                                drId: medicineController
+                                    .medicineOrder![index].doctorId
                                     .toString(),
-                                patientId: controller
+                                patientId: medicineController
                                     .medicineOrder![index].patientId
                                     .toString(),
-                                tokenId: controller
+                                tokenId: medicineController
                                     .medicineOrder![index].tokenId
                                     .toString(),
+                                type: 0,
+                                checkBoxVisibleId:
+                                    tabController.index == 0 ? 0 : 1,
                               ),
                             ),
                           );
                         },
                         child: BuilderCardWidget(
-                          patientImage:
-                              controller.medicineOrder![index].userImage,
-                          name: controller.medicineOrder![index].patientName
+                          patientImage: medicineController
+                              .medicineOrder![index].userImage,
+                          name: medicineController
+                              .medicineOrder![index].patientName
                               .toString(),
-                          date:
-                              controller.medicineOrder![index].date.toString(),
-                          drName: controller.medicineOrder![index].doctorName
+                          date: medicineController.medicineOrder![index].date
+                              .toString(),
+                          drName: medicineController
+                              .medicineOrder![index].doctorName
                               .toString(),
                         ),
                       );
                     },
                   );
                 }),
-                ListView.builder(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (ctx) => const CompletedDetailsScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text("frghdf"),
+                Obx(() {
+                  if (completedController.loading.value) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (completedController.medicineOrder!.isEmpty) {
+                    return Center(
+                      child: Image(
+                        height: 200.h,
+                        width: 200.w,
+                        image: const AssetImage("assets/images/no_data.jpg"),
+                      ),
                     );
-                  },
-                ),
+                  }
+                  return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: completedController.medicineOrder!.length,
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (ctx) => OrderDetailsScreen(
+                                name: completedController
+                                    .medicineOrder![index].patientName
+                                    .toString(),
+                                date: completedController
+                                    .medicineOrder![index].date
+                                    .toString(),
+                                itemCount: completedController
+                                    .medicineOrder![index].medicines!.length,
+                                medicines: completedController
+                                    .medicineOrder![index].medicines,
+                                drName: completedController
+                                    .medicineOrder![index].doctorName
+                                    .toString(),
+                                patientImage: completedController
+                                    .medicineOrder![index].userImage,
+                                drId: completedController
+                                    .medicineOrder![index].doctorId
+                                    .toString(),
+                                patientId: completedController
+                                    .medicineOrder![index].patientId
+                                    .toString(),
+                                tokenId: completedController
+                                    .medicineOrder![index].tokenId
+                                    .toString(),
+                                type: 1,
+                                checkBoxVisibleId:
+                                    tabController.index == 0 ? 1 : 0,
+                              ),
+                            ),
+                          );
+                        },
+                        child: BuilderCardWidget(
+                          patientImage: completedController
+                              .medicineOrder![index].userImage,
+                          name: completedController
+                              .medicineOrder![index].patientName
+                              .toString(),
+                          date: completedController.medicineOrder![index].date
+                              .toString(),
+                          drName: completedController
+                              .medicineOrder![index].doctorName
+                              .toString(),
+                        ),
+                      );
+                    },
+                  );
+                }),
               ],
             ),
           ),

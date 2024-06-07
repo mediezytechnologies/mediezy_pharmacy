@@ -6,7 +6,7 @@ import 'package:mediezy_medical/mvc/controller/dio_client.dart';
 import 'package:mediezy_medical/mvc/model/new_order/new_order_model.dart';
 
 class MedicineService {
-  static Future<List<MedicineOrder>?> medidicineService() async {
+  static Future<List<MedicineOrder>?> medicineService() async {
     try {
       var response = await DioClient.dio.post(
           "$baseUrl/medicalshop/getUpcomingOrder",
@@ -20,8 +20,6 @@ class MedicineService {
       log("6656566565656556565  dist");
       log("${e.response!.data}===========");
       log("${e.message}=fdsfg=fd");
-    } catch (e) {
-      log("$e");
     }
     return null;
   }
