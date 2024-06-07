@@ -59,7 +59,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         centerTitle: true,
       ),
       bottomNavigationBar: widget.type == 1
-          ? Container()
+          ? null
           : Padding(
               padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
               child: CommonButtonWidget(
@@ -156,7 +156,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ),
                     const VerticalSpacingWidget(height: 6),
                     SizedBox(
-                      height: mHeight * .55,
+                      width: double.infinity,
                       child: ListView.builder(
                         itemCount: widget.itemCount,
                         itemBuilder: (context, index) {
