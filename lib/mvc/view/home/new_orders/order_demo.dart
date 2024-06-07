@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
-import 'package:mediezy_medical/mvc/model/new_order_model.dart';
 import 'package:mediezy_medical/ddd/core/app_colors.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/common_button_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/horizontal_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 
 import '../../../controller/controller/order_detai_controller.dart/order_detail_controller.dart';
+import '../../../model/new_order/new_order_model.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   OrderDetailsScreen({

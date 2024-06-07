@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 
-import '../../../model/new_order_model.dart';
+import '../../../model/new_order/new_order_model.dart';
 
 class CheckboxController extends GetxController {
   var allChecked = false.obs;
