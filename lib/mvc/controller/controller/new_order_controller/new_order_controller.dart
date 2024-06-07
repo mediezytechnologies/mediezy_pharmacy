@@ -9,8 +9,10 @@ class MedicineController extends GetxController {
   // RxBool isChecked = false.obs;
   // RxBool _loading = true.obs;
   // RxBool get loading => _loading;
+  var orderDetailsLenth=0.obs;
 
   RxList<bool> isCheckedList = <bool>[].obs;
+
 
   RxList<MedicineOrder>? medicineOrder = <MedicineOrder>[].obs;
 

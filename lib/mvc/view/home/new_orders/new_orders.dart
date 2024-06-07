@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -108,6 +110,9 @@ class _NewOrderScreenState extends State<NewOrderScreen>
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
+                          controller.orderDetailsLenth.value=controller
+                                    .medicineOrder![index].medicines!.length;
+                                    log("lenth =====${controller.medicineOrder}");
                           Navigator.push(
                             context,
                             MaterialPageRoute(
