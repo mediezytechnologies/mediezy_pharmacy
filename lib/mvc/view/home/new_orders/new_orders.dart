@@ -1,3 +1,6 @@
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -43,6 +46,9 @@ class _NewOrderScreenState extends State<NewOrderScreen>
             height: 55.h,
             color: kScaffoldColor,
             child: TabBar(
+              onTap: (value) {
+                  log(tabController.index.toString());
+              },
               controller: tabController,
               physics: const ClampingScrollPhysics(),
               padding: EdgeInsets.only(
@@ -141,7 +147,7 @@ class _NewOrderScreenState extends State<NewOrderScreen>
                                     .toString(),
                                 type: 0,
                                 checkBoxVisibleId:
-                                    tabController.index == 0 ? 0 : 1,
+                                    tabController.index,
                               ),
                             ),
                           );
@@ -183,6 +189,7 @@ class _NewOrderScreenState extends State<NewOrderScreen>
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () {
+                     
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -213,7 +220,7 @@ class _NewOrderScreenState extends State<NewOrderScreen>
                                     .toString(),
                                 type: 1,
                                 checkBoxVisibleId:
-                                    tabController.index == 0 ? 1 : 0,
+                                    tabController.index,
                               ),
                             ),
                           );
