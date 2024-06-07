@@ -11,7 +11,6 @@ import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.
 
 import '../../../controller/controller/order_detai_controller.dart/order_detail_controller.dart';
 
-// ignore: must_be_immutable
 class OrderDetailsScreen extends StatefulWidget {
   OrderDetailsScreen({
     super.key,
