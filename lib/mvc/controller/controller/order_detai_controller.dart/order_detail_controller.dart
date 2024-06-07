@@ -29,21 +29,3 @@ class CheckboxController extends GetxController {
 
   List<int> get checkedIds => checkedItems.toList();
 }
-
-
-
-// class CheckboxController extends GetxController {
-//   final checkedItemsIds = <int>{}.obs;
-
-//   void toggleItem(int id) {
-//     if (checkedItemsIds.contains(id)) {
-//       checkedItemsIds.remove(id);
-//     } else {
-//       checkedItemsIds.add(id);
-//     }
-//   }
-
-//   List<int> get checkedIds => checkedItemsIds.toList();
- 
- //sdfkljsdfjklsdfjaklsdfjklsadfjadklsfjadfkls
-// }

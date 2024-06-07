@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
-import 'package:mediezy_medical/mvc/controller/controller/new_order_submit/new_order_submit_controller.dart';
-import 'package:mediezy_medical/mvc/model/new_order/new_order_model.dart';
 import 'package:mediezy_medical/ddd/core/app_colors.dart';
+import 'package:mediezy_medical/mvc/controller/controller/new_order_submit/new_order_submit_controller.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/common_button_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/horizontal_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
+import 'package:mediezy_medical/mvc/view/home/widgets/medicine_widget.dart';
+import '../../../controller/controller/order_detai_controller.dart/order_detail_controller.dart';
+import '../../../model/new_order/new_order_model.dart';
 
 // ignore: must_be_immutable
 class OrderDetailsScreen extends StatefulWidget {
@@ -20,28 +21,32 @@ class OrderDetailsScreen extends StatefulWidget {
     required this.medicines,
     required this.drName,
     required this.patientImage,
-    this.patientId,
     this.tokenId,
     this.drId,
+    this.patientId,
+    this.type,
+    required this.checkBoxVisibleId,
   });
   final String? name;
   final String? date;
   final int? itemCount;
+  final int? type;
   final String? patientId;
+  final String drName;
   final String? tokenId;
   final String? drId;
-  final String drName;
   final String? patientImage;
   List<Medicines>? medicines;
+  final int checkBoxVisibleId;
   @override
   State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
 }
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
-  List<String> items = List.generate(10, (index) => 'Item $index');
   List<bool> checked = List.generate(10, (index) => false);
   bool selectAll = false;
-  final MedicineController medicineController = Get.put(MedicineController());
+  //final MedicineController controller = Get.put(MedicineController());
+  final CheckboxController checkboxController = Get.put(CheckboxController());
   final NewOrderSubmitController newOrderSubmitController =
       Get.put(NewOrderSubmitController());
 
@@ -53,19 +58,21 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         title: const Text("Order num 2133"),
         centerTitle: true,
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
-        child: CommonButtonWidget(
-            title: "Submit",
-            onTapFunction: () {
-              newOrderSubmitController.addNewOrderSubmit(
-                  patientId: widget.patientId!,
-                  tokenId: widget.tokenId!,
-                  doctorId: widget.drId!,
-                  orderStatus: "1",
-                  medicineList: [100, 102]);
-            }),
-      ),
+      bottomNavigationBar: widget.type == 1
+          ? Container()
+          : Padding(
+              padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
+              child: CommonButtonWidget(
+                  title: "Submit",
+                  onTapFunction: () {
+                    newOrderSubmitController.addNewOrderSubmit(
+                        patientId: widget.patientId!,
+                        tokenId: widget.tokenId!,
+                        doctorId: widget.drId!,
+                        orderStatus: "1",
+                        medicineList: checkboxController.checkedIds);
+                  }),
+            ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -129,57 +136,49 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text('Select All'),
-                        // Checkbox(
-                        //   activeColor: kMainColor,
-                        //   value: selectAll,
-                        //   onChanged: (newValue) {
-                        //     setState(() {
-                        //       selectAll = newValue!;
-                        //       for (int i = 0; i < checked.length; i++) {
-                        //         checked[i] = newValue;
-                        //       }
-                        //     });
-                        //   },
-                        // ),
-                      ],
-                    ),
+                    widget.type == 1
+                        ? Container()
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Text('Select All'),
+                              Obx(() {
+                                return Checkbox(
+                                  activeColor: kMainColor,
+                                  value: checkboxController.allChecked.value,
+                                  onChanged: (newValue) {
+                                    checkboxController
+                                        .toggleAllItems(widget.medicines!);
+                                  },
+                                );
+                              }),
+                            ],
+                          ),
                     const VerticalSpacingWidget(height: 6),
                     SizedBox(
                       height: mHeight * .55,
                       child: ListView.builder(
                         itemCount: widget.itemCount,
                         itemBuilder: (context, index) {
-                          // return GetMedicinesWidget(
-                          //   type: widget.medicines![index].type,
-                          //   noon: widget.medicines![index].noon,
-                          //   night: widget.medicines![index].night,
-                          //   morning: widget.medicines![index].morning,
-                          //   interval:
-                          //       widget.medicines![index].interval.toString(),
-                          //   evening: widget.medicines![index].evening,
-                          //   dosage: widget.medicines![index].dosage.toString(),
-                          //   medicineName: widget.medicines![index].medicineName
-                          //       .toString(),
-                          //   noOfDays:
-                          //       widget.medicines![index].noOfDays.toString(),
-                          //   timeSection:
-                          //       widget.medicines![index].timeSection.toString(),
-                          //   index: index,
-                          // );
-                          return CheckboxListTile(
-                            activeColor: kMainColor,
-                            title: Text(widget.medicines![index].medicineName
-                                .toString()),
-                            value: checked[index],
-                            onChanged: (newValue) {
-                              setState(() {
-                                checked[index] = newValue!;
-                              });
-                            },
+                          return GetMedicinesWidget(
+                            type: widget.medicines![index].type,
+                            noon: widget.medicines![index].noon,
+                            night: widget.medicines![index].night,
+                            morning: widget.medicines![index].morning,
+                            interval:
+                                widget.medicines![index].interval.toString(),
+                            evening: widget.medicines![index].evening,
+                            dosage: widget.medicines![index].dosage.toString(),
+                            medicineName: widget.medicines![index].medicineName
+                                .toString(),
+                            noOfDays:
+                                widget.medicines![index].noOfDays.toString(),
+                            timeSection:
+                                widget.medicines![index].timeSection.toString(),
+                            index: index,
+                            id: widget.medicines![index].id,
+                            length: widget.medicines!.length,
+                            checkBoxId: widget.checkBoxVisibleId,
                           );
                         },
                       ),
@@ -224,3 +223,4 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     );
   }
 }
+//chnages
