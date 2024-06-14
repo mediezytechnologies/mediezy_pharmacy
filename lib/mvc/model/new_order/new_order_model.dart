@@ -45,6 +45,7 @@ class MedicineOrder {
     this.mobileNo,
     this.appoinmentforId,
     this.date,
+    this.prescriptionImage,
     this.tokenNumber,
     this.tokenTime,
     this.medicalshopUserId,
@@ -65,6 +66,7 @@ class MedicineOrder {
     mobileNo = json['MobileNo'];
     appoinmentforId = json['Appoinmentfor_id'];
     date = json['date'];
+    prescriptionImage = json['prescription_image'];
     tokenNumber = json['TokenNumber'];
     tokenTime = json['TokenTime'];
     medicalshopUserId = json['medicalshop_userId'];
@@ -88,6 +90,7 @@ class MedicineOrder {
   String? mobileNo;
   String? appoinmentforId;
   String? date;
+  String? prescriptionImage;
   String? tokenNumber;
   String? tokenTime;
   int? medicalshopUserId;
@@ -108,6 +111,7 @@ class MedicineOrder {
     map['MobileNo'] = mobileNo;
     map['Appoinmentfor_id'] = appoinmentforId;
     map['date'] = date;
+    map['prescription_image'] = prescriptionImage;
     map['TokenNumber'] = tokenNumber;
     map['TokenTime'] = tokenTime;
     map['medicalshop_userId'] = medicalshopUserId;
