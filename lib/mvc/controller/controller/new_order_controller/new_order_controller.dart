@@ -10,9 +10,9 @@ class MedicineController extends GetxController {
 
   RxList<MedicineOrder>? medicineOrder = <MedicineOrder>[].obs;
 
-  Future<List<MedicineOrder>?> getMedicine({required String date}) async {
+  Future<List<MedicineOrder>?> getMedicine() async {
     try {
-      var data = await MedicineService.medicineService(date: date);
+      var data = await MedicineService.medicineService();
       update();
       loding.value = false;
       medicineOrder!.value = data!;
@@ -23,6 +23,12 @@ class MedicineController extends GetxController {
       loding.value = false;
     }
     return null;
+  }
+
+  @override
+  void onInit() {
+    getMedicine();
+    super.onInit();
   }
 }
 

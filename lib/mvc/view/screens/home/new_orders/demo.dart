@@ -32,33 +32,33 @@ class _NestedTabBarState extends State<NestedTabBar>
     _nestedTabController =
         TabController(length: upcomingDateController.date!.length, vsync: this);
 
-    if (upcomingDateController.date!.isNotEmpty) {
-      String formattedDate = _formatDate(upcomingDateController.date![0].date!);
-      log("message          :$formattedDate");
-      medicineController.getMedicine(date: formattedDate);
-      // log(formattedDate.toString());
-    }
+    // if (upcomingDateController.date!.isNotEmpty) {
+    //   String formattedDate = _formatDate(upcomingDateController.date![0].date!);
+    //   log("message          :$formattedDate");
+    //   medicineController.getMedicine(date: formattedDate);
+    //   // log(formattedDate.toString());
+    // }
 
-    _nestedTabController.addListener(() {
-      if (_nestedTabController.indexIsChanging) {
-        final selectedDate =
-            upcomingDateController.date![_nestedTabController.index].date;
-        String formattedDate = _formatDate(selectedDate!);
-        medicineController.getMedicine(date: formattedDate);
-      }
-    });
+    // _nestedTabController.addListener(() {
+    //   if (_nestedTabController.indexIsChanging) {
+    //     final selectedDate =
+    //         upcomingDateController.date![_nestedTabController.index].date;
+    //     String formattedDate = _formatDate(selectedDate!);
+    //     medicineController.getMedicine(date: formattedDate);
+    //   }
+    // });
   }
 
-  String _formatDate(String date) {
-    try {
-      DateTime parsedDate = DateFormat('dd-MM-yyyy').parse(date);
-      log("?????????????????????${parsedDate.toString()}");
-      return DateFormat('yyyy-MM-dd').format(parsedDate);
-    } catch (e) {
-      print("Invalid date format: $date");
-      return date;
-    }
-  }
+  // String _formatDate(String date) {
+  //   try {
+  //     DateTime parsedDate = DateFormat('dd-MM-yyyy').parse(date);
+  //     log("?????????????????????${parsedDate.toString()}");
+  //     return DateFormat('yyyy-MM-dd').format(parsedDate);
+  //   } catch (e) {
+  //     print("Invalid date format: $date");
+  //     return date;
+  //   }
+  // }
 
   @override
   void dispose() {

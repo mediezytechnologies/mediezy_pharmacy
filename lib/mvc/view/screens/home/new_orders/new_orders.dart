@@ -31,7 +31,7 @@ class _NewOrderScreenState extends State<NewOrderScreen>
   void initState() {
     tabController = TabController(length: 2, vsync: this);
     upcomingDateController.getUpcomingDate();
-    medicineController.getMedicine(date: DateTime.now().toString());
+    medicineController.getMedicine();
     super.initState();
   }
 
@@ -72,9 +72,7 @@ class _NewOrderScreenState extends State<NewOrderScreen>
             tabText2: "Completed",
             onTap: (value) {
               if (tabController.index == 0) {
-                medicineController.getMedicine(
-                    date: upcomingDateController.date!.first.formatDate
-                        .toString());
+                medicineController.getMedicine();
               } else {
                 completedController.getCompletedOrders();
               }

@@ -31,7 +31,7 @@ class NewOrderSubmitController extends GetxController {
       if (newOrderSubmitModel.value.status == true) {
         Get.snackbar(newOrderSubmitModel.value.message.toString(), "",
             snackPosition: SnackPosition.BOTTOM);
-        medicineController.getMedicine(date: '2024-06-11');
+        medicineController.getMedicine();
         Navigator.pop(context);
       }
 
