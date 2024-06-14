@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:mediezy_medical/mvc/view/services/base_url.dart';
+import 'package:mediezy_medical/mvc/view/services/get_local_storage.dart';
 
 class DioClient {
+  static String? token = GetLocalStorage.getUserIdAndToken('token');
   static Dio dio = Dio(
     BaseOptions(
-      baseUrl: "https://test.mediezy.com/api",
-      headers: {
-        'Authorization':
-            'Bearer 203|b45PxtPV3vGefD5ZqLP5xiV9pRKlotGRLyjf8j9g2d974d36'
-      },
+      baseUrl: baseUrl,
+      headers: {'Authorization': 'Bearer $token'},
       contentType: 'application/json',
     ),
   );

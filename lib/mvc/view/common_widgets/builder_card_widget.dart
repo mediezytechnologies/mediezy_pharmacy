@@ -2,7 +2,7 @@ import 'package:animation_wrappers/animations/faded_scale_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:mediezy_medical/ddd/core/app_colors.dart';
+import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/horizontal_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 
@@ -46,11 +46,16 @@ class BuilderCardWidget extends StatelessWidget {
                                 width: 60.w,
                                 fit: BoxFit.fill,
                               )
-                            : Image.network(
-                                patientImage!,
-                                height: 50.h,
-                                width: 60.w,
-                                fit: BoxFit.fill,
+                            : Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Image.network(
+                                  patientImage!,
+                                  height: 50.h,
+                                  width: 60.w,
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                       ),
                       HorizontalSpacingWidget(width: 10.w),

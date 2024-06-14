@@ -1,10 +1,10 @@
-class NewOrderSubmitModel {
+class SignupModel {
   bool? status;
   String? message;
 
-  NewOrderSubmitModel({this.status, this.message});
+  SignupModel({this.status, this.message});
 
-  NewOrderSubmitModel.fromJson(Map<String, dynamic> json) {
+  SignupModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
   }

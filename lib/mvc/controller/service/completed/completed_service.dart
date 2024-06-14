@@ -1,9 +1,10 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:mediezy_medical/ddd/infrastructure/core/base_url.dart';
 import 'package:mediezy_medical/mvc/controller/dio_client.dart';
 import 'package:mediezy_medical/mvc/model/new_order/new_order_model.dart';
+
+import '../../../view/services/base_url.dart';
 
 class CompletedService {
   static Future<List<MedicineOrder>?> completedService() async {

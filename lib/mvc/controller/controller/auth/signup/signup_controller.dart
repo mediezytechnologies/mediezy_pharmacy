@@ -1,0 +1,38 @@
+import 'package:get/get.dart';
+import 'package:mediezy_medical/mvc/controller/service/auth/signup/signup_service.dart';
+import 'package:mediezy_medical/mvc/model/auth/signup/signup_model.dart';
+import 'package:mediezy_medical/mvc/view/screens/auth/login_screen.dart';
+
+class SignupController extends GetxController {
+  RxBool loading = true.obs;
+
+  var signupModel = SignupModel().obs;
+
+  Future<SignupModel?> addSignup({
+    required String name,
+    required String email,
+    required String password,
+    required String mobileNo,
+    required String address,
+    required String location,
+    required String pincode,
+    String? medicalshopImage,
+  }) async {
+    var data = await SignupService.signupService(
+        name: name,
+        email: email,
+        password: password,
+        mobileNo: mobileNo,
+        address: address,
+        location: location,
+        pincode: pincode);
+
+    signupModel.value = data!;
+
+    if (signupModel.value.status == true) {
+      Get.snackbar(signupModel.value.message.toString(), "",
+          snackPosition: SnackPosition.BOTTOM);
+      Get.to(LoginScreen());
+    }
+  }
+}

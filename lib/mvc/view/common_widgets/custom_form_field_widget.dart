@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mediezy_medical/ddd/core/app_colors.dart';
+import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 
 class CustomeFormFieldWidget extends StatelessWidget {
   CustomeFormFieldWidget(
