@@ -48,9 +48,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   FadedScaleAnimation(
                     scaleDuration: const Duration(milliseconds: 400),
                     fadeDuration: const Duration(milliseconds: 400),
-                    child: PatientImageWidget(
-                        patientImage: image == null ? "" : image.toString(),
-                        radius: 30.r),
+                    child:
+                        PatientImageWidget(patientImage: image, radius: 30.r),
                   ),
                   Text(
                     userName.toString(),

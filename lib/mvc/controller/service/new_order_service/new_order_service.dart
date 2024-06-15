@@ -1,25 +1,17 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
 import 'package:mediezy_medical/mvc/controller/dio_client.dart';
 import 'package:mediezy_medical/mvc/model/new_order/new_order_model.dart';
 import 'package:mediezy_medical/mvc/model/new_order/upcoming_date_model.dart';
 
 import '../../../view/services/base_url.dart';
 import '../../../view/services/get_local_storage.dart';
-import '../../controller/new_order_controller/new_order_controller.dart';
 
 class MedicineService {
   static Future<List<MedicineOrder>?> medicineService(String date) async {
     try {
-      final UpcomingDateController upcomingDateController =
-          Get.put(UpcomingDateController());
       String? id = GetLocalStorage.getUserIdAndToken('id');
-      var formData = {
-        "medical_shop_id": id,
-        "date": date
-      };
+      var formData = {"medical_shop_id": id, "date": date};
 
       var response = await DioClient.dio
           .post("$baseUrl/medicalshop/getUpcomingOrder", data: formData);

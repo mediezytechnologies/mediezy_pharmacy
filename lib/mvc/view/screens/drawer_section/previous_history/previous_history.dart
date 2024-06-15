@@ -21,9 +21,16 @@ class PreviousHistoryScreen extends StatefulWidget {
 
 class _PreviousHistoryScreenState extends State<PreviousHistoryScreen> {
   DateTime selectedDate = DateTime.now();
-
   final PreviousHistoryController previousHistoryController =
       Get.put(PreviousHistoryController());
+
+  @override
+  void initState() {
+    String formattedDate = DateFormat('yyy-MM=dd').format(selectedDate);
+    log(formattedDate);
+    previousHistoryController.getPreviousHistory(date: formattedDate);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

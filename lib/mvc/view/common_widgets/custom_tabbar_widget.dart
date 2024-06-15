@@ -1,12 +1,6 @@
-// ignore: must_be_immutable
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
-
-import '../../controller/controller/new_order_controller/new_order_controller.dart';
 
 class CustomTabbarWidget extends StatelessWidget {
   const CustomTabbarWidget(

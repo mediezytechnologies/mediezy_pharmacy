@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 class PatientImageWidget extends StatelessWidget {
@@ -7,12 +9,13 @@ class PatientImageWidget extends StatelessWidget {
     required this.radius,
   });
 
-  final String patientImage;
+  final String? patientImage;
   final double radius;
 
   @override
   Widget build(BuildContext context) {
-    return patientImage == ""
+    log(patientImage.toString());
+    return patientImage == "null" || patientImage == null
         ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
@@ -26,7 +29,7 @@ class PatientImageWidget extends StatelessWidget {
             child: CircleAvatar(
                 backgroundColor: Colors.white,
                 radius: radius,
-                backgroundImage: NetworkImage(patientImage)),
+                backgroundImage: NetworkImage(patientImage.toString())),
           );
   }
 }
