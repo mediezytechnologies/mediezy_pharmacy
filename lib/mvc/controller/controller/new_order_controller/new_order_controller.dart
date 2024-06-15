@@ -41,10 +41,10 @@ class UpcomingDateController extends GetxController {
   Future<List<Date>?> getUpcomingDate() async {
     try {
       var data = await UpcomingDateService.upcomingDateService();
-      update();
+ date!.value = data!;
       loading.value = false;
-      date!.value = data!;
-      update();
+      log("data controller === ${date!.last.formatDate}");
+
       return date!;
     } catch (e) {
       log(e.toString());
