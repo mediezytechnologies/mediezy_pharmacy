@@ -7,37 +7,39 @@ import 'package:mediezy_medical/mvc/model/new_order/upcoming_date_model.dart';
 
 class MedicineController extends GetxController {
   RxBool loding = true.obs;
+  RxList<MedicineOrder> medicineOrder = <MedicineOrder>[].obs;
 
-  RxList<MedicineOrder>? medicineOrder = <MedicineOrder>[].obs;
 
-  Future<List<MedicineOrder>?> getMedicine() async {
+  Future<void> getMedicine(String date) async {
     try {
-      var data = await MedicineService.medicineService();
-      update();
-      loding.value = false;
-      medicineOrder!.value = data!;
-      update();
-      return medicineOrder!;
+      loding.value = true;
+      var data = await MedicineService.medicineService(date);
+      if (data != null) {
+        medicineOrder.value = data;
+
+
+      }
     } catch (e) {
-      log(e.toString());
+      log('Error fetching medicine: $e');
+    } finally {
       loding.value = false;
     }
-    return null;
   }
 
   @override
   void onInit() {
-    getMedicine();
+    //getMedicine();
     super.onInit();
   }
 }
 
 //! upcoming date controller
-
 class UpcomingDateController extends GetxController {
   RxBool loading = true.obs;
   RxList<Date> date = <Date>[].obs;
   RxInt tabLength = 0.obs;
+    // final MedicineController medicineController = Get.find<MedicineController>();
+  var nestedTabIndex ="".obs;
 
   @override
   void onInit() {
@@ -52,9 +54,14 @@ class UpcomingDateController extends GetxController {
       if (data != null) {
         date.value = data;
         tabLength.value = data.length;
+        nestedTabIndex.value =date.last.formatDate.toString();
+        log("last val ${  nestedTabIndex.value}");
+      } else {
+        tabLength.value = 0;
       }
     } catch (e) {
       print('Error fetching upcoming dates: $e');
+      tabLength.value = 0;
     } finally {
       loading.value = false;
     }

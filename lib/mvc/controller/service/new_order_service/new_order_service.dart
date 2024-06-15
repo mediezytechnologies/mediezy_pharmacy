@@ -11,14 +11,14 @@ import '../../../view/services/get_local_storage.dart';
 import '../../controller/new_order_controller/new_order_controller.dart';
 
 class MedicineService {
-  static Future<List<MedicineOrder>?> medicineService() async {
+  static Future<List<MedicineOrder>?> medicineService(String date) async {
     try {
       final UpcomingDateController upcomingDateController =
           Get.put(UpcomingDateController());
       String? id = GetLocalStorage.getUserIdAndToken('id');
       var formData = {
         "medical_shop_id": id,
-        "date": upcomingDateController.date.first.formatDate.toString()
+        "date": date
       };
 
       var response = await DioClient.dio
