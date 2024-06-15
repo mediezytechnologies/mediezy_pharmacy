@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get/get.dart';
 import 'package:mediezy_medical/mvc/controller/service/auth/signup/signup_service.dart';
 import 'package:mediezy_medical/mvc/model/auth/signup/signup_model.dart';
@@ -18,21 +20,31 @@ class SignupController extends GetxController {
     required String pincode,
     String? medicalshopImage,
   }) async {
-    var data = await SignupService.signupService(
-        name: name,
-        email: email,
-        password: password,
-        mobileNo: mobileNo,
-        address: address,
-        location: location,
-        pincode: pincode);
+    try {
+      var data = await SignupService.signupService(
+          name: name,
+          email: email,
+          password: password,
+          mobileNo: mobileNo,
+          address: address,
+          location: location,
+          pincode: pincode,
+          medicalshopImage: medicalshopImage);
 
-    signupModel.value = data!;
+      signupModel.value = data!;
 
-    if (signupModel.value.status == true) {
-      Get.snackbar(signupModel.value.message.toString(), "",
-          snackPosition: SnackPosition.BOTTOM);
-      Get.to(LoginScreen());
+      if (signupModel.value.status == true) {
+        Get.snackbar(signupModel.value.message.toString(), "",
+            snackPosition: SnackPosition.BOTTOM);
+        Get.to(LoginScreen());
+      }
+      loading.value = false;
+      update();
+      return signupModel.value;
+    } catch (e) {
+      log(e.toString());
+      loading.value = false;
     }
+    return null;
   }
 }

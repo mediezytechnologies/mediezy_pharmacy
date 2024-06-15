@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PatientImageWidget extends StatelessWidget {
-  const PatientImageWidget({super.key,
+  const PatientImageWidget({
+    super.key,
     required this.patientImage,
     required this.radius,
   });
@@ -12,12 +13,13 @@ class PatientImageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return patientImage == ""
-        ?  Padding(
+        ? Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
                 backgroundColor: Colors.white,
                 radius: radius,
-                backgroundImage: const AssetImage("assets/icons/profile pic.png")),
+                backgroundImage:
+                    const AssetImage("assets/icons/profile pic.png")),
           )
         : Padding(
             padding: const EdgeInsets.all(8.0),

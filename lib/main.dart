@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:mediezy_medical/mvc/view/screens/splash/splash_screen.dart';
 import 'package:mediezy_medical/mvc/view/services/app_theme_style.dart';
-import 'package:mediezy_medical/mvc/view/screens/auth/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ class MediezyMedical extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Mediezy',
           theme: appThemeStyle(),
-          home: const LoginScreen(),
+          home: const SplashScreen(),
         );
       },
     );

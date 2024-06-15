@@ -133,19 +133,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       const VerticalSpacingWidget(height: 30),
                       //! login
                       CommonButtonWidget(
-                          title: "Login",
-                          onTapFunction: () {
-                            log(emailController.text);
-                            log(passwordController.text);
-                            loginController.addLogin(
-                                email: emailController.text,
-                                password: passwordController.text);
-                            // bool isValid = fomkey.currentState!.validate();
-                            // if (isValid) {
+                        title: "Login",
+                        onTapFunction: () {
+                          log(emailController.text);
+                          log(passwordController.text);
+                          loginController.addLogin(
+                              email: emailController.text,
+                              password: passwordController.text);
+                          // bool isValid = fomkey.currentState!.validate();
+                          // if (isValid) {
 
-                            // }
-                          }),
-                      const VerticalSpacingWidget(height: 5),
+                          // }
+                        },
+                      ),
+                      const VerticalSpacingWidget(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

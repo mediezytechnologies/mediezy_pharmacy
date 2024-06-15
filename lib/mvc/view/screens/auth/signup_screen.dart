@@ -1,8 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mediezy_medical/mvc/controller/controller/auth/signup/signup_controller.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 import 'package:mediezy_medical/mvc/view/screens/auth/login_screen.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/common_button_widget.dart';
@@ -22,8 +28,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController mobileNumberController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController locationController = TextEditingController();
+  TextEditingController pinCodeController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  final ImagePicker imagePicker = ImagePicker();
+  String? imagePath;
+
+  final SignupController signupController = Get.put(SignupController());
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -47,13 +58,19 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         decoration: const BoxDecoration(),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(30.r),
-                          child: Image.asset(
-                            "assets/icons/profile pic.png",
-                            height: height * .080,
-                            width: width * .080,
-                            color: kMainColor,
-                            fit: BoxFit.cover,
-                          ),
+                          child: imagePath == null
+                              ? Image.asset(
+                                  "assets/images/person.jpg",
+                                  height: height * .080,
+                                  width: width * .080,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.file(
+                                  File(imagePath!),
+                                  height: height * .080,
+                                  width: width * .080,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                       ),
                     ),
@@ -61,8 +78,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       top: height * .110,
                       right: width * .190,
                       child: IconButton(
-                        onPressed: () {
-                          // selectImage();
+                        onPressed: () async {
+                          await placePicImage();
+                          log(">>>>>>>>>>>>>>>${imagePath.toString()}");
                         },
                         icon: Icon(
                           Icons.add_a_photo,
@@ -139,10 +157,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   },
                   icon: Icons.password,
                   obscureText: false,
-                  onPressed: () {
-                    // BlocProvider.of<RegisterBloc>(context).add(
-                    //     RegisterEvent.obscureChanged(state.obscureText));
-                  },
+                  onPressed: () {},
                 ),
                 SizedBox(height: height * .01),
                 CustomeFormFieldWidget(
@@ -179,7 +194,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 SizedBox(height: height * .01),
                 CustomeFormFieldWidget(
                   hideText: false,
-                  controller: locationController,
+                  controller: pinCodeController,
                   hintText: "Enter pin code",
                   textInputType: TextInputType.number,
                   textInputAction: TextInputAction.done,
@@ -195,7 +210,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 SizedBox(height: height * .01),
                 CommonButtonWidget(
                   title: 'Signuup',
-                  onTapFunction: () {},
+                  onTapFunction: () {
+                    log("image : ${imagePath.toString()}");
+                    signupController.addSignup(
+                        name: labNameController.text,
+                        email: emailController.text,
+                        password: passwordController.text,
+                        mobileNo: mobileNumberController.text,
+                        address: addressController.text,
+                        location: locationController.text,
+                        pincode: pinCodeController.text,
+                        medicalshopImage: imagePath.toString());
+                  },
                 ),
                 SizedBox(height: height * .01),
                 Row(
@@ -226,16 +252,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
-  // Future selectImage() async {
-  //   var image = await imagePicker.pickImage(
-  //     source: ImageSource.gallery,
-  //     imageQuality: 30,
-  //   );
-  //   if (image == null) return;
-  //   final imageTemporary = image.path;
-  //   BlocProvider.of<RegisterBloc>(context)
-  //       .add(RegisterEvent.selectImage(imageTemporary));
-  // }
+  Future placePicImage() async {
+    var image = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 30,
+    );
+    if (image == null) return;
+    final imageTemporary = image.path;
+    setState(() {
+      imagePath = imageTemporary;
+      log("$imageTemporary======= image");
+    });
+  }
 
   @override
   void dispose() {

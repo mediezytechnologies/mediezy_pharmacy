@@ -1,16 +1,20 @@
+import 'package:animation_wrappers/animations/faded_scale_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:mediezy_medical/mvc/view/screens/drawer_section/edit_profile/edit_profile_screen.dart';
+import 'package:mediezy_medical/mvc/view/screens/drawer_section/previous_history/previous_history.dart';
+import 'package:mediezy_medical/mvc/view/screens/home/widgets/patient_image_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 import 'package:mediezy_medical/mvc/view/services/general_services.dart';
 import 'package:mediezy_medical/mvc/view/screens/auth/login_screen.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/text_style_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
-import 'package:mediezy_medical/mvc/view/screens/home/drawer_screen/about_us_screen/about_us_screen.dart';
-import 'package:mediezy_medical/mvc/view/screens/home/drawer_screen/contact_us_screen/contact_us_screen.dart';
-import 'package:mediezy_medical/mvc/view/screens/home/drawer_screen/t&c_screen/t&c_screen.dart';
-import 'package:mediezy_medical/mvc/view/screens/home/drawer_screen/privacy_policy/privacy_policy.dart';
+import 'package:mediezy_medical/mvc/view/screens/drawer_section/about_us_screen/about_us_screen.dart';
+import 'package:mediezy_medical/mvc/view/screens/drawer_section/contact_us_screen/contact_us_screen.dart';
+import 'package:mediezy_medical/mvc/view/screens/drawer_section/t&c_screen/t&c_screen.dart';
+import 'package:mediezy_medical/mvc/view/screens/drawer_section/privacy_policy/privacy_policy.dart';
 import 'package:mediezy_medical/mvc/view/services/get_local_storage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class CustomDrawer extends StatefulWidget {
@@ -23,6 +27,7 @@ class CustomDrawer extends StatefulWidget {
 class _CustomDrawerState extends State<CustomDrawer> {
   final String? userName = GetLocalStorage.getUserIdAndToken('firstname');
   final String? mobileNo = GetLocalStorage.getUserIdAndToken('mobileNo');
+  final String? image = GetLocalStorage.getUserIdAndToken('image');
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -40,13 +45,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  // FadedScaleAnimation(
-                  //   scaleDuration: const Duration(milliseconds: 400),
-                  //   fadeDuration: const Duration(milliseconds: 400),
-                  //   child: PatientImageWidget(
-                  //       patientImage: drImage == null ? "" : drImage.toString(),
-                  //       radius: 30.r),
-                  // ),
+                  FadedScaleAnimation(
+                    scaleDuration: const Duration(milliseconds: 400),
+                    fadeDuration: const Duration(milliseconds: 400),
+                    child: PatientImageWidget(
+                        patientImage: image == null ? "" : image.toString(),
+                        radius: 30.r),
+                  ),
                   Text(
                     userName.toString(),
                     style: size.width > 450
@@ -78,6 +83,20 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Icons.edit,
               size: size.width > 450 ? 13.sp : 20.sp,
             ),
+            onTap: () {
+              Get.to(EditProfileScreen());
+            },
+          ),
+          ListTile(
+            title: Text('Previous history',
+                style: size.width > 450 ? blackTab9B400 : black14B400),
+            trailing: Icon(
+              Icons.book_online_outlined,
+              size: size.width > 450 ? 13.sp : 20.sp,
+            ),
+            onTap: () {
+              Get.to(PreviousHistoryScreen());
+            },
           ),
           ListTile(
             title: Text('Terms & Conditions',
@@ -151,10 +170,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             onTap: () async {
               GeneralServices.instance.appCloseDialogue(
                   context, "Are you sure to log out", () async {
-                final preferences = await SharedPreferences.getInstance();
-                await preferences.remove('token');
-                await preferences.remove('doctorName');
-                await preferences.remove('DoctorId');
+                await GetLocalStorage.removeUserTokenAndUid();
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(

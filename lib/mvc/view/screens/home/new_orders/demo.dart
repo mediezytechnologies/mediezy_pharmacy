@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/builder_card_widget.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/new_orders/order_details_screen.dart';
 
@@ -95,9 +92,6 @@ class _NestedTabBarState extends State<NestedTabBar>
             controller: _nestedTabController,
             children: upcomingDateController.date!
                 .map((tab) => Obx(() {
-                      // if (medicineController.loding.value) {
-                      //   // return Center(child: CircularProgressIndicator());
-                      // }
                       if (medicineController.medicineOrder!.isEmpty ||
                           upcomingDateController.date!.isEmpty) {
                         return Center(
