@@ -36,26 +36,27 @@ class MedicineController extends GetxController {
 
 class UpcomingDateController extends GetxController {
   RxBool loading = true.obs;
-  RxList<Date>? date = <Date>[].obs;
-
-  Future<List<Date>?> getUpcomingDate() async {
-    try {
-      var data = await UpcomingDateService.upcomingDateService();
- date!.value = data!;
-      loading.value = false;
-      log("data controller === ${date!.last.formatDate}");
-
-      return date!;
-    } catch (e) {
-      log(e.toString());
-      loading.value = false;
-    }
-    return null;
-  }
+  RxList<Date> date = <Date>[].obs;
+  RxInt tabLength = 0.obs;
 
   @override
   void onInit() {
-    getUpcomingDate();
     super.onInit();
+    getUpcomingDate();
+  }
+
+  Future<void> getUpcomingDate() async {
+    try {
+      loading.value = true;
+      var data = await UpcomingDateService.upcomingDateService();
+      if (data != null) {
+        date.value = data;
+        tabLength.value = data.length;
+      }
+    } catch (e) {
+      print('Error fetching upcoming dates: $e');
+    } finally {
+      loading.value = false;
+    }
   }
 }

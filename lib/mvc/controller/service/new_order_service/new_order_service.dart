@@ -18,7 +18,7 @@ class MedicineService {
       String? id = GetLocalStorage.getUserIdAndToken('id');
       var formData = {
         "medical_shop_id": id,
-        "date": upcomingDateController.date!.last.formatDate.toString()
+        "date": upcomingDateController.date.first.formatDate.toString()
       };
 
       var response = await DioClient.dio

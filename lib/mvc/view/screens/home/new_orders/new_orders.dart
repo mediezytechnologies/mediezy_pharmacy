@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -49,9 +51,6 @@ class _NewOrderScreenState extends State<NewOrderScreen>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: () {
-          upcomingDateController.getUpcomingDate();
-      },),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: kMainColor,

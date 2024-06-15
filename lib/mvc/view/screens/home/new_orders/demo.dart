@@ -18,7 +18,7 @@ class NestedTabBar extends StatefulWidget {
 
 class _NestedTabBarState extends State<NestedTabBar>
     with TickerProviderStateMixin {
-  late TabController _nestedTabController;
+  TabController? _nestedTabController;
 
   final UpcomingDateController upcomingDateController =
       Get.put(UpcomingDateController());
@@ -27,9 +27,10 @@ class _NestedTabBarState extends State<NestedTabBar>
   @override
   void initState() {
     super.initState();
-    upcomingDateController.getUpcomingDate();
-    _nestedTabController =
-        TabController(length: upcomingDateController.date!.length, vsync: this);
+    upcomingDateController.getUpcomingDate().then((_) {
+      initializeTabController();
+    });
+    medicineController.getMedicine();
 
     // if (upcomingDateController.date!.isNotEmpty) {
     //   String formattedDate = _formatDate(upcomingDateController.date![0].date!);
@@ -47,6 +48,16 @@ class _NestedTabBarState extends State<NestedTabBar>
     //   }
     // });
   }
+  void initializeTabController() {
+    if (upcomingDateController.tabLength.value > 0) {
+      log("tab lenth ====${upcomingDateController.tabLength.value}");
+      _nestedTabController = TabController(
+        length: upcomingDateController.tabLength.value,
+        vsync: this,
+      );
+      // setState(() {}); // Trigger a rebuild
+    }
+  }
 
   // String _formatDate(String date) {
   //   try {
@@ -61,7 +72,7 @@ class _NestedTabBarState extends State<NestedTabBar>
 
   @override
   void dispose() {
-    _nestedTabController.dispose();
+    _nestedTabController!.dispose();
     super.dispose();
   }
 
@@ -78,10 +89,9 @@ class _NestedTabBarState extends State<NestedTabBar>
           }
             return TabBar(
               onTap: (index) {
-                // final selectedDate = upcomingDateController.date![index].date;
-                // String formattedDate = _formatDate(selectedDate!);
-                // medicineController.getMedicine(date: formattedDate);
-                // log("<<<<<<<<<<<<<<<<<<<<<<<<<<<$formattedDate");
+             
+                medicineController.getMedicine();
+               // log("<<<<<<<<<<<<<<<<<<<<<<<<<<<$formattedDate");
               },
               controller: _nestedTabController,
               indicatorColor: Colors.orange,
@@ -90,17 +100,17 @@ class _NestedTabBarState extends State<NestedTabBar>
               isScrollable: true,
               tabs: 
               List.generate(
-                    upcomingDateController.date!.length,
+                    upcomingDateController.date.length,
                       (index) {
                        
-                   log("fjsdfjdksa  =======  ${upcomingDateController.date!.length}"    );
+                   log("fjsdfjdksa  =======  ${upcomingDateController.date.length}"    );
                         return Obx(() {
                          
                           if (upcomingDateController.loading.value) {
                             CircularProgressIndicator();
                           }
                           return Tab(
-                              text: upcomingDateController.date![index].formatDate);
+                              text: upcomingDateController.date[index].formatDate);
                         });
                       },
                     ),
@@ -115,17 +125,18 @@ class _NestedTabBarState extends State<NestedTabBar>
           }
         ),
         Container(
+          color: Colors.amber,
           height: screenHeight * 0.70,
           margin: EdgeInsets.only(left: 16.0, right: 16.0),
           child: TabBarView(
             controller: _nestedTabController,
-            children: upcomingDateController.date!
+            children: upcomingDateController.date
                 .map((tab) => Obx(() {
                       if (medicineController.loding.value) {
                         // return Center(child: CircularProgressIndicator());
                       }
                       if (medicineController.medicineOrder!.isEmpty ||
-                          upcomingDateController.date!.isEmpty) {
+                          upcomingDateController.date.isEmpty) {
                         return Center(
                           child: Image(
                             height: 200.h,
