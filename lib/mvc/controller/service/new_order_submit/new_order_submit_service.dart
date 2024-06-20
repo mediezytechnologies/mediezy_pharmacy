@@ -14,6 +14,7 @@ class NewOrderSubmitService {
     required String doctorId,
     required String orderStatus,
     required List<int> medicineList,
+    required String prescriptionImage,
   }) async {
     try {
       String? id = GetLocalStorage.getUserIdAndToken('id');
@@ -24,6 +25,7 @@ class NewOrderSubmitService {
         "doctor_id": doctorId,
         "order_details_status": orderStatus,
         "medicine_list": medicineList,
+        "prescription_image": prescriptionImage,
       };
       for (var element in formData.entries) {
         log(element.toString());

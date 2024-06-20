@@ -73,7 +73,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         tokenId: widget.tokenId!,
                         doctorId: widget.drId!,
                         orderStatus: "1",
-                        medicineList: checkboxController.checkedIds);
+                        medicineList: checkboxController.checkedIds,
+                        prescriptionImage: widget.prescriptionImage.toString());
                   })),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8.w),

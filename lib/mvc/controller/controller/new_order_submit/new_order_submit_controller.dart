@@ -20,6 +20,7 @@ class NewOrderSubmitController extends GetxController {
       required String tokenId,
       required String doctorId,
       required String orderStatus,
+      required String prescriptionImage,
       required List<int> medicineList,
       required BuildContext context}) async {
     try {
@@ -28,7 +29,8 @@ class NewOrderSubmitController extends GetxController {
           tokenId: tokenId,
           doctorId: doctorId,
           orderStatus: orderStatus,
-          medicineList: medicineList);
+          medicineList: medicineList,
+          prescriptionImage: prescriptionImage);
       newOrderSubmitModel.value = data!;
 
       if (newOrderSubmitModel.value.status == true) {
