@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:animation_wrappers/animations/faded_slide_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
@@ -28,9 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
-
-    emailController.text  ='Wellness@gmail.com';
-    passwordController.text="Wellness";
+    // emailController.text  ='Wellness@gmail.com';
+    // passwordController.text="Wellness";
     return Scaffold(
         body: FadedSlideAnimation(
       beginOffset: const Offset(0, 0.3),
@@ -136,19 +134,20 @@ class _LoginScreenState extends State<LoginScreen> {
                       const VerticalSpacingWidget(height: 30),
                       //! login
                       CommonButtonWidget(
-                          title: "Login",
-                          onTapFunction: () {
-                            log(emailController.text);
-                            log(passwordController.text);
-                            loginController.addLogin(
-                                email: emailController.text,
-                                password: passwordController.text);
-                            // bool isValid = fomkey.currentState!.validate();
-                            // if (isValid) {
+                        title: "Login",
+                        onTapFunction: () {
+                          log(emailController.text);
+                          log(passwordController.text);
+                          loginController.addLogin(
+                              email: emailController.text,
+                              password: passwordController.text);
+                          // bool isValid = fomkey.currentState!.validate();
+                          // if (isValid) {
 
-                            // }
-                          }),
-                      const VerticalSpacingWidget(height: 5),
+                          // }
+                        },
+                      ),
+                      const VerticalSpacingWidget(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

@@ -7,8 +7,8 @@ import 'package:mediezy_medical/mvc/model/new_order/upcoming_date_model.dart';
 
 class MedicineController extends GetxController {
   RxBool loding = true.obs;
+  var selectedIndex = 0.obs;
   RxList<MedicineOrder> medicineOrder = <MedicineOrder>[].obs;
-
 
   Future<void> getMedicine(String date) async {
     try {
@@ -16,8 +16,6 @@ class MedicineController extends GetxController {
       var data = await MedicineService.medicineService(date);
       if (data != null) {
         medicineOrder.value = data;
-
-
       }
     } catch (e) {
       log('Error fetching medicine: $e');
@@ -34,12 +32,13 @@ class MedicineController extends GetxController {
 }
 
 //! upcoming date controller
+
 class UpcomingDateController extends GetxController {
   RxBool loading = true.obs;
   RxList<Date> date = <Date>[].obs;
   RxInt tabLength = 0.obs;
-    // final MedicineController medicineController = Get.find<MedicineController>();
-  var nestedTabIndex ="".obs;
+  // final MedicineController medicineController = Get.find<MedicineController>();
+  var nestedTabIndex = "".obs;
 
   @override
   void onInit() {
@@ -54,8 +53,8 @@ class UpcomingDateController extends GetxController {
       if (data != null) {
         date.value = data;
         tabLength.value = data.length;
-        nestedTabIndex.value =date.last.formatDate.toString();
-        log("last val ${  nestedTabIndex.value}");
+        nestedTabIndex.value = date.last.formatDate.toString();
+        log("last val ${nestedTabIndex.value}");
       } else {
         tabLength.value = 0;
       }

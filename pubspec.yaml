@@ -48,6 +48,7 @@ dependencies:
   dartz: ^0.10.1
   get_it: ^7.2.0
   injectable: ^1.5.3
+  easy_date_timeline: ^1.0.3
   json_annotation: ^4.8.1
   json_serializable: ^6.7.1
   analyzer: ^5.13.0
@@ -58,6 +59,8 @@ dependencies:
   iconsax: ^0.0.8
   get: ^4.6.6
   intl: ^0.19.0
+  image_picker: ^1.1.2
+  shimmer: ^3.0.0
   
 
 dev_dependencies:

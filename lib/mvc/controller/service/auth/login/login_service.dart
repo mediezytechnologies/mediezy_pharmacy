@@ -29,7 +29,8 @@ class LoginService {
         'token': response.data['token'],
         'id': response.data["medical_shop"]["id"].toString(),
         'firstname': response.data["medical_shop"]['firstname'].toString(),
-        'mobileNo': response.data["medical_shop"]['mobileNo'].toString()
+        'mobileNo': response.data["medical_shop"]['mobileNo'].toString(),
+        'image': response.data["medical_shop"]['image'].toString()
       };
 
       GetLocalStorage.saveToken(user);
@@ -37,11 +38,13 @@ class LoginService {
       String? id = GetLocalStorage.getUserIdAndToken('id');
       String? userName = GetLocalStorage.getUserIdAndToken('firstname');
       String? mobileNo = GetLocalStorage.getUserIdAndToken('mobileNo');
+      String? image = GetLocalStorage.getUserIdAndToken('image');
 
       log("tol ==========$token");
       log("id ==========$id");
       log("user name ==========$userName");
       log("mob ===================== $mobileNo");
+      log("mob ===================== $image");
 
       return model;
     } on DioException catch (e) {

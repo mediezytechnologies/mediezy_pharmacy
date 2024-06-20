@@ -30,18 +30,28 @@ class UpcomingDateModel {
 class Date {
   String? date;
   String? formatDate;
+  int? completedOrders;
+  int? completedPrescriptions;
 
-  Date({this.date, this.formatDate});
+  Date(
+      {this.date,
+      this.formatDate,
+      this.completedOrders,
+      this.completedPrescriptions});
 
   Date.fromJson(Map<String, dynamic> json) {
     date = json['date'];
     formatDate = json['format_date'];
+    completedOrders = json['completed_orders'];
+    completedPrescriptions = json['completed_prescriptions'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['date'] = this.date;
     data['format_date'] = this.formatDate;
+    data['completed_orders'] = this.completedOrders;
+    data['completed_prescriptions'] = this.completedPrescriptions;
     return data;
   }
 }
