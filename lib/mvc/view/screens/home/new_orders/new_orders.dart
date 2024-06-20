@@ -210,7 +210,6 @@ String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-     
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: kMainColor,

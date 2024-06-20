@@ -330,44 +330,44 @@ class _NestedTabBarState extends State<NestedTabBar>
                                       .medicineOrder[index].patientName
                                       .toString(),
                                   date: medicineController
-                                      .medicineOrder![index].date
+                                      .medicineOrder[index].date
                                       .toString(),
                                   itemCount: medicineController
-                                      .medicineOrder![index].medicines!.length,
+                                      .medicineOrder[index].medicines!.length,
                                   medicines: medicineController
-                                      .medicineOrder![index].medicines,
+                                      .medicineOrder[index].medicines,
                                   drName: medicineController
-                                      .medicineOrder![index].doctorName
+                                      .medicineOrder[index].doctorName
                                       .toString(),
                                   patientImage: medicineController
-                                      .medicineOrder![index].userImage,
+                                      .medicineOrder[index].userImage,
                                   drId: medicineController
-                                      .medicineOrder![index].doctorId
+                                      .medicineOrder[index].doctorId
                                       .toString(),
                                   patientId: medicineController
-                                      .medicineOrder![index].patientId
+                                      .medicineOrder[index].patientId
                                       .toString(),
                                   tokenId: medicineController
-                                      .medicineOrder![index].tokenId
+                                      .medicineOrder[index].tokenId
                                       .toString(),
                                   type: 0,
                                   checkBoxVisibleId: widget.tabController.index,
                                   prescriptionImage: medicineController
-                                      .medicineOrder![index].prescriptionImage,
+                                      .medicineOrder[index].prescriptionImage,
                                 ),
                               ),
                             );
                           },
                           child: BuilderCardWidget(
                             patientImage: medicineController
-                                .medicineOrder![index].userImage,
+                                .medicineOrder[index].userImage,
                             name: medicineController
-                                .medicineOrder![index].patientName
+                                .medicineOrder[index].patientName
                                 .toString(),
-                            date: medicineController.medicineOrder![index].date
+                            date: medicineController.medicineOrder[index].date
                                 .toString(),
                             drName: medicineController
-                                .medicineOrder![index].doctorName
+                                .medicineOrder[index].doctorName
                                 .toString(),
                           ),
                         );
