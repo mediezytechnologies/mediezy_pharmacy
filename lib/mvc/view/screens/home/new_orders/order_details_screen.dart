@@ -144,7 +144,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              const Text('Select All'),
+                              const Text('Select all'),
                               Obx(() {
                                 return Checkbox(
                                   activeColor: kMainColor,

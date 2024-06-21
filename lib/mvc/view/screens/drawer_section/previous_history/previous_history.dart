@@ -46,7 +46,6 @@ class _PreviousHistoryScreenState extends State<PreviousHistoryScreen> {
               initialDate: selectedDate,
               disabledDates: _getDisabledDates(),
               onDateChange: (date) {
-                // log(date.toString());
                 String formattedDate = DateFormat('yyyy-MM-dd').format(date);
                 log(formattedDate);
                 // setState(() {

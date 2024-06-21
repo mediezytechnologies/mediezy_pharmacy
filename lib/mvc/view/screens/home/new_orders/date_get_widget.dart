@@ -1,14 +1,14 @@
+// ignore_for_file: deprecated_member_use
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mediezy_medical/mvc/controller/controller/order_detai_controller.dart/order_detail_controller.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/builder_card_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/new_orders/order_details_screen.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
-
 import '../../../../controller/controller/new_order_controller/new_order_controller.dart';
 
 class DateGetWidget extends StatefulWidget {
@@ -21,17 +21,18 @@ class DateGetWidget extends StatefulWidget {
 }
 
 class _DateGetWidgetState extends State<DateGetWidget>
-    with TickerProviderStateMixin {
+    with SingleTickerProviderStateMixin {
   TabController? _nestedTabController;
   final UpcomingDateController upcomingDateController =
       Get.find<UpcomingDateController>();
   final MedicineController medicineController = Get.find<MedicineController>();
+  final CheckboxController checkboxController = Get.put(CheckboxController());
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
   @override
   void initState() {
-    super.initState();
     initializeTabController();
+    super.initState();
   }
 
   void initializeTabController() {
@@ -68,7 +69,6 @@ class _DateGetWidgetState extends State<DateGetWidget>
     return Obx(() {
       if (upcomingDateController.loading.value ||
           _nestedTabController == null) {
-        // return Center(child: CircularProgressIndicator());
         return Center(
           child: Image(
             height: 200.h,
@@ -86,16 +86,28 @@ class _DateGetWidgetState extends State<DateGetWidget>
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
-                  // color: Color.fromARGB(131, 187, 222, 251),
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: TabBar(
                 onTap: (value) {
+                  checkboxController.allChecked.value = false;
                   medicineController.getMedicine(upcomingDateController
                       .date[_nestedTabController!.index].formatDate
                       .toString());
                 },
                 controller: _nestedTabController,
-                // indicatorColor: Colors.orange,
+                overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                  (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return Colors.transparent;
+                    }
+                    // ignore: duplicate_ignore
+                    // ignore: deprecated_member_use
+                    if (states.contains(MaterialState.hovered)) {
+                      return Colors.transparent;
+                    }
+                    return null;
+                  },
+                ),
                 labelStyle: TextStyle(
                   fontSize: size.width > 450 ? 11.sp : 13.sp,
                   fontWeight: FontWeight.w600,
@@ -103,12 +115,16 @@ class _DateGetWidgetState extends State<DateGetWidget>
                 ),
                 dividerColor: Colors.transparent,
                 labelColor: Colors.white,
+                physics: const ClampingScrollPhysics(),
                 unselectedLabelColor: Colors.black54,
+                unselectedLabelStyle: TextStyle(
+                  fontSize: size.width > 450 ? 11.sp : 13.sp,
+                ),
                 indicator: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.r),
-                  // color: kMainColor,
                 ),
                 indicatorSize: TabBarIndicatorSize.tab,
+                tabAlignment: TabAlignment.start,
                 isScrollable: true,
                 tabs:
                     List.generate(upcomingDateController.date.length, (index) {
