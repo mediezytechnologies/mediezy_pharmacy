@@ -1,11 +1,74 @@
-import 'dart:developer';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+// import 'dart:developer';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/widgets.dart';
+// import 'package:get/get.dart';
+// import 'package:intl/intl.dart';
+// import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
+// import 'package:mediezy_medical/mvc/controller/service/new_order_submit/new_order_submit_service.dart';
+// import 'package:mediezy_medical/mvc/model/new_order_submit/new_order_submit_model.dart';
+
+// class NewOrderSubmitController extends GetxController {
+//   final MedicineController medicineController = Get.put(MedicineController());
+//   RxBool loading = true.obs;
+
+//   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+//   var newOrderSubmitModel = NewOrderSubmitModel().obs;
+
+//   Future<NewOrderSubmitModel?> addNewOrderSubmit(
+//       {required String patientId,
+//       required String tokenId,
+//       required String doctorId,
+//       required String orderStatus,
+//       List<String>? prescriptionImage,
+//       required List<int> medicineList,
+//       required BuildContext context}) async {
+//     try {
+//      loading.value = true;
+//       log("Prescription Image: $prescriptionImage");
+
+//       var data = await NewOrderSubmitService.newOrderSubmitService(
+//           patientId: patientId,
+//           tokenId: tokenId,
+//           doctorId: doctorId,
+//           orderStatus: orderStatus,
+//           medicineList: medicineList,
+//           prescriptionImage: prescriptionImage);
+//       newOrderSubmitModel.value = data!;
+
+//       if (newOrderSubmitModel.value.status == true) {
+//         Get.snackbar(newOrderSubmitModel.value.message.toString(), "",
+//             snackPosition: SnackPosition.BOTTOM);
+//         Navigator.pop(context);
+//         // Navigator.pushAndRemoveUntil(
+//         //   context,
+//         //   MaterialPageRoute(builder: (context) => NewOrderScreen()),
+//         //   (route) => false,
+//         // );
+//         medicineController.getMedicine(formattedDate);
+//       }
+
+//       loading.value = false;
+
+//       update();
+//       return newOrderSubmitModel.value;
+//     } catch (e) {
+//       log("sdfkskldafjkolpdsa : $e");
+//       loading.value = false;
+//     }
+//     return null;
+//   }
+// }
+
+
 import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
-import 'package:mediezy_medical/mvc/controller/service/new_order_submit/new_order_submit_service.dart';
-import 'package:mediezy_medical/mvc/model/new_order_submit/new_order_submit_model.dart';
+import 'dart:developer';
+
+import '../../../model/new_order_submit/new_order_submit_model.dart';
+import '../../service/new_order_submit/new_order_submit_service.dart';
+import '../new_order_controller/new_order_controller.dart';
 
 class NewOrderSubmitController extends GetxController {
   final MedicineController medicineController = Get.put(MedicineController());
@@ -15,44 +78,63 @@ class NewOrderSubmitController extends GetxController {
 
   var newOrderSubmitModel = NewOrderSubmitModel().obs;
 
-  Future<NewOrderSubmitModel?> addNewOrderSubmit(
-      {required String patientId,
-      required String tokenId,
-      required String doctorId,
-      required String orderStatus,
-      List<String>? prescriptionImage,
-      required List<int> medicineList,
-      required BuildContext context}) async {
+  Future<void> addNewOrderSubmit({
+    required String patientId,
+    required String tokenId,
+    required String doctorId,
+    required String orderStatus,
+    List<String>? prescriptionImage,
+    required List<int> medicineList,
+    required BuildContext context,
+  }) async {
     try {
+      loading.value = true;
+      log("Prescription Image: $prescriptionImage");
+
       var data = await NewOrderSubmitService.newOrderSubmitService(
-          patientId: patientId,
-          tokenId: tokenId,
-          doctorId: doctorId,
-          orderStatus: orderStatus,
-          medicineList: medicineList,
-          prescriptionImage: prescriptionImage!);
-      newOrderSubmitModel.value = data!;
+        patientId: patientId,
+        tokenId: tokenId,
+        doctorId: doctorId,
+        orderStatus: orderStatus,
+        medicineList: medicineList,
+        prescriptionImage: prescriptionImage,
+      );
 
-      if (newOrderSubmitModel.value.status == true) {
-        Get.snackbar(newOrderSubmitModel.value.message.toString(), "",
-            snackPosition: SnackPosition.BOTTOM);
-        Navigator.pop(context);
-        // Navigator.pushAndRemoveUntil(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => NewOrderScreen()),
-        //   (route) => false,
-        // );
-        medicineController.getMedicine(formattedDate);
+      if (data != null) {
+        newOrderSubmitModel.value = data;
+
+        if (newOrderSubmitModel.value.status == true) {
+          Get.snackbar(
+            newOrderSubmitModel.value.message.toString(),
+            "",
+            snackPosition: SnackPosition.BOTTOM,
+          );
+          Navigator.pop(context);
+          medicineController.getMedicine(formattedDate);
+        } else {
+          Get.snackbar(
+            "Error",
+            newOrderSubmitModel.value.message ?? "An error occurred",
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
+      } else {
+        Get.snackbar(
+          "Error",
+          "Failed to submit order",
+          snackPosition: SnackPosition.BOTTOM,
+        );
       }
-
-      loading.value = false;
-
-      update();
-      return newOrderSubmitModel.value;
     } catch (e) {
-      log("sdfkskldafjkolpdsa : $e");
+      log("Error in addNewOrderSubmit: $e");
+      Get.snackbar(
+        "Error",
+        "An unexpected error occurred",
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } finally {
       loading.value = false;
+      update();
     }
-    return null;
   }
 }
