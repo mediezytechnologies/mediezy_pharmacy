@@ -5,6 +5,8 @@ import 'package:animation_wrappers/animations/faded_slide_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:mediezy_medical/mvc/controller/controller/contact_us/contact_us_controller.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/common_button_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/text_style_widget.dart';
@@ -21,6 +23,9 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
   final FocusNode messageFocusController = FocusNode();
+
+  final ContactUsController contactUsController =
+      Get.put(ContactUsController());
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +120,13 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   ),
                   const VerticalSpacingWidget(height: 20),
                   //! submit
-                  CommonButtonWidget(title: "Submit", onTapFunction: () {}),
+                  CommonButtonWidget(
+                      title: "Submit",
+                      onTapFunction: () {
+                        contactUsController.addContactUs(
+                            email: emailController.text,
+                            description: messageController.text);
+                      }),
                   const VerticalSpacingWidget(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),

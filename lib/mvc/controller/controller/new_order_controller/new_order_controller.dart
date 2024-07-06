@@ -16,6 +16,7 @@ class MedicineController extends GetxController {
       var data = await MedicineService.medicineService(date);
       if (data != null) {
         medicineOrder.value = data;
+        // selectedIndex.value = data.length - 1;
       }
     } catch (e) {
       log('Error fetching medicine: $e');

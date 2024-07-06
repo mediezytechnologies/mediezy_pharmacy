@@ -193,6 +193,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 SizedBox(height: height * .01),
                 CustomeFormFieldWidget(
+                  maxLength: 6,
                   hideText: false,
                   controller: pinCodeController,
                   hintText: "Enter pin code",
@@ -209,7 +210,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 SizedBox(height: height * .01),
                 CommonButtonWidget(
-                  title: 'Signuup',
+                  title: 'Sign up',
                   onTapFunction: () {
                     log("image : ${imagePath.toString()}");
                     signupController.addSignup(

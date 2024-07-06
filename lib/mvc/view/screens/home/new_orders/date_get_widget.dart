@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:mediezy_medical/mvc/controller/controller/order_detai_controller.dart/order_detail_controller.dart';
+import 'package:mediezy_medical/mvc/controller/controller/order_details_controller.dart/order_details_controller.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/builder_card_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/new_orders/order_details_screen.dart';
@@ -38,6 +38,8 @@ class _DateGetWidgetState extends State<DateGetWidget>
   void initializeTabController() {
     if (upcomingDateController.tabLength.value > 0) {
       log("date  ====  :: ${upcomingDateController.tabLength.value - 1}");
+      medicineController.selectedIndex.value =
+          upcomingDateController.tabLength.value - 1;
       _nestedTabController = TabController(
         length: upcomingDateController.tabLength.value,
         initialIndex: upcomingDateController.tabLength.value - 1,
@@ -53,6 +55,8 @@ class _DateGetWidgetState extends State<DateGetWidget>
           .date[_nestedTabController!.index].formatDate
           .toString());
       medicineController.selectedIndex.value = _nestedTabController!.index;
+      log("fkjskdlfjsadklfjsakldfjkldsa===========${medicineController.selectedIndex.value}");
+      log("fkjskdlfjsadklfjsakldfjkldsa===========${_nestedTabController!.index}");
     }
   }
 
@@ -90,9 +94,12 @@ class _DateGetWidgetState extends State<DateGetWidget>
               child: TabBar(
                 onTap: (value) {
                   checkboxController.allChecked.value = false;
+                  checkboxController.checkedItems.clear();
                   medicineController.getMedicine(upcomingDateController
                       .date[_nestedTabController!.index].formatDate
                       .toString());
+                  medicineController.selectedIndex.value =
+                      _nestedTabController!.index;
                 },
                 controller: _nestedTabController,
                 overlayColor: MaterialStateProperty.resolveWith<Color?>(

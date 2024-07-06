@@ -27,8 +27,10 @@ class _PreviousHistoryScreenState extends State<PreviousHistoryScreen> {
   @override
   void initState() {
     String formattedDate = DateFormat('yyy-MM=dd').format(selectedDate);
-    log(formattedDate);
+    log("aaaaaaaaaaaaaaaa $formattedDate");
+
     previousHistoryController.getPreviousHistory(date: formattedDate);
+
     super.initState();
   }
 
