@@ -60,8 +60,8 @@ class CompletedOrdersTab extends StatelessWidget {
                         .toString(),
                     type: 1,
                     checkBoxVisibleId: tabController.index,
-                    prescriptionImage: completedController
-                        .medicineOrder![index].prescriptionImage,
+                    prescriptionImages: completedController
+                        .medicineOrder![index].prescriptionImage!,
                   ),
                 ),
               );

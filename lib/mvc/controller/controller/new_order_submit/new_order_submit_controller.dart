@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
 import 'package:mediezy_medical/mvc/controller/service/new_order_submit/new_order_submit_service.dart';
 import 'package:mediezy_medical/mvc/model/new_order_submit/new_order_submit_model.dart';
-import 'package:mediezy_medical/mvc/view/screens/home/new_orders/new_orders.dart';
 
 class NewOrderSubmitController extends GetxController {
   final MedicineController medicineController = Get.put(MedicineController());
@@ -21,7 +20,7 @@ class NewOrderSubmitController extends GetxController {
       required String tokenId,
       required String doctorId,
       required String orderStatus,
-      required String prescriptionImage,
+      List<String>? prescriptionImage,
       required List<int> medicineList,
       required BuildContext context}) async {
     try {
@@ -31,7 +30,7 @@ class NewOrderSubmitController extends GetxController {
           doctorId: doctorId,
           orderStatus: orderStatus,
           medicineList: medicineList,
-          prescriptionImage: prescriptionImage);
+          prescriptionImage: prescriptionImage!);
       newOrderSubmitModel.value = data!;
 
       if (newOrderSubmitModel.value.status == true) {
