@@ -135,8 +135,8 @@ class _PreviousHistoryScreenState extends State<PreviousHistoryScreen> {
                                 .toString(),
                             type: 1,
                             checkBoxVisibleId: 1,
-                            prescriptionImage: previousHistoryController
-                                .medicineOrder![index].prescriptionImage,
+                            prescriptionImages: previousHistoryController
+                                .medicineOrder![index].prescriptionImage!,
                           ),
                         ),
                       );

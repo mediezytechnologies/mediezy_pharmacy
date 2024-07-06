@@ -177,8 +177,8 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                   : Obx(() {
                       return Checkbox(
                         activeColor: kMainColor,
-                        value:
-                            checkboxController.checkedItems.contains(widget.id),
+                        value: checkboxController.checkedMedicines
+                            .contains(widget.id),
                         onChanged: (newValue) {
                           checkboxController.toggleItem(
                               widget.id!, widget.length!);

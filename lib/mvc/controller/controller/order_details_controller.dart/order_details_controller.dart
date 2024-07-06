@@ -1,31 +1,42 @@
 import 'package:get/get.dart';
-import 'package:get/state_manager.dart';
-
-import '../../../model/new_order/new_order_model.dart';
 
 class CheckboxController extends GetxController {
   var allChecked = false.obs;
-  final checkedItems = <int>{}.obs;
-  toggleItem(int index, int length) {
-    if (checkedItems.contains(index)) {
-      checkedItems.remove(index);
-      allChecked.value = false;
-    } else {
-      checkedItems.add(index);
-      allChecked.value = false;
+  final checkedMedicines = <int>{}.obs;
+  final checkedPrescriptions = <String>{}.obs;
+
+  void toggleItem(dynamic item, int totalItemsCount) {
+    if (item is int) {
+      if (checkedMedicines.contains(item)) {
+        checkedMedicines.remove(item);
+      } else {
+        checkedMedicines.add(item);
+      }
+    } else if (item is String) {
+      if (checkedPrescriptions.contains(item)) {
+        checkedPrescriptions.remove(item);
+      } else {
+        checkedPrescriptions.add(item);
+      }
     }
-    allChecked.value = checkedItems.length == length;
+
+    // Update the allChecked status based on the current selections
+    allChecked.value =
+        (checkedMedicines.length + checkedPrescriptions.length) ==
+            totalItemsCount;
   }
 
-  void toggleAllItems(List<Medicines> medicines) {
+  void toggleAllItems(List<dynamic> items) {
     if (allChecked.value) {
-      checkedItems.clear();
-      allChecked.value = false;
+      checkedMedicines.clear();
+      checkedPrescriptions.clear();
     } else {
-      checkedItems.addAll(medicines.map((medicine) => medicine.id!));
-      allChecked.value = true;
+      checkedMedicines.addAll(items.whereType<int>());
+      checkedPrescriptions.addAll(items.whereType<String>());
     }
+    allChecked.value = !allChecked.value;
   }
 
-  List<int> get checkedIds => checkedItems.toList();
+  List<int> get checkedMedicineIds => checkedMedicines.toList();
+  List<String> get checkedPrescriptionImages => checkedPrescriptions.toList();
 }

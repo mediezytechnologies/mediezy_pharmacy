@@ -94,7 +94,9 @@ class _DateGetWidgetState extends State<DateGetWidget>
               child: TabBar(
                 onTap: (value) {
                   checkboxController.allChecked.value = false;
-                  checkboxController.checkedItems.clear();
+                  checkboxController.checkedMedicines.clear();
+                  checkboxController.checkedPrescriptions.clear();
+
                   medicineController.getMedicine(upcomingDateController
                       .date[_nestedTabController!.index].formatDate
                       .toString());
@@ -212,8 +214,9 @@ class _DateGetWidgetState extends State<DateGetWidget>
                                     type: 0,
                                     checkBoxVisibleId:
                                         widget.tabController.index,
-                                    prescriptionImage: medicineController
-                                        .medicineOrder[index].prescriptionImage,
+                                    prescriptionImages: medicineController
+                                        .medicineOrder[index]
+                                        .prescriptionImage!,
                                   ),
                                 ),
                               );
