@@ -17,8 +17,8 @@ class CompletedController extends GetxController {
       update();
       return medicineOrder;
     } catch (e) {
-      Get.snackbar("Warning", "Please check internet connection");
-      log(e.toString());
+      Get.snackbar("Warning", e.toString());
+      log("$e");
       loading.value = false;
     }
     return null;

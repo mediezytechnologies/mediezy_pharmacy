@@ -29,7 +29,7 @@ class SignupController extends GetxController {
           address: address,
           location: location,
           pincode: pincode,
-          medicalshopImage: medicalshopImage);
+          medicalshopImage: medicalshopImage??"");
 
       signupModel.value = data!;
 
