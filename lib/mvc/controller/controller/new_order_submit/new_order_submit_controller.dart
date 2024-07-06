@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
 import 'package:mediezy_medical/mvc/controller/service/new_order_submit/new_order_submit_service.dart';
 import 'package:mediezy_medical/mvc/model/new_order_submit/new_order_submit_model.dart';
+import 'package:mediezy_medical/mvc/view/screens/home/new_orders/new_orders.dart';
 
 class NewOrderSubmitController extends GetxController {
   final MedicineController medicineController = Get.put(MedicineController());
@@ -37,6 +38,11 @@ class NewOrderSubmitController extends GetxController {
         Get.snackbar(newOrderSubmitModel.value.message.toString(), "",
             snackPosition: SnackPosition.BOTTOM);
         Navigator.pop(context);
+        // Navigator.pushAndRemoveUntil(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => NewOrderScreen()),
+        //   (route) => false,
+        // );
         medicineController.getMedicine(formattedDate);
       }
 

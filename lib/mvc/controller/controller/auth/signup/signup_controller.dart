@@ -36,7 +36,7 @@ class SignupController extends GetxController {
       if (signupModel.value.status == true) {
         Get.snackbar(signupModel.value.message.toString(), "",
             snackPosition: SnackPosition.BOTTOM);
-        Get.to(LoginScreen());
+        Get.to(() => LoginScreen());
       }
       loading.value = false;
       update();

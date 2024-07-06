@@ -37,7 +37,7 @@ class NewOrderSubmitService {
       log(model.toString());
       log("res ${response.data}");
       log("res dfgdfhdfhfg ${model.message}");
-      log("servise strt       ${model.status}");
+      log("servise strt ${model.status}");
       return model;
 
       // ignore: deprecated_member_use

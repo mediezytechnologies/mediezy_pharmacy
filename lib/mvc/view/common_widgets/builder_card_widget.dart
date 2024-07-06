@@ -28,6 +28,7 @@ class BuilderCardWidget extends StatelessWidget {
         color: Colors.white,
         child: Column(
           children: [
+            VerticalSpacingWidget(height: 10),
             Padding(
               padding: EdgeInsets.only(
                   top: 8.0.h, bottom: 18.0.h, left: 8.w, right: 10.w),

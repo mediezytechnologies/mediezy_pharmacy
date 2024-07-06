@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
-import 'package:mediezy_medical/mvc/controller/controller/order_detai_controller.dart/order_detail_controller.dart';
+import 'package:mediezy_medical/mvc/controller/controller/order_details_controller.dart/order_details_controller.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/short_names_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/text_style_widget.dart';
 
