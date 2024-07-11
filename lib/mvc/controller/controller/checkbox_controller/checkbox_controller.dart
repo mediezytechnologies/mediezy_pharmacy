@@ -5,7 +5,8 @@ class CheckboxController extends GetxController {
   final checkedMedicines = <int>{}.obs;
   final checkedPrescriptions = <String>{}.obs;
 
-  void toggleItem(dynamic item, int totalItemsCount) {
+  void toggleItem(
+      dynamic item, int totalMedicinesCount, int totalPrescriptionsCount) {
     if (item is int) {
       if (checkedMedicines.contains(item)) {
         checkedMedicines.remove(item);
@@ -21,18 +22,17 @@ class CheckboxController extends GetxController {
     }
 
     // Update the allChecked status based on the current selections
-    allChecked.value =
-        (checkedMedicines.length + checkedPrescriptions.length) ==
-            totalItemsCount;
+    allChecked.value = (checkedMedicines.length == totalMedicinesCount) &&
+        (checkedPrescriptions.length == totalPrescriptionsCount);
   }
 
-  void toggleAllItems(List<dynamic> items) {
+  void toggleAllItems(List<int> medicineIds, List<String> prescriptionImages) {
     if (allChecked.value) {
       checkedMedicines.clear();
       checkedPrescriptions.clear();
     } else {
-      checkedMedicines.addAll(items.whereType<int>());
-      checkedPrescriptions.addAll(items.whereType<String>());
+      checkedMedicines.addAll(medicineIds);
+      checkedPrescriptions.addAll(prescriptionImages);
     }
     allChecked.value = !allChecked.value;
   }

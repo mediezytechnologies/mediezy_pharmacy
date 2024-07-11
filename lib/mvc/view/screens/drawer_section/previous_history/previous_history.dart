@@ -6,11 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mediezy_medical/mvc/controller/controller/previous_history_controller/previous_history_controller.dart';
-import 'package:mediezy_medical/mvc/view/common_widgets/builder_card_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
+import 'package:mediezy_medical/mvc/view/screens/home/widgets/order_list_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
-
-import '../../home/new_orders/order_details_screen.dart';
 
 class PreviousHistoryScreen extends StatefulWidget {
   const PreviousHistoryScreen({super.key});
@@ -98,67 +96,10 @@ class _PreviousHistoryScreenState extends State<PreviousHistoryScreen> {
                   ],
                 );
               }
-              return ListView.builder(
-                padding: EdgeInsets.zero,
-                shrinkWrap: true,
-                itemCount: previousHistoryController.medicineOrder!.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (ctx) => OrderDetailsScreen(
-                            name: previousHistoryController
-                                .medicineOrder![index].patientName
-                                .toString(),
-                            date: previousHistoryController
-                                .medicineOrder![index].date
-                                .toString(),
-                            itemCount: previousHistoryController
-                                .medicineOrder![index].medicines!.length,
-                            medicines: previousHistoryController
-                                .medicineOrder![index].medicines,
-                            drName: previousHistoryController
-                                .medicineOrder![index].doctorName
-                                .toString(),
-                            patientImage: previousHistoryController
-                                .medicineOrder![index].userImage,
-                            drId: previousHistoryController
-                                .medicineOrder![index].doctorId
-                                .toString(),
-                            patientId: previousHistoryController
-                                .medicineOrder![index].patientId
-                                .toString(),
-                            tokenId: previousHistoryController
-                                .medicineOrder![index].tokenId
-                                .toString(),
-                            type: 1,
-                            checkBoxVisibleId: 1,
-                            prescriptionImages: previousHistoryController
-                                .medicineOrder![index].prescriptionImage!,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 5.h),
-                      child: BuilderCardWidget(
-                        patientImage: previousHistoryController
-                            .medicineOrder![index].userImage,
-                        name: previousHistoryController
-                            .medicineOrder![index].patientName
-                            .toString(),
-                        date: previousHistoryController
-                            .medicineOrder![index].date
-                            .toString(),
-                        drName: previousHistoryController
-                            .medicineOrder![index].doctorName
-                            .toString(),
-                      ),
-                    ),
-                  );
-                },
+              return OrderListWidget(
+                type: 1,
+                checkBoxVisibleId: 1,
+                medicineOrder: previousHistoryController.medicineOrder!,
               );
             }),
           ],

@@ -20,8 +20,9 @@ class NewOrderSubmitController extends GetxController {
       required String tokenId,
       required String doctorId,
       required String orderStatus,
+      required String submitDate,
       List<String>? prescriptionImage,
-      required List<int> medicineList,
+      List<int>? medicineList,
       required BuildContext context}) async {
     try {
       var data = await NewOrderSubmitService.newOrderSubmitService(
@@ -37,12 +38,7 @@ class NewOrderSubmitController extends GetxController {
         Get.snackbar(newOrderSubmitModel.value.message.toString(), "",
             snackPosition: SnackPosition.BOTTOM);
         Navigator.pop(context);
-        // Navigator.pushAndRemoveUntil(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => NewOrderScreen()),
-        //   (route) => false,
-        // );
-        medicineController.getMedicine(formattedDate);
+        medicineController.getMedicine(submitDate);
       }
 
       loading.value = false;

@@ -145,6 +145,7 @@ class Medicines {
   int? evening;
   int? tokenNumber;
   int? medicineType;
+  int? status;
 
   Medicines(
       {this.id,
@@ -170,7 +171,8 @@ class Medicines {
       this.illness,
       this.evening,
       this.tokenNumber,
-      this.medicineType});
+      this.medicineType,
+      this.status});
 
   Medicines.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -197,6 +199,7 @@ class Medicines {
     evening = json['evening'];
     tokenNumber = json['token_number'];
     medicineType = json['medicine_type'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -225,6 +228,7 @@ class Medicines {
     data['evening'] = this.evening;
     data['token_number'] = this.tokenNumber;
     data['medicine_type'] = this.medicineType;
+    data['status'] = this.status;
     return data;
   }
 }

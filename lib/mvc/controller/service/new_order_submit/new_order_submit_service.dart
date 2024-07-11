@@ -1,11 +1,12 @@
 import 'dart:developer';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+
 import 'package:dio/dio.dart';
-import 'package:get/get.dart';
 import 'package:mediezy_medical/mvc/controller/dio_client.dart';
 import 'package:mediezy_medical/mvc/model/new_order_submit/new_order_submit_model.dart';
-
-import '../../../view/services/base_url.dart';
-import '../../../view/services/get_local_storage.dart';
+import 'package:mediezy_medical/mvc/view/services/base_url.dart';
+import 'package:mediezy_medical/mvc/view/services/get_local_storage.dart';
 
 class NewOrderSubmitService {
   static Future<NewOrderSubmitModel?> newOrderSubmitService({
@@ -14,20 +15,21 @@ class NewOrderSubmitService {
     required String doctorId,
     required String orderStatus,
     List<int>? medicineList,
-    required List<String> prescriptionImage,
+    List<String>? prescriptionImage,
   }) async {
     try {
       String? id = GetLocalStorage.getUserIdAndToken('id');
-      var formData = {
+      FormData formData = FormData.fromMap({
         "medical_shop_id": id,
         "patient_id": patientId,
         "token_id": tokenId,
         "doctor_id": doctorId,
         "order_details_status": orderStatus,
-        "medicine_list": medicineList,
-        "prescription_image[]": prescriptionImage,
-      };
-      for (var element in formData.entries) {
+        "medicine_list[]": medicineList,
+        'prescription_image[]': prescriptionImage
+      });
+
+      for (var element in formData.fields) {
         log(element.toString());
       }
       var response = await DioClient.dio
