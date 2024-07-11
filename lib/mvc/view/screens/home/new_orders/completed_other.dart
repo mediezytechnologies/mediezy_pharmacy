@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:mediezy_medical/mvc/view/screens/home/new_orders/order_details_screen.dart';
+import 'package:mediezy_medical/mvc/view/screens/home/widgets/order_list_widget.dart';
 
 import '../../../../controller/controller/completed/completed_controller.dart';
-import '../../../common_widgets/builder_card_widget.dart';
 
 class CompletedOrdersTab extends StatelessWidget {
   final TabController tabController;
@@ -28,54 +27,10 @@ class CompletedOrdersTab extends StatelessWidget {
           ),
         );
       }
-      return ListView.builder(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        itemCount: completedController.medicineOrder!.length,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (ctx) => OrderDetailsScreen(
-                    name: completedController.medicineOrder![index].patientName
-                        .toString(),
-                    date: completedController.medicineOrder![index].date
-                        .toString(),
-                    itemCount: completedController
-                        .medicineOrder![index].medicines!.length,
-                    medicines:
-                        completedController.medicineOrder![index].medicines,
-                    drName: completedController.medicineOrder![index].doctorName
-                        .toString(),
-                    patientImage:
-                        completedController.medicineOrder![index].userImage,
-                    drId: completedController.medicineOrder![index].doctorId
-                        .toString(),
-                    patientId: completedController
-                        .medicineOrder![index].patientId
-                        .toString(),
-                    tokenId: completedController.medicineOrder![index].tokenId
-                        .toString(),
-                    type: 1,
-                    checkBoxVisibleId: tabController.index,
-                    prescriptionImages: completedController
-                        .medicineOrder![index].prescriptionImage!,
-                  ),
-                ),
-              );
-            },
-            child: BuilderCardWidget(
-              patientImage: completedController.medicineOrder![index].userImage,
-              name: completedController.medicineOrder![index].patientName
-                  .toString(),
-              date: completedController.medicineOrder![index].date.toString(),
-              drName: completedController.medicineOrder![index].doctorName
-                  .toString(),
-            ),
-          );
-        },
+      return OrderListWidget(
+        type: 1,
+        checkBoxVisibleId: tabController.index,
+        medicineOrder: completedController.medicineOrder!,
       );
     });
   }

@@ -78,15 +78,15 @@ class NewOrderSubmitController extends GetxController {
 
   var newOrderSubmitModel = NewOrderSubmitModel().obs;
 
-  Future<void> addNewOrderSubmit({
-    required String patientId,
-    required String tokenId,
-    required String doctorId,
-    required String orderStatus,
-    List<String>? prescriptionImage,
-    required List<int> medicineList,
-    required BuildContext context,
-  }) async {
+  Future<NewOrderSubmitModel?> addNewOrderSubmit(
+      {required String patientId,
+      required String tokenId,
+      required String doctorId,
+      required String orderStatus,
+      required String submitDate,
+      List<String>? prescriptionImage,
+      List<int>? medicineList,
+      required BuildContext context}) async {
     try {
       loading.value = true;
       log("Prescription Image: $prescriptionImage");
@@ -100,30 +100,11 @@ class NewOrderSubmitController extends GetxController {
         prescriptionImage: prescriptionImage,
       );
 
-      if (data != null) {
-        newOrderSubmitModel.value = data;
-
-        if (newOrderSubmitModel.value.status == true) {
-          Get.snackbar(
-            newOrderSubmitModel.value.message.toString(),
-            "",
-            snackPosition: SnackPosition.BOTTOM,
-          );
-          Navigator.pop(context);
-          medicineController.getMedicine(formattedDate);
-        } else {
-          Get.snackbar(
-            "Error",
-            newOrderSubmitModel.value.message ?? "An error occurred",
-            snackPosition: SnackPosition.BOTTOM,
-          );
-        }
-      } else {
-        Get.snackbar(
-          "Error",
-          "Failed to submit order",
-          snackPosition: SnackPosition.BOTTOM,
-        );
+      if (newOrderSubmitModel.value.status == true) {
+        Get.snackbar(newOrderSubmitModel.value.message.toString(), "",
+            snackPosition: SnackPosition.BOTTOM);
+        Navigator.pop(context);
+        medicineController.getMedicine(submitDate);
       }
     } catch (e) {
       log("Error in addNewOrderSubmit: $e");
