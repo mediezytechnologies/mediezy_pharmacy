@@ -73,9 +73,6 @@ import '../../dio_client.dart';
 //   }
 // }
 
-
-
-
 class NewOrderSubmitService {
   static Future<NewOrderSubmitModel?> newOrderSubmitService({
     required String patientId,
@@ -86,46 +83,117 @@ class NewOrderSubmitService {
     List<String>? prescriptionImage,
   }) async {
     String? id = GetLocalStorage.getUserIdAndToken('id');
+    List<MultipartFile> addMemberImages = [];
 
     try {
-      Map<String, dynamic> formDataMap = {
+      if (prescriptionImage != null && prescriptionImage.isNotEmpty) {
+        for (String filePath in prescriptionImage) {
+          MultipartFile multipartFile = await MultipartFile.fromFile(
+            filePath,
+            filename: filePath,
+            contentType: MediaType('image', 'jpg'),
+          );
+          addMemberImages.add(multipartFile);
+        }
+        log("Prescription Images: $prescriptionImage");
+      }
+
+      FormData formData = FormData.fromMap({
         "medical_shop_id": id,
         "patient_id": patientId,
         "token_id": tokenId,
         "doctor_id": doctorId,
         "order_details_status": orderStatus,
         "medicine_list": medicineList,
-      };
+        "prescription_image[]": addMemberImages
+      });
 
-      if (prescriptionImage != null && prescriptionImage.isNotEmpty) {
-        formDataMap["prescription_image"] = prescriptionImage;
-        log("Prescription Images: $prescriptionImage");
-      }
-
-      FormData formData = FormData.fromMap(formDataMap);
-
-      log("FormData fields:");
+      // Log form data details
       for (var element in formData.fields) {
         log(element.toString());
+      }
+      for (var field in formData.fields) {
+        log("${field.key}: ${field.value}");
+      }
+      for (var file in formData.files) {
+        log("${file.key}: ${file.value.filename}");
       }
 
       var response = await DioClient.dio
           .post("$baseUrl/medicalshop/MedicineOrderSubmit", data: formData);
 
       NewOrderSubmitModel model = NewOrderSubmitModel.fromJson(response.data);
+      log(model.toString());
       log("Response: ${response.data}");
-      log("Model message: ${model.message}");
-      log("Model status: ${model.status}");
+      log("Message: ${model.message}");
+      log("Status: ${model.status}");
+
       return model;
 
     } on DioError catch (e) {
       log("DioError: ${e.response?.data}");
       log("DioError message: ${e.message}");
-    //  Get.snackbar("Error", e.response?.data['message'] ?? "An error occurred");
+      // Consider handling this error, perhaps by showing a snackbar or alert to the user
     } catch (e) {
-      log("Error: $e");
-    //  Get.snackbar("Error", "An unexpected error occurred");
+      log("General error: ${e.toString()}");
+      // Consider handling this error as well
     }
+
     return null;
   }
 }
+
+
+// class NewOrderSubmitService {
+//   static Future<NewOrderSubmitModel?> newOrderSubmitService({
+//     required String patientId,
+//     required String tokenId,
+//     required String doctorId,
+//     required String orderStatus,
+//     required List<int> medicineList,
+//     List<String>? prescriptionImage,
+//   }) async {
+//     String? id = GetLocalStorage.getUserIdAndToken('id');
+
+//     try {
+//       Map<String, dynamic> formDataMap = {
+//         "medical_shop_id": id,
+//         "patient_id": patientId,
+//         "token_id": tokenId,
+//         "doctor_id": doctorId,
+//         "order_details_status": orderStatus,
+//         "medicine_list": medicineList,
+//       };
+
+//       if (prescriptionImage != null && prescriptionImage.isNotEmpty) {
+//         formDataMap["prescription_image"] = prescriptionImage;
+//         log("Prescription Images: $prescriptionImage");
+//       }
+
+//       FormData formData = FormData.fromMap(formDataMap);
+
+//       log("FormData fields:");
+//       for (var element in formData.fields) {
+//         log(element.toString());
+//       }
+
+//       var response = await DioClient.dio
+//           .post("$baseUrl/medicalshop/MedicineOrderSubmit", data: formData);
+
+//       NewOrderSubmitModel model = NewOrderSubmitModel.fromJson(response.data);
+//       log("Response: ${response.data}");
+//       log("Model message: ${model.message}");
+//       log("Model status: ${model.status}");
+//       return model;
+
+//     } on DioError catch (e) {
+//       log("DioError: ${e.response?.data}");
+//       log("DioError message: ${e.message}");
+//     //  Get.snackbar("Error", e.response?.data['message'] ?? "An error occurred");
+//     } catch (e) {
+//       log("Error: $e");
+//     //  Get.snackbar("Error", "An unexpected error occurred");
+//     }
+//     return null;
+//   }
+// }
