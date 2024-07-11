@@ -27,8 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
-    // emailController.text  ='Wellness@gmail.com';
-    // passwordController.text="Wellness";
+emailController.text  ='wellness@gmail.com';
+  passwordController.text="Wellness";
     return Scaffold(
         body: FadedSlideAnimation(
       beginOffset: const Offset(0, 0.3),
