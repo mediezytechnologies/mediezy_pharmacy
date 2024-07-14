@@ -1,14 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
+
+
+
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mediezy_medical/mvc/view/common_widgets/common_button_widget.dart';
-import 'package:mediezy_medical/mvc/view/common_widgets/custom_teextform.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
+
+import '../../../common_widgets/common_button_widget.dart';
+import '../../../common_widgets/custom_teextform.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({
@@ -41,8 +47,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     super.initState();
   }
+String? imagePath;
 
-  File? imagePath;
   final ImagePicker imagePicker = ImagePicker();
 
   @override
@@ -90,14 +96,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       child: Container(
                         height: height * .120,
                         width: width * .250,
-                        decoration: const BoxDecoration(),
+                        decoration: const BoxDecoration( 
+                    //      color: Colors.amber
+                          ),
                         child: ClipRRect(
                             borderRadius: BorderRadius.circular(30.r),
                             child:
-                                //  imagePath == null
+                          //     imagePath == null
                                 //     ?
                                 Image.asset(
                               "assets/images/person.jpg",
+                             // color: kMainColor,
                               height: height * .080,
                               width: width * .080,
                               fit: BoxFit.cover,
@@ -112,8 +121,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                     Positioned(
-                      top: height * .110,
-                      right: width * .190,
+                  //  top: 69,
+             top: height * .075,
+                      right: width * .285,
                       child: IconButton(
                         onPressed: () async {
                           await placePicImage();
@@ -320,7 +330,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
     if (image == null) return;
 
-    final File imageTemporary = File(image.path);
+     var imageTemporary = image.path;
 
     setState(() {
       imagePath = imageTemporary;

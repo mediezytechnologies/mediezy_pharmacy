@@ -1,4 +1,5 @@
 // ignore_for_file: deprecated_member_use
+import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,10 +28,11 @@ class _DateGetWidgetState extends State<DateGetWidget>
   final MedicineController medicineController = Get.find<MedicineController>();
   final CheckboxController checkboxController = Get.put(CheckboxController());
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-
+Timer? _pollingTimer;
   @override
   void initState() {
     initializeTabController();
+   startPolling();
     super.initState();
   }
 
@@ -59,10 +61,20 @@ class _DateGetWidgetState extends State<DateGetWidget>
     }
   }
 
+   void startPolling() {
+    _pollingTimer?.cancel(); // Cancel any existing timer
+    _pollingTimer = Timer.periodic(const Duration(seconds: 15), (timer) {
+      medicineController.getMedicine(upcomingDateController
+          .date[_nestedTabController!.index].formatDate
+          .toString());
+    });
+  }
+
   @override
   void dispose() {
     _nestedTabController?.removeListener(_handleTabSelection);
     _nestedTabController?.dispose();
+    _pollingTimer?.cancel(); // Cancel the timer when disposing
     super.dispose();
   }
 
@@ -70,6 +82,7 @@ class _DateGetWidgetState extends State<DateGetWidget>
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Obx(() {
+
       if (upcomingDateController.loading.value ||
           _nestedTabController == null) {
         return Center(

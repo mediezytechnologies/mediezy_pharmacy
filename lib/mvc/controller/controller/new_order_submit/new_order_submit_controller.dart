@@ -99,11 +99,13 @@ class NewOrderSubmitController extends GetxController {
         medicineList: medicineList,
         prescriptionImage: prescriptionImage,
       );
-
+newOrderSubmitModel.value=data!;
       if (newOrderSubmitModel.value.status == true) {
+        log("=============== stat ${newOrderSubmitModel.value.status} ");
         Get.snackbar(newOrderSubmitModel.value.message.toString(), "",
             snackPosition: SnackPosition.BOTTOM);
-        Navigator.pop(context);
+      //  Navigator.pop(context);
+        Navigator.of(context).pop();
         medicineController.getMedicine(submitDate);
       }
     } catch (e) {
@@ -117,5 +119,6 @@ class NewOrderSubmitController extends GetxController {
       loading.value = false;
       update();
     }
+    return null;
   }
 }

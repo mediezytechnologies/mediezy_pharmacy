@@ -37,9 +37,10 @@ class MedicalShop {
   String? mobileNo;
   String? email;
   String? userRole;
+  String? image;
 
   MedicalShop(
-      {this.id, this.firstname, this.mobileNo, this.email, this.userRole});
+      {this.id, this.firstname, this.mobileNo, this.email, this.userRole, this.image});
 
   MedicalShop.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -47,6 +48,7 @@ class MedicalShop {
     mobileNo = json['mobileNo'];
     email = json['email'];
     userRole = json['user_role'];
+        image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +58,7 @@ class MedicalShop {
     data['mobileNo'] = this.mobileNo;
     data['email'] = this.email;
     data['user_role'] = this.userRole;
+    data['image'] = this.image;
     return data;
   }
 }
