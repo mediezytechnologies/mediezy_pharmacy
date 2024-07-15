@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:mediezy_medical/mvc/controller/controller/new_order_submit/new_order_submit_controller.dart';
 import 'package:mediezy_medical/mvc/controller/controller/checkbox_controller/checkbox_controller.dart';
 import 'package:mediezy_medical/mvc/model/new_order/new_order_model.dart';
+import 'package:mediezy_medical/mvc/view/common_widgets/text_style_widget.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/widgets/builder_card_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/common_button_widget.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/widgets/prescription_widget.dart';
@@ -51,8 +52,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   final NewOrderSubmitController newOrderSubmitController =
       Get.put(NewOrderSubmitController());
 
+  final TextEditingController remarksController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
@@ -99,6 +102,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BuilderCardWidget(
                     patientImage: widget.patientImage,
@@ -148,7 +152,33 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         medicines: widget.medicines!,
                         checkBoxId: widget.checkBoxVisibleId,
                         prescriptionImages: widget.prescriptionImages,
-                      )
+                      ),
+                widget.type == 1
+                    ? Container()
+                    : Text("Remarks : ", style: greyMain),
+                const VerticalSpacingWidget(height: 5),
+                widget.type == 1
+                    ? Container()
+                    : TextFormField(
+                        style: TextStyle(
+                            fontSize: size.width > 450 ? 9.sp : 14.sp),
+                        cursorColor: kMainColor,
+                        controller: remarksController,
+                        keyboardType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.next,
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                          hintStyle:
+                              size.width > 450 ? greyTab10B600 : grey13B600,
+                          hintText: "Add your notes",
+                          filled: true,
+                          fillColor: kCardColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(4),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
               ],
             ),
           ),
