@@ -16,7 +16,8 @@ class LoginController extends GetxController {
   }) async {
     try {
       var data =
-          await LoginService.loginService(email: email, password: password);
+          await LoginService.loginService(
+            email: email, password: password);
       loginModel.value = data!;
 
       log(">>>>>>>>>>>>>>>>>>${loginModel.value.message.toString()}");

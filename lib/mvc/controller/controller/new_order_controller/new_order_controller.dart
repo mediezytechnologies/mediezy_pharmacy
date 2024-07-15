@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:get/get.dart';
@@ -8,14 +9,17 @@ import 'package:mediezy_medical/mvc/model/new_order/upcoming_date_model.dart';
 class MedicineController extends GetxController {
   RxBool loding = true.obs;
   var selectedIndex = 0.obs;
+  late Timer pollingTimer;
   RxList<MedicineOrder> medicineOrder = <MedicineOrder>[].obs;
+
 
   Future<void> getMedicine(String date) async {
     try {
-      loding.value = true;
+     // loding.value = true;
       var data = await MedicineService.medicineService(date);
       if (data != null) {
         medicineOrder.value = data;
+       // updateEachTime();
         // selectedIndex.value = data.length - 1;
       }
     } catch (e) {
@@ -24,6 +28,8 @@ class MedicineController extends GetxController {
       loding.value = false;
     }
   }
+
+  
 
   @override
   void onInit() {

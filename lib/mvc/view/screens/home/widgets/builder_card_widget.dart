@@ -24,7 +24,9 @@ class BuilderCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          color: Colors.white, borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Color.fromARGB(255, 224, 221, 221))
+          ),
       child: Column(
         children: [
           VerticalSpacingWidget(height: 10),
