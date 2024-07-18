@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,18 +28,22 @@ class OrderDetailsScreen extends StatefulWidget {
     this.type,
     required this.checkBoxVisibleId,
     required this.prescriptionImages,
+    required this.appointmentId,
+    this.notes,
   });
 
   final String? name;
   final String? date;
   final int? itemCount;
   final int? type;
+  final int appointmentId;
   final String? patientId;
   final String drName;
   final String? tokenId;
   final String? drId;
   final String? patientImage;
-  final List<String> prescriptionImages;
+  final String? notes;
+  List<PrescriptionImages>? prescriptionImages;
   List<Medicines>? medicines;
   final int checkBoxVisibleId;
 
@@ -55,6 +57,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       Get.put(NewOrderSubmitController());
 
   final TextEditingController remarksController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -64,6 +67,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
         checkboxController.allChecked.value = false;
         checkboxController.checkedMedicines.clear();
         checkboxController.checkedPrescriptions.clear();
+        checkboxController.isEditing.value = false;
         Navigator.pop(context);
         return Future.value(false);
       },
@@ -78,28 +82,67 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 checkboxController.allChecked.value = false;
                 checkboxController.checkedMedicines.clear();
                 checkboxController.checkedPrescriptions.clear();
+                checkboxController.isEditing.value = false;
                 Navigator.pop(context);
               },
               icon: Icon(Icons.arrow_back_outlined)),
+          actions: [
+            widget.type != 1
+                ? Container()
+                : Obx(() {
+                    return IconButton(
+                        onPressed: () {
+                          checkboxController.changeEditIcon();
+                        },
+                        icon: Icon(
+                          checkboxController.isEditing.value
+                              ? Icons.check
+                              : Icons.mode_edit_outlined,
+                          color: Colors.black,
+                        ));
+                  })
+          ],
         ),
         bottomNavigationBar: widget.type == 1
-            ? null
-            : Padding(
-                padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
-                child: CommonButtonWidget(
-                    title: "Submit",
-                    onTapFunction: () {
-                      newOrderSubmitController.addNewOrderSubmit(
-                          context: context,
-                          patientId: widget.patientId!,
-                          tokenId: widget.tokenId!,
-                          doctorId: widget.drId!,
-                          orderStatus: "1",
-                          medicineList: checkboxController.checkedMedicineIds,
-                          prescriptionImage:
-                              checkboxController.checkedPrescriptionImages,
-                          submitDate: widget.date!);
-                    })),
+            ? Obx(() {
+                return SizedBox(
+                    child: checkboxController.isEditing.value
+                        ? Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 5.h, horizontal: 8.w),
+                            child: CommonButtonWidget(
+                                title: "Update", onTapFunction: () {}),
+                          )
+                        : SizedBox());
+              })
+            : checkboxController.isEditing.value
+                ? Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
+                    child: CommonButtonWidget(
+                        title: "Update", onTapFunction: () {}),
+                  )
+                : Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
+                    child: CommonButtonWidget(
+                        title: "Submit",
+                        onTapFunction: () {
+                          newOrderSubmitController.addNewOrderSubmit(
+                              context: context,
+                              patientId: widget.patientId!,
+                              tokenId: widget.tokenId!,
+                              doctorId: widget.drId!,
+                              orderStatus: "1",
+                              medicineList:
+                                  checkboxController.checkedMedicineIds,
+                              prescriptionImage:
+                                  checkboxController.checkedPrescriptionImages,
+                              submitDate: widget.date!,
+                              notes: remarksController.text,
+                              appointmentId: widget.appointmentId);
+                        }),
+                  ),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: SingleChildScrollView(
@@ -111,44 +154,75 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                     name: widget.name!,
                     date: widget.date!,
                     drName: widget.drName),
-                widget.medicines!.isEmpty
-                    ? Container()
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          widget.type == 1
-                              ? Container()
-                              : Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    const Text('Select all'),
-                                    Obx(() {
-                                      return Checkbox(
-                                        activeColor: kMainColor,
-                                        value:
-                                            checkboxController.allChecked.value,
-                                        onChanged: (newValue) {
-                                          final medicineIds = widget.medicines!
-                                              .map((medicine) => medicine.id!)
-                                              .toList();
-                                          final prescriptionImages =
-                                              widget.prescriptionImages;
-                                          checkboxController.toggleAllItems(
-                                              medicineIds, prescriptionImages);
-                                        },
-                                      );
-                                    }),
-                                  ],
-                                ),
-                          const VerticalSpacingWidget(height: 6),
-                          GetMedicinesWidget(
-                              prescriptionImage: widget.prescriptionImages,
-                              checkBoxId: widget.checkBoxVisibleId,
-                              medicines: widget.medicines!)
-                        ],
-                      ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    widget.type == 1
+                        ? Obx(() {
+                            return SizedBox(
+                              child: checkboxController.isEditing.value
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        const Text('Select all'),
+                                        Obx(() {
+                                          return Checkbox(
+                                            activeColor: kMainColor,
+                                            value: checkboxController
+                                                .allChecked.value,
+                                            onChanged: (newValue) {
+                                              final medicineIds = widget
+                                                  .medicines!
+                                                  .map((medicine) =>
+                                                      medicine.id!)
+                                                  .toList();
+                                              final prescriptionImageIds =
+                                                  widget.prescriptionImages!
+                                                      .map((image) => image.id!)
+                                                      .toList();
+                                              checkboxController.toggleAllItems(
+                                                  medicineIds,
+                                                  prescriptionImageIds);
+                                            },
+                                          );
+                                        }),
+                                      ],
+                                    )
+                                  : SizedBox(),
+                            );
+                          })
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Text('Select all'),
+                              Obx(() {
+                                return Checkbox(
+                                  activeColor: kMainColor,
+                                  value: checkboxController.allChecked.value,
+                                  onChanged: (newValue) {
+                                    final medicineIds = widget.medicines!
+                                        .map((medicine) => medicine.id!)
+                                        .toList();
+                                    final prescriptionImageIds = widget
+                                        .prescriptionImages!
+                                        .map((image) => image.id!)
+                                        .toList();
+                                    checkboxController.toggleAllItems(
+                                        medicineIds, prescriptionImageIds);
+                                  },
+                                );
+                              }),
+                            ],
+                          ),
+                    const VerticalSpacingWidget(height: 6),
+                    GetMedicinesWidget(
+                        prescriptionImages: widget.prescriptionImages,
+                        checkBoxId: widget.checkBoxVisibleId,
+                        medicines: widget.medicines!)
+                  ],
+                ),
                 VerticalSpacingWidget(height: 10),
-                widget.prescriptionImages.isEmpty
+                widget.prescriptionImages!.isEmpty
                     ? Container()
                     : PrescriptionWidget(
                         medicines: widget.medicines!,
@@ -180,6 +254,25 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             borderSide: BorderSide.none,
                           ),
                         ),
+                      ),
+                widget.type != 1 || widget.notes == null
+                    ? Container()
+                    : Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Remarks : ",
+                            style: size.width > 450 ? greyTabMain : greyMain,
+                          ),
+                          Expanded(
+                            child: Text(
+                              widget.notes!,
+                              style: size.width > 450
+                                  ? blackTabMainText
+                                  : blackMainText,
+                            ),
+                          ),
+                        ],
                       ),
               ],
             ),

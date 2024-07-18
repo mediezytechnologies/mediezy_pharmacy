@@ -5,11 +5,12 @@ import 'package:mediezy_medical/mvc/view/screens/home/widgets/builder_card_widge
 import 'package:mediezy_medical/mvc/view/screens/home/new_orders/order_details_screen.dart';
 
 class OrderListWidget extends StatelessWidget {
-  const OrderListWidget(
-      {super.key,
-      required this.medicineOrder,
-      this.type,
-      required this.checkBoxVisibleId});
+  const OrderListWidget({
+    super.key,
+    required this.medicineOrder,
+    this.type,
+    required this.checkBoxVisibleId,
+  });
   final List<MedicineOrder> medicineOrder;
   final int? type;
   final int checkBoxVisibleId;
@@ -39,7 +40,10 @@ class OrderListWidget extends StatelessWidget {
                     tokenId: medicineOrder[index].tokenId.toString(),
                     type: type,
                     checkBoxVisibleId: checkBoxVisibleId,
-                    prescriptionImages: medicineOrder[index].prescriptionImage!,
+                    prescriptionImages:
+                        medicineOrder[index].prescriptionImages!,
+                    notes: medicineOrder[index].notes,
+                    appointmentId: medicineOrder[index].appointmentId!,
                   ),
                 ),
               );

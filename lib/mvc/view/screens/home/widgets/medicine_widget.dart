@@ -8,17 +8,18 @@ import 'package:mediezy_medical/mvc/controller/controller/checkbox_controller/ch
 import 'package:mediezy_medical/mvc/view/common_widgets/short_names_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/text_style_widget.dart';
 
+// ignore: must_be_immutable
 class GetMedicinesWidget extends StatefulWidget {
   final int checkBoxId;
 
   final List<Medicines> medicines;
-  final List<String>? prescriptionImage;
+  List<PrescriptionImages>? prescriptionImages;
 
   GetMedicinesWidget(
       {super.key,
       required this.checkBoxId,
       required this.medicines,
-      this.prescriptionImage});
+      this.prescriptionImages});
 
   @override
   _GetMedicinesWidgetState createState() => _GetMedicinesWidgetState();
@@ -102,16 +103,148 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                                 ),
                               ],
                             ),
-                            medicine.status == 0
-                                ? Container()
-                                : Container(
-                                    height: 25.h,
-                                    width: 50.w,
-                                    child: ClipRRect(
-                                      child: Image.asset(
-                                          "assets/images/delivered.jpg"),
-                                    ),
-                                  ),
+                            widget.checkBoxId == 1
+                                ? SizedBox(
+                                    child: checkboxController.isEditing.value
+                                        ? Obx(() {
+                                            final isChecked = checkboxController
+                                                .checkedMedicines
+                                                .contains(medicine.id);
+                                            return Checkbox(
+                                              activeColor: kMainColor,
+                                              value: isChecked,
+                                              onChanged: (newValue) {
+                                                checkboxController.toggleItem(
+                                                  medicine.id!,
+                                                  widget.medicines.length,
+                                                  widget.prescriptionImages!
+                                                      .length,
+                                                  true,
+                                                );
+                                              },
+                                            );
+                                          })
+                                        : SizedBox(
+                                            child: checkboxController
+                                                            .deliveredStatus
+                                                            .value !=
+                                                        0 &&
+                                                    medicine.status == 1
+                                                ? Container(
+                                                    height: 25.h,
+                                                    width: 50.w,
+                                                    child: ClipRRect(
+                                                      child: Image.asset(
+                                                          "assets/images/delivered.png"),
+                                                    ),
+                                                  )
+                                                : SizedBox()))
+                                :
+
+// Obx(() {
+//                                     final isChecked = checkboxController
+//                                         .checkedMedicines
+//                                         .contains(medicine.id);
+//                                     return Checkbox(
+//                                       activeColor: kMainColor,
+//                                       value: isChecked,
+//                                       onChanged: (newValue) {
+//                                         checkboxController.toggleItem(
+//                                           medicine.id!,
+//                                           widget.medicines.length,
+//                                           widget.prescriptionImages!.length,
+//                                           true,
+//                                         );
+//                                       },
+//                                     );
+//                                   })
+
+                                // widget.checkBoxId == 1
+                                //     ?
+                                //     //obx
+                                //     Obx(
+                                //         () {
+                                //           return SizedBox(
+                                //             child:
+                                //                 checkboxController.deliveredStatus
+                                //                                 .value !=
+                                //                             0 &&
+                                //                         medicine.status == 1
+                                //                     ? Obx(
+                                //                         () {
+                                //                           return SizedBox(
+                                //                               child:
+                                //                                   checkboxController
+                                //                                           .isEditing
+                                //                                           .value
+                                //                                       ? Obx(() {
+                                //                                           final isChecked = checkboxController
+                                //                                               .checkedMedicines
+                                //                                               .contains(
+                                //                                                   medicine.id);
+                                //                                           return Checkbox(
+                                //                                             activeColor:
+                                //                                                 kMainColor,
+                                //                                             value:
+                                //                                                 isChecked,
+                                //                                             onChanged:
+                                //                                                 (newValue) {
+                                //                                               checkboxController
+                                //                                                   .toggleItem(
+                                //                                                 medicine.id!,
+                                //                                                 widget.medicines.length,
+                                //                                                 widget.prescriptionImages!.length,
+                                //                                                 true,
+                                //                                               );
+                                //                                             },
+                                //                                           );
+                                //                                         })
+                                //                                       : Container(
+                                //                                           height:
+                                //                                               25.h,
+                                //                                           width:
+                                //                                               50.w,
+                                //                                           child:
+                                //                                               ClipRRect(
+                                //                                             child: Image.asset(
+                                //                                                 "assets/images/delivered.png"),
+                                //                                           ),
+                                //                                         ));
+                                //                         },
+                                //                       )
+                                //                     : Container(
+                                //                         height: 25.h,
+                                //                         width: 50.w,
+                                //                         child: Column(
+                                //                           children: [
+                                //                             Text("data"),
+                                //                             ClipRRect(
+                                //                               child: Image.asset(
+                                //                                   "assets/images/delivered.png"),
+                                //                             ),
+                                //                           ],
+                                //                         ),
+                                //                       ),
+                                //           );
+                                //         },
+                                //       )
+                                Obx(() {
+                                    final isChecked = checkboxController
+                                        .checkedMedicines
+                                        .contains(medicine.id);
+                                    return Checkbox(
+                                      activeColor: kMainColor,
+                                      value: isChecked,
+                                      onChanged: (newValue) {
+                                        checkboxController.toggleItem(
+                                          medicine.id!,
+                                          widget.medicines.length,
+                                          widget.prescriptionImages!.length,
+                                          true,
+                                        );
+                                      },
+                                    );
+                                  })
                           ],
                         ),
                       ),
@@ -181,23 +314,47 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                       ),
                     ],
                   ),
-                  widget.checkBoxId == 1
-                      ? Container()
-                      : Obx(() {
-                          final isChecked = checkboxController.checkedMedicines
-                              .contains(medicine.id);
-                          return Checkbox(
-                            activeColor: kMainColor,
-                            value: isChecked,
-                            onChanged: (newValue) {
-                              checkboxController.toggleItem(
-                                medicine.id!,
-                                widget.medicines.length,
-                                widget.prescriptionImage!.length,
-                              );
-                            },
-                          );
-                        }),
+                  // widget.checkBoxId == 1
+                  //     ? Obx(() {
+                  //         return SizedBox(
+                  //           child: checkboxController.isEditing.value
+                  //               ? Obx(() {
+                  //                   final isChecked = checkboxController
+                  //                       .checkedMedicines
+                  //                       .contains(medicine.id);
+                  //                   return Checkbox(
+                  //                     activeColor: kMainColor,
+                  //                     value: isChecked,
+                  //                     onChanged: (newValue) {
+                  //                       checkboxController.toggleItem(
+                  //                         medicine.id!,
+                  //                         widget.medicines.length,
+                  //                         widget.prescriptionImages!.length,
+                  //                         true,
+                  //                       );
+                  //                     },
+                  //                   );
+                  //                 })
+                  //               : SizedBox(),
+                  //         );
+                  //       })
+                  //     : Obx(() {
+                  //         final isChecked = checkboxController.checkedMedicines
+                  //             .contains(medicine.id);
+                  //         return Checkbox(
+                  //           activeColor: kMainColor,
+                  //           value: isChecked,
+                  //           onChanged: (newValue) {
+                  //             checkboxController.toggleItem(
+                  //               medicine.id!,
+                  //               widget.medicines.length,
+                  //               widget.prescriptionImages!.length,
+                  //               true,
+                  //             );
+                  //           },
+                  //         );
+                  //       })
+
                   // widget.checkBoxId == 1
                   //     ? Container()
                   //     : Obx(() {

@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 
 import 'package:dio/dio.dart';
 import 'package:mediezy_medical/mvc/controller/dio_client.dart';
@@ -14,11 +12,13 @@ class NewOrderSubmitService {
     required String tokenId,
     required String doctorId,
     required String orderStatus,
+    required String notes,
+    required int appointmentId,
     List<int>? medicineList,
-    List<String>? prescriptionImage,
+    List<int>? prescriptionImage,
   }) async {
-    String? id = GetLocalStorage.getUserIdAndToken('id');
-    List<MultipartFile> addMemberImages = [];
+    // String? id = GetLocalStorage.getUserIdAndToken('id');
+    // List<MultipartFile> addMemberImages = [];
 
     try {
       String? id = GetLocalStorage.getUserIdAndToken('id');
@@ -29,7 +29,9 @@ class NewOrderSubmitService {
         "doctor_id": doctorId,
         "order_details_status": orderStatus,
         "medicine_list[]": medicineList,
-        'prescription_image[]': prescriptionImage
+        "prescription_image[]": prescriptionImage,
+        'notes': notes,
+        'appointment_id': appointmentId,
       });
 
       for (var element in formData.fields) {
@@ -52,8 +54,7 @@ class NewOrderSubmitService {
       log("Status: ${model.status}");
 
       return model;
-
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       log("DioError: ${e.response?.data}");
       log("DioError message: ${e.message}");
       // Consider handling this error, perhaps by showing a snackbar or alert to the user

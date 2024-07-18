@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,15 +13,16 @@ import 'package:mediezy_medical/mvc/view/common_widgets/horizontal_spacing_widge
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/view_image_widget.dart';
 
+// ignore: must_be_immutable
 class PrescriptionWidget extends StatelessWidget {
-  const PrescriptionWidget({
+  PrescriptionWidget({
     super.key,
     required this.prescriptionImages,
     this.checkBoxId,
     required this.medicines,
   });
   final List<Medicines> medicines;
-  final List<String> prescriptionImages;
+  List<PrescriptionImages>? prescriptionImages;
   final int? checkBoxId;
 
   @override
@@ -39,7 +42,7 @@ class PrescriptionWidget extends StatelessWidget {
               Text("Prescription images : ", style: greyMain),
               const VerticalSpacingWidget(height: 2),
               ListView.builder(
-                itemCount: prescriptionImages.length,
+                itemCount: prescriptionImages!.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
@@ -49,7 +52,8 @@ class PrescriptionWidget extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => ViewImageWidget(
-                            viewFile: prescriptionImages[index],
+                            viewFile:
+                                prescriptionImages![index].prescriptionImage!,
                           ),
                         ),
                       );
@@ -78,41 +82,48 @@ class PrescriptionWidget extends StatelessWidget {
                                 Text("Image ${index + 1}", style: black13B500),
                               ],
                             ),
-                            checkBoxId == 1
-                                ? Container()
-                                : Obx(() {
-                                    return Checkbox(
-                                      activeColor: kMainColor,
-                                      value: checkboxController
-                                          .checkedPrescriptions
-                                          .contains(prescriptionImages[index]),
-                                      onChanged: (newValue) {
-                                        checkboxController.toggleItem(
-                                          prescriptionImages[index],
-                                          medicines.length,
-                                          prescriptionImages.length,
-                                        );
-                                      },
-                                    );
-                                  }),
-                            // checkBoxId == 1
+                            // prescriptionImages![index].status != 1
                             //     ? Container()
-                            //     : Obx(() {
-                            //         return Checkbox(
-                            //           activeColor: kMainColor,
-                            //           value: checkboxController
-                            //               .checkedPrescriptions
-                            //               .contains(prescriptionImages[index]),
-                            //           onChanged: (newValue) {
-                            //             checkboxController.toggleItem(
-                            //               prescriptionImages[
-                            //                   index], // Pass the item to toggle
-                            //               prescriptionImages
-                            //                   .length, // Pass the total count of items
-                            //             );
-                            //           },
-                            //         );
-                            //       }),
+                            //     : Container(
+                            //         height: 25.h,
+                            //         width: 50.w,
+                            //         child: ClipRRect(
+                            //           child: Image.asset(
+                            //               "assets/images/delivered.png"),
+                            //         ),
+                            //       ),
+                            prescriptionImages![index].status == 1
+                                ? Container(
+                                    height: 25.h,
+                                    width: 50.w,
+                                    child: ClipRRect(
+                                      child: Image.asset(
+                                          "assets/images/delivered.png"),
+                                    ),
+                                  )
+                                : (checkBoxId == 1
+                                    ? Container()
+                                    : Obx(() {
+                                        return Checkbox(
+                                          activeColor: kMainColor,
+                                          value: checkboxController
+                                              .checkedPrescriptions
+                                              .contains(
+                                                  prescriptionImages![index]
+                                                      .id),
+                                          onChanged: (newValue) {
+                                            log(prescriptionImages![index]
+                                                .id
+                                                .toString());
+                                            checkboxController.toggleItem(
+                                              prescriptionImages![index].id!,
+                                              medicines.length,
+                                              prescriptionImages!.length,
+                                              false,
+                                            );
+                                          },
+                                        );
+                                      })),
                           ],
                         ),
                       ),
