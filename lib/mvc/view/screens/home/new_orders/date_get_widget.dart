@@ -28,11 +28,11 @@ class _DateGetWidgetState extends State<DateGetWidget>
   final MedicineController medicineController = Get.find<MedicineController>();
   final CheckboxController checkboxController = Get.put(CheckboxController());
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-Timer? _pollingTimer;
+  Timer? _pollingTimer;
   @override
   void initState() {
     initializeTabController();
-   startPolling();
+    startPolling();
     super.initState();
   }
 
@@ -61,7 +61,7 @@ Timer? _pollingTimer;
     }
   }
 
-   void startPolling() {
+  void startPolling() {
     _pollingTimer?.cancel(); // Cancel any existing timer
     _pollingTimer = Timer.periodic(const Duration(seconds: 15), (timer) {
       medicineController.getMedicine(upcomingDateController
@@ -82,7 +82,6 @@ Timer? _pollingTimer;
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Obx(() {
-
       if (upcomingDateController.loading.value ||
           _nestedTabController == null) {
         return Center(
@@ -134,7 +133,7 @@ Timer? _pollingTimer;
               ),
               dividerColor: Colors.transparent,
               labelColor: Colors.white,
-              physics: const ClampingScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               unselectedLabelColor: Colors.black54,
               unselectedLabelStyle: TextStyle(
                 fontSize: size.width > 450 ? 11.sp : 13.sp,

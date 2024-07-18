@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:mediezy_medical/mvc/controller/service/previous_history.dart';
+import 'package:mediezy_medical/mvc/controller/service/previous_history_service/previous_history_service.dart';
 import 'package:mediezy_medical/mvc/model/new_order/new_order_model.dart';
 
 class PreviousHistoryController extends GetxController {
