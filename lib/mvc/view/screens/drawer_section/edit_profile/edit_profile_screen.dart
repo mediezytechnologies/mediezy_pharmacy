@@ -1,15 +1,14 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-
-
-
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mediezy_medical/mvc/controller/controller/profile/get_profile_controller.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 
@@ -41,15 +40,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   void initState() {
-    // firstNameController.text = widget.firstname;
-    // lastNameController.text = widget.lastnamae;
-    // phoneNumberController.text = widget.number;
-
     super.initState();
   }
-String? imagePath;
+
+  String? imagePath;
 
   final ImagePicker imagePicker = ImagePicker();
+
+  final GetProfileController getProfileController =
+      Get.put(GetProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -78,161 +77,159 @@ String? imagePath;
         title: const Text("Edit Profile"),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
-        child: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              //  mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const VerticalSpacingWidget(height: 45),
-                // editImage(size),
-                Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: height * .120,
-                        width: width * .250,
-                        decoration: const BoxDecoration( 
-                    //      color: Colors.amber
-                          ),
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(30.r),
-                            child:
-                          //     imagePath == null
-                                //     ?
-                                Image.asset(
-                              "assets/images/person.jpg",
-                             // color: kMainColor,
-                              height: height * .080,
-                              width: width * .080,
-                              fit: BoxFit.cover,
-                            )
-                            // : Image.file(
-                            //     File(imagePath!),
-                            //     height: height * .080,
-                            //     width: width * .080,
-                            //     fit: BoxFit.cover,
-                            //   ),
-                            ),
-                      ),
-                    ),
-                    Positioned(
-                  //  top: 69,
-             top: height * .075,
-                      right: width * .285,
-                      child: IconButton(
-                        onPressed: () async {
-                          await placePicImage();
-                          log(">>>>>>>>>>>>>>>${imagePath.toString()}");
-                        },
-                        icon: Icon(
-                          Icons.add_a_photo,
-                          size: 26.sp,
-                          weight: 5,
-                          color: kMainColor,
+      body: Obx(() {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
+          child: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const VerticalSpacingWidget(height: 45),
+                  Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          height: height * .120,
+                          width: width * .250,
+                          decoration: const BoxDecoration(),
+                          child: ClipRRect(
+                              borderRadius: BorderRadius.circular(30.r),
+                              child:
+                                  //     imagePath == null
+                                  //     ?
+                                  Image.asset(
+                                "assets/images/person.jpg",
+                                // color: kMainColor,
+                                height: height * .080,
+                                width: width * .080,
+                                fit: BoxFit.cover,
+                              )
+                              // : Image.file(
+                              //     File(imagePath!),
+                              //     height: height * .080,
+                              //     width: width * .080,
+                              //     fit: BoxFit.cover,
+                              //   ),
+                              ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const VerticalSpacingWidget(height: 35),
-                CustomFomField(
-                  titles: "Name",
-                  textinputType: TextInputType.name,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "first name is missing";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: firstNameController,
-                  prefixIcon: IconlyLight.profile,
-                ),
-                const VerticalSpacingWidget(height: 10),
-                CustomFomField(
-                  focusNode: emailFocusController,
-                  titles: "email",
-                  textinputType: TextInputType.name,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "email is missing";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: emailController,
-                  prefixIcon: IconlyLight.profile,
-                ),
-                const VerticalSpacingWidget(height: 10),
-                CustomFomField(
-                  focusNode: addressFocusController,
-                  titles: "address",
-                  textinputType: TextInputType.name,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "address is missing";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: addressController,
-                  prefixIcon: IconlyLight.profile,
-                ),
-                const VerticalSpacingWidget(height: 10),
-                CustomFomField(
-                  focusNode: pincodeFocusController,
-                  titles: "pincode",
-                  textinputType: TextInputType.name,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "pincode is missing";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: pincodeController,
-                  prefixIcon: IconlyLight.profile,
-                ),
-                const VerticalSpacingWidget(height: 10),
-                CustomFomField(
-                  focusNode: locationFocusController,
-                  titles: "Location",
-                  textinputType: TextInputType.name,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return "location is missing";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: locationController,
-                  prefixIcon: IconlyLight.profile,
-                ),
-                const VerticalSpacingWidget(height: 10),
-                CustomFomField(
-                    titles: "Phone number",
-                    focusNode: phoneNumberFocusController,
-                    textinputType: TextInputType.phone,
+                      Positioned(
+                        //  top: 69,
+                        top: height * .075,
+                        right: width * .285,
+                        child: IconButton(
+                          onPressed: () async {
+                            await placePicImage();
+                            log(">>>>>>>>>>>>>>>${imagePath.toString()}");
+                          },
+                          icon: Icon(
+                            Icons.add_a_photo,
+                            size: 26.sp,
+                            weight: 5,
+                            color: kMainColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const VerticalSpacingWidget(height: 35),
+                  CustomFomField(
+                    titles: "Name",
+                    textinputType: TextInputType.name,
                     validator: (value) {
-                      if (value!.isEmpty || value.length < 10) {
-                        return "Phone number is missing";
+                      if (value!.isEmpty) {
+                        return "first name is missing";
                       } else {
                         return null;
                       }
                     },
-                    controller: phoneNumberController,
-                    prefixIcon: Icons.phone_iphone),
-                const VerticalSpacingWidget(height: 35),
-              ],
+                    controller: firstNameController,
+                    prefixIcon: IconlyLight.profile,
+                  ),
+                  const VerticalSpacingWidget(height: 10),
+                  CustomFomField(
+                    focusNode: emailFocusController,
+                    titles: "email",
+                    textinputType: TextInputType.name,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "email is missing";
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: emailController,
+                    prefixIcon: IconlyLight.profile,
+                  ),
+                  const VerticalSpacingWidget(height: 10),
+                  CustomFomField(
+                    focusNode: addressFocusController,
+                    titles: "address",
+                    textinputType: TextInputType.name,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "address is missing";
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: addressController,
+                    prefixIcon: IconlyLight.profile,
+                  ),
+                  const VerticalSpacingWidget(height: 10),
+                  CustomFomField(
+                    focusNode: pincodeFocusController,
+                    titles: "pincode",
+                    textinputType: TextInputType.name,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "pincode is missing";
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: pincodeController,
+                    prefixIcon: IconlyLight.profile,
+                  ),
+                  const VerticalSpacingWidget(height: 10),
+                  CustomFomField(
+                    focusNode: locationFocusController,
+                    titles: "Location",
+                    textinputType: TextInputType.name,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return "location is missing";
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: locationController,
+                    prefixIcon: IconlyLight.profile,
+                  ),
+                  const VerticalSpacingWidget(height: 10),
+                  CustomFomField(
+                      titles: "Phone number",
+                      focusNode: phoneNumberFocusController,
+                      textinputType: TextInputType.phone,
+                      validator: (value) {
+                        if (value!.isEmpty || value.length < 10) {
+                          return "Phone number is missing";
+                        } else {
+                          return null;
+                        }
+                      },
+                      controller: phoneNumberController,
+                      prefixIcon: Icons.phone_iphone),
+                  const VerticalSpacingWidget(height: 35),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 
@@ -330,7 +327,7 @@ String? imagePath;
     );
     if (image == null) return;
 
-     var imageTemporary = image.path;
+    var imageTemporary = image.path;
 
     setState(() {
       imagePath = imageTemporary;

@@ -12,14 +12,13 @@ class MedicineController extends GetxController {
   late Timer pollingTimer;
   RxList<MedicineOrder> medicineOrder = <MedicineOrder>[].obs;
 
-
   Future<void> getMedicine(String date) async {
     try {
-     // loding.value = true;
+      // loding.value = true;
       var data = await MedicineService.medicineService(date);
       if (data != null) {
         medicineOrder.value = data;
-       // updateEachTime();
+        // updateEachTime();
         // selectedIndex.value = data.length - 1;
       }
     } catch (e) {
@@ -27,14 +26,6 @@ class MedicineController extends GetxController {
     } finally {
       loding.value = false;
     }
-  }
-
-  
-
-  @override
-  void onInit() {
-    //getMedicine();
-    super.onInit();
   }
 }
 
