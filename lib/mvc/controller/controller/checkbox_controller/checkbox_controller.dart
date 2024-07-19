@@ -45,13 +45,13 @@ class CheckboxController extends GetxController {
 
   changeEditIcon() {
     isEditing.value = !isEditing.value;
-    if (isEditing.value == true) {
-      deliveredStatus.value = 1;
-    } else {
-      deliveredStatus.value = 0;
-    }
+    // if (isEditing.value == true) {
+    //   deliveredStatus.value = 1;
+    // } else {
+    //   deliveredStatus.value = 0;
+    // }
 
-    log("stat val ===== ${deliveredStatus.value}");
+    // log("stat val ===== ${deliveredStatus.value}");
 
     log(isEditing.value.toString());
     update();
