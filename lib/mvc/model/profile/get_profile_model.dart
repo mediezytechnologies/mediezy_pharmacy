@@ -36,26 +36,26 @@ class GetProfileModel {
 }
 
 class Medicalshop {
-  final int id;
-  final String medicalShopName;
-  final dynamic medicalshopImage;
-  final String mobileNumber;
-  final String location;
-  final String email;
-  final String address;
-  final int pincode;
-  final int mecialShopId;
+  final int? id;
+  final String? medicalShopName;
+  final String? medicalshopImage;
+  final String? mobileNumber;
+  final String? location;
+  final String? email;
+  final String? address;
+  final int? pincode;
+  final int? mecialShopId;
 
   Medicalshop({
-    required this.id,
-    required this.medicalShopName,
-    required this.medicalshopImage,
-    required this.mobileNumber,
-    required this.location,
-    required this.email,
-    required this.address,
-    required this.pincode,
-    required this.mecialShopId,
+     this.id,
+     this.medicalShopName,
+     this.medicalshopImage,
+     this.mobileNumber,
+     this.location,
+     this.email,
+     this.address,
+     this.pincode,
+     this.mecialShopId,
   });
 
   factory Medicalshop.fromJson(Map<String, dynamic> json) => Medicalshop(

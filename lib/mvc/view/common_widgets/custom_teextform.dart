@@ -13,6 +13,7 @@ class CustomFomField extends StatelessWidget {
     required this.controller,
     this.focusNode,
     required this.prefixIcon,
+    required this.readOnly
   });
 
   String titles;
@@ -23,10 +24,12 @@ class CustomFomField extends StatelessWidget {
 
   final FocusNode? focusNode;
   final IconData prefixIcon;
+  final bool readOnly;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
       cursorColor: kMainColor,
       keyboardType: textinputType,
       controller: controller,

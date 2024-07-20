@@ -2,6 +2,7 @@ import 'package:animation_wrappers/animations/faded_scale_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:mediezy_medical/mvc/controller/controller/profile/get_profile_controller.dart';
 import 'package:mediezy_medical/mvc/view/screens/drawer_section/edit_profile/edit_profile_screen.dart';
 import 'package:mediezy_medical/mvc/view/screens/drawer_section/previous_history/previous_history.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/widgets/patient_image_widget.dart';
@@ -28,6 +29,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
   final String? userName = GetLocalStorage.getUserIdAndToken('firstname');
   final String? mobileNo = GetLocalStorage.getUserIdAndToken('mobileNo');
   final String? image = GetLocalStorage.getUserIdAndToken('image');
+  final GetProfileController getProfileController =
+      Get.put(GetProfileController());
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -83,6 +86,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               size: size.width > 450 ? 13.sp : 20.sp,
             ),
             onTap: () {
+getProfileController.getProfile();
               Get.to(EditProfileScreen());
             },
           ),

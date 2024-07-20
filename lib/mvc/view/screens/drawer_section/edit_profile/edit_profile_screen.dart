@@ -3,12 +3,15 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mediezy_medical/mvc/controller/controller/profile/get_profile_controller.dart';
+import 'package:mediezy_medical/mvc/controller/service/profile/get_profile_service.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 
@@ -38,9 +41,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final FocusNode addressFocusController = FocusNode();
   final FocusNode pincodeFocusController = FocusNode();
 
+  bool isEdit = false;
+
   @override
   void initState() {
+    log(getProfileController.getProfileModel.value.medicalShopName.toString());
     super.initState();
+   firstNameController.text = getProfileController.getProfileModel.value.medicalShopName ?? '';
+    emailController.text = getProfileController.getProfileModel.value.email ?? '';
+    addressController.text = getProfileController.getProfileModel.value.address ?? '';
+    phoneNumberController.text = getProfileController.getProfileModel.value.mobileNumber ?? '';
+    locationController.text = getProfileController.getProfileModel.value.location ?? '';
+    pincodeController.text = getProfileController.getProfileModel.value.pincode.toString()??"";
+
   }
 
   String? imagePath;
@@ -56,6 +69,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final width = MediaQuery.of(context).size.width;
     final size = MediaQuery.of(context).size;
     return Scaffold(
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
@@ -63,21 +79,74 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           height: Platform.isIOS ? size.height * 0.103 : size.height * 0.08,
           child: Column(
             children: [
-              CommonButtonWidget(
-                  title: "Update",
-                  onTapFunction: () {
-                    final isValidate = _formKey.currentState!.validate();
-                    if (isValidate) {}
-                  }),
+              Obx(() {
+        //            firstNameController.text = getProfileController
+        //     .getProfileModel.value.medicalShopName
+        //     .toString();
+        // emailController.text =
+        //     getProfileController.getProfileModel.value.email.toString();
+        // addressController.text =
+        //     getProfileController.getProfileModel.value.address.toString();
+        // phoneNumberController.text =
+        //     getProfileController.getProfileModel.value.mobileNumber.toString();
+        // locationController.text =
+        //     getProfileController.getProfileModel.value.location.toString();
+        // pincodeController.text =
+        //     getProfileController.getProfileModel.value.pincode.toString();
+              return getProfileController.isEdit.value
+                        ? SizedBox()
+                        : getProfileController.isUpdating.value
+                            ? CupertinoActivityIndicator(
+                                color: kCardColor,
+                              )
+                            : CommonButtonWidget(
+                                title: "Update",
+                                onTapFunction: () {
+                                  final isValidate = _formKey.currentState!.validate();
+                                  if (isValidate) {
+                                    getProfileController.editProfile(
+                                      firstNameController.text,
+                                      phoneNumberController.text,
+                                      addressController.text,
+                                      firstNameController.text, // Assuming this is for medicalshop
+                                      locationController.text,
+                                    );
+                                  }
+                                },
+                              );
+              }),
             ],
           ),
         ),
       ),
       appBar: AppBar(
-        title: const Text("Edit Profile"),
+        actions: [
+          Obx(() {
+          
+                       return IconButton(
+              onPressed: getProfileController.toggleEditMode,
+              icon: Icon(getProfileController.isEdit.value ? Icons.edit : Icons.check),
+            );
+
+          })
+        ],
+        title: Obx(() {
+          return Text(
+              getProfileController.isEdit.value ? "Profile" : "Edit Profile");
+        }),
         centerTitle: true,
       ),
       body: Obx(() {
+        if (getProfileController.loading.value) {
+          Center(
+            child: CupertinoActivityIndicator(
+              color: kCardColor,
+            ),
+          );
+        }
+
+      
+
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
           child: Form(
@@ -98,15 +167,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           child: ClipRRect(
                               borderRadius: BorderRadius.circular(30.r),
                               child:
-                                  //     imagePath == null
-                                  //     ?
+                                  // imagePath == null
+                                  // ?
+                                  //  getProfileController.getProfileModel.value.medicalshopImage==null ||   getProfileController.getProfileModel.value.medicalshopImage=="null"?
                                   Image.asset(
+                                //   getProfileController.getProfileModel.value.medicalshopImage??"",
                                 "assets/images/person.jpg",
                                 // color: kMainColor,
                                 height: height * .080,
                                 width: width * .080,
                                 fit: BoxFit.cover,
                               )
+                              //   :   Image.network(
+                              //    getProfileController.getProfileModel.value.medicalshopImage.toString(),
+                              //  //  "assets/images/person.jpg",
+                              //     // color: kMainColor,
+                              //     height: height * .080,
+                              //     width: width * .080,
+                              //     fit: BoxFit.cover,
+                              //   )
                               // : Image.file(
                               //     File(imagePath!),
                               //     height: height * .080,
@@ -114,30 +193,50 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               //     fit: BoxFit.cover,
                               //   ),
                               ),
+                          // ClipRRect(
+                          //     borderRadius: BorderRadius.circular(30.r),
+                          //     child:
+                          //             imagePath == null
+                          //             ?
+                          //         Image.asset(
+                          //       "assets/images/person.jpg",
+                          //       // color: kMainColor,
+                          //       height: height * .080,
+                          //       width: width * .080,
+                          //       fit: BoxFit.cover,
+                          //     )
+                          //     : Image.file(
+                          //         File(imagePath!),
+                          //         height: height * .080,
+                          //         width: width * .080,
+                          //         fit: BoxFit.cover,
+                          //       ),
+                          //     ),
                         ),
                       ),
-                      Positioned(
-                        //  top: 69,
-                        top: height * .075,
-                        right: width * .285,
-                        child: IconButton(
-                          onPressed: () async {
-                            await placePicImage();
-                            log(">>>>>>>>>>>>>>>${imagePath.toString()}");
-                          },
-                          icon: Icon(
-                            Icons.add_a_photo,
-                            size: 26.sp,
-                            weight: 5,
-                            color: kMainColor,
-                          ),
-                        ),
-                      ),
+                      // Positioned(
+                      //   //  top: 69,
+                      //   top: height * .075,
+                      //   right: width * .285,
+                      //   child: IconButton(
+                      //     onPressed: () async {
+                      //       await placePicImage();
+                      //       log(">>>>>>>>>>>>>>>${imagePath.toString()}");
+                      //     },
+                      //     icon: Icon(
+                      //       Icons.add_a_photo,
+                      //       size: 26.sp,
+                      //       weight: 5,
+                      //       color: kMainColor,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                   const VerticalSpacingWidget(height: 35),
                   CustomFomField(
-                    titles: "Name",
+                    readOnly: getProfileController.isEdit.value,
+                    titles: "",
                     textinputType: TextInputType.name,
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -151,6 +250,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   const VerticalSpacingWidget(height: 10),
                   CustomFomField(
+                    readOnly: getProfileController.isEdit.value,
                     focusNode: emailFocusController,
                     titles: "email",
                     textinputType: TextInputType.name,
@@ -166,6 +266,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   const VerticalSpacingWidget(height: 10),
                   CustomFomField(
+                    readOnly: getProfileController.isEdit.value,
                     focusNode: addressFocusController,
                     titles: "address",
                     textinputType: TextInputType.name,
@@ -181,6 +282,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   const VerticalSpacingWidget(height: 10),
                   CustomFomField(
+                    readOnly: getProfileController.isEdit.value,
                     focusNode: pincodeFocusController,
                     titles: "pincode",
                     textinputType: TextInputType.name,
@@ -196,6 +298,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   const VerticalSpacingWidget(height: 10),
                   CustomFomField(
+                    readOnly: getProfileController.isEdit.value,
                     focusNode: locationFocusController,
                     titles: "Location",
                     textinputType: TextInputType.name,
@@ -211,6 +314,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                   const VerticalSpacingWidget(height: 10),
                   CustomFomField(
+                      readOnly: getProfileController.isEdit.value,
                       titles: "Phone number",
                       focusNode: phoneNumberFocusController,
                       textinputType: TextInputType.phone,
