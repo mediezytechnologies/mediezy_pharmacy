@@ -236,12 +236,24 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
 
                   widget.checkBoxId == 1
                       ? Obx(() {
-                          final isChecked = checkboxController.checkedMedicines
+                          var isChecked = checkboxController.checkedMedicines
                               .contains(medicine.id);
+                          bool isChoption() {
+                            if (checkboxController.isEditing.value &&
+                                medicine.status == 0) {
+                              isChecked = true;
+                            } else {
+                              isChecked = checkboxController.checkedMedicines
+                                  .contains(medicine.id);
+                            }
+                            return isChecked;
+                          }
+
                           return checkboxController.isEditing.value
                               ? Checkbox(
                                   activeColor: kMainColor,
-                                  value: isChecked,
+                                  value: isChoption(),
+                                  //isChecked,
                                   onChanged: (newValue) {
                                     checkboxController.toggleItem(
                                       medicine.id!,

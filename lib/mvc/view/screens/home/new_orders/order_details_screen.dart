@@ -313,6 +313,29 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           ),
                         );
                       })
+                // Obx(() {
+                //     return TextFormField(
+                //       style: TextStyle(
+                //           fontSize: size.width > 450 ? 9.sp : 14.sp),
+                //       cursorColor: kMainColor,
+                //       controller: remarksController,
+                //       keyboardType: TextInputType.emailAddress,
+                //       textInputAction: TextInputAction.next,
+                //       readOnly: !checkboxController.isEditing.value,
+                //       maxLines: 3,
+                //       decoration: InputDecoration(
+                //         hintStyle:
+                //             size.width > 450 ? greyTab10B600 : grey13B600,
+                //         hintText: "Add your notes",
+                //         filled: true,
+                //         fillColor: kCardColor,
+                //         border: OutlineInputBorder(
+                //           borderRadius: BorderRadius.circular(4),
+                //           borderSide: BorderSide.none,
+                //         ),
+                //       ),
+                //     );
+                //   }),
               ],
             ),
           ),
