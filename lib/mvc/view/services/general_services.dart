@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 
 class GeneralServices {
   static GeneralServices instance = GeneralServices();
 
-  //* to show toast
-  showToastMessage(String message) {
-    Fluttertoast.showToast(
-        msg: message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        backgroundColor: const Color(0xFF56B89C),
-        textColor: Colors.white,
-        fontSize: 16.sp);
-  }
 
   //* to close the app
   appCloseDialogue(
