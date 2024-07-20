@@ -29,14 +29,14 @@ class SignupController extends GetxController {
           address: address,
           location: location,
           pincode: pincode,
-          medicalshopImage: medicalshopImage??"");
+          medicalshopImage: medicalshopImage ?? "");
 
       signupModel.value = data!;
 
       if (signupModel.value.status == true) {
         Get.snackbar(signupModel.value.message.toString(), "",
             snackPosition: SnackPosition.BOTTOM);
-        Get.to(() => LoginScreen());
+        Get.to(() => const LoginScreen());
       }
       loading.value = false;
       update();

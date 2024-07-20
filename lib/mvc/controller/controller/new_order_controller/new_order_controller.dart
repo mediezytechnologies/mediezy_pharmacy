@@ -57,7 +57,7 @@ class UpcomingDateController extends GetxController {
         tabLength.value = 0;
       }
     } catch (e) {
-      print('Error fetching upcoming dates: $e');
+      log('Error fetching upcoming dates: $e');
       tabLength.value = 0;
     } finally {
       loading.value = false;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:mediezy_medical/mvc/controller/controller/checkbox_controller/checkbox_controller.dart';
 import 'package:mediezy_medical/mvc/controller/controller/completed/completed_controller.dart';
 import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/new_orders/completed_other.dart';
@@ -25,7 +26,10 @@ class NewOrderScreen extends StatefulWidget {
 class _NewOrderScreenState extends State<NewOrderScreen>
     with TickerProviderStateMixin {
   TabController? tabController;
+
   final MedicineController medicineController = Get.put(MedicineController());
+  final CheckboxController checkboxController = Get.put(CheckboxController());
+
   final UpcomingDateController upcomingDateController =
       Get.put(UpcomingDateController());
   final CompletedController completedController =
@@ -84,6 +88,9 @@ class _NewOrderScreenState extends State<NewOrderScreen>
               onTap: (value) {
                 if (tabController!.index == 0) {
                   log("message");
+                  checkboxController.allChecked.value = false;
+                  checkboxController.checkedMedicines.clear();
+                  checkboxController.checkedPrescriptions.clear();
                   upcomingDateController.getUpcomingDate();
                   medicineController.getMedicine(formattedDate);
                 } else {

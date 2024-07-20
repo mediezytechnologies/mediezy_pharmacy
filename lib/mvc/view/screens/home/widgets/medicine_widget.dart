@@ -53,137 +53,215 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ShortNamesWidget(
-                        typeId: 1,
-                        firstText: "Medicine : ",
-                        secondText: medicine.medicineName!,
-                      ),
-                      medicine.dosage == null
-                          ? Container()
-                          : ShortNamesWidget(
-                              firstText: "Dosage : ",
-                              secondText: medicine.dosage.toString(),
-                            ),
-                      medicine.interval == null || medicine.interval == "null"
-                          ? Container()
-                          : ShortNamesWidget(
-                              firstText: "Interval : ",
-                              secondText:
-                                  "${medicine.interval} ${medicine.timeSection}",
-                            ),
-                      Container(
-                        width: widget.checkBoxId == 1
-                            ? size.width * .9
-                            : size.width * .7,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Container(
+                    width: 260.w,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ShortNamesWidget(
-                                  typeId: 1,
-                                  firstText: "Days : ",
-                                  secondText: medicine.noOfDays.toString(),
-                                ),
-                                ShortNamesWidget(
-                                  typeId: 1,
-                                  firstText: "",
-                                  secondText: medicine.type == 1
-                                      ? "After food"
-                                      : medicine.type == 2
-                                          ? "Before food"
-                                          : medicine.type == 3
-                                              ? "With food"
-                                              : "If required",
-                                ),
-                              ],
+                            Text(
+                              "Medicine : ",
+                              style: size.width > 450 ? greyTabMain : greyMain,
                             ),
-                            medicine.status == 0
-                                ? Container()
-                                : Container(
-                                    height: 25.h,
-                                    width: 50.w,
-                                    child: ClipRRect(
-                                      child: Image.asset(
-                                          "assets/images/delivered.png"),
-                                    ),
-                                  ),
+                            Expanded(
+                                child: Text(
+                              medicine.medicineName!,
+                              style: size.width > 450
+                                  ? blackTabMainText
+                                  : blackMainText,
+                            )),
                           ],
                         ),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+                        medicine.dosage == null
+                            ? Container()
+                            : ShortNamesWidget(
+                                firstText: "Dosage : ",
+                                secondText: medicine.dosage.toString(),
+                              ),
+                        medicine.interval == null || medicine.interval == "null"
+                            ? Container()
+                            : ShortNamesWidget(
+                                firstText: "Interval : ",
+                                secondText:
+                                    "${medicine.interval} ${medicine.timeSection}",
+                              ),
+                        Container(
+                          width: widget.checkBoxId == 1
+                              ? size.width * .9
+                              : size.width * .7,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              if (medicine.morning == 1)
-                                Text(
-                                  "Morning",
-                                  style: size.width > 450
-                                      ? blackTabMainText
-                                      : blackMainText,
-                                ),
-                              if (medicine.morning == 1 &&
-                                  (medicine.noon == 1 ||
-                                      medicine.evening == 1 ||
-                                      medicine.night == 1))
-                                Text(
-                                  ",",
-                                  style: size.width > 450
-                                      ? blackTabMainText
-                                      : blackMainText,
-                                ),
-                              if (medicine.noon == 1)
-                                Text(
-                                  "Noon",
-                                  style: size.width > 450
-                                      ? blackTabMainText
-                                      : blackMainText,
-                                ),
-                              if (medicine.noon == 1 &&
-                                  (medicine.evening == 1 ||
-                                      medicine.night == 1))
-                                Text(
-                                  ",",
-                                  style: size.width > 450
-                                      ? blackTabMainText
-                                      : blackMainText,
-                                ),
-                              if (medicine.evening == 1)
-                                Text(
-                                  "Evening",
-                                  style: size.width > 450
-                                      ? blackTabMainText
-                                      : blackMainText,
-                                ),
-                              if (medicine.evening == 1 && medicine.night == 1)
-                                Text(
-                                  ",",
-                                  style: size.width > 450
-                                      ? blackTabMainText
-                                      : blackMainText,
-                                ),
-                              if (medicine.night == 1)
-                                Text(
-                                  "Night",
-                                  style: size.width > 450
-                                      ? blackTabMainText
-                                      : blackMainText,
-                                ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  ShortNamesWidget(
+                                    typeId: 1,
+                                    firstText: "Days : ",
+                                    secondText: medicine.noOfDays.toString(),
+                                  ),
+                                  ShortNamesWidget(
+                                    typeId: 1,
+                                    firstText: "",
+                                    secondText: medicine.type == 1
+                                        ? "After food"
+                                        : medicine.type == 2
+                                            ? "Before food"
+                                            : medicine.type == 3
+                                                ? "With food"
+                                                : "If required",
+                                  ),
+                                ],
+                              ),
                             ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                if (medicine.morning == 1)
+                                  Text(
+                                    "Morning",
+                                    style: size.width > 450
+                                        ? blackTabMainText
+                                        : blackMainText,
+                                  ),
+                                if (medicine.morning == 1 &&
+                                    (medicine.noon == 1 ||
+                                        medicine.evening == 1 ||
+                                        medicine.night == 1))
+                                  Text(
+                                    ",",
+                                    style: size.width > 450
+                                        ? blackTabMainText
+                                        : blackMainText,
+                                  ),
+                                if (medicine.noon == 1)
+                                  Text(
+                                    "Noon",
+                                    style: size.width > 450
+                                        ? blackTabMainText
+                                        : blackMainText,
+                                  ),
+                                if (medicine.noon == 1 &&
+                                    (medicine.evening == 1 ||
+                                        medicine.night == 1))
+                                  Text(
+                                    ",",
+                                    style: size.width > 450
+                                        ? blackTabMainText
+                                        : blackMainText,
+                                  ),
+                                if (medicine.evening == 1)
+                                  Text(
+                                    "Evening",
+                                    style: size.width > 450
+                                        ? blackTabMainText
+                                        : blackMainText,
+                                  ),
+                                if (medicine.evening == 1 &&
+                                    medicine.night == 1)
+                                  Text(
+                                    ",",
+                                    style: size.width > 450
+                                        ? blackTabMainText
+                                        : blackMainText,
+                                  ),
+                                if (medicine.night == 1)
+                                  Text(
+                                    "Night",
+                                    style: size.width > 450
+                                        ? blackTabMainText
+                                        : blackMainText,
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+                  // widget.checkBoxId == 1
+                  //     ? Obx(() {
+                  //         final isChecked = checkboxController.checkedMedicines
+                  //                 .contains(medicine.id) ||
+                  //             medicine.status == 1;
+                  //         return checkboxController.isEditing.value
+                  //             ? Checkbox(
+                  //                 activeColor: kMainColor,
+                  //                 value: isChecked,
+                  //                 onChanged: (newValue) {
+                  //                   checkboxController.toggleItem(
+                  //                     medicine.id!,
+                  //                     widget.medicines.length,
+                  //                     widget.prescriptionImages!.length,
+                  //                     true,
+                  //                   );
+                  //                 },
+                  //               )
+                  //             : (medicine.status == 0
+                  //                 ? Container()
+                  //                 : Container(
+                  //                     height: 25.h,
+                  //                     width: 50.w,
+                  //                     child: ClipRRect(
+                  //                       child: Image.asset(
+                  //                           "assets/images/delivered.png"),
+                  //                     ),
+                  //                   ));
+                  //       })
+                  //     : Obx(() {
+                  //         final isChecked = checkboxController.checkedMedicines
+                  //                 .contains(medicine.id) ||
+                  //             medicine.status == 1;
+                  //         return Checkbox(
+                  //           activeColor: kMainColor,
+                  //           value: isChecked,
+                  //           onChanged: (newValue) {
+                  //             checkboxController.toggleItem(
+                  //               medicine.id!,
+                  //               widget.medicines.length,
+                  //               widget.prescriptionImages!.length,
+                  //               true,
+                  //             );
+                  //           },
+                  //         );
+                  //       })
+
                   widget.checkBoxId == 1
-                      ? Container()
+                      ? Obx(() {
+                          final isChecked = checkboxController.checkedMedicines
+                              .contains(medicine.id);
+                          return checkboxController.isEditing.value
+                              ? Checkbox(
+                                  activeColor: kMainColor,
+                                  value: isChecked,
+                                  onChanged: (newValue) {
+                                    checkboxController.toggleItem(
+                                      medicine.id!,
+                                      widget.medicines.length,
+                                      widget.prescriptionImages!.length,
+                                      true,
+                                    );
+                                  },
+                                )
+                              : (medicine.status == 0
+                                  ? Container()
+                                  : Container(
+                                      height: 25.h,
+                                      width: 50.w,
+                                      child: ClipRRect(
+                                        child: Image.asset(
+                                            "assets/images/delivered.png"),
+                                      ),
+                                    ));
+                        })
                       : Obx(() {
                           final isChecked = checkboxController.checkedMedicines
                               .contains(medicine.id);
@@ -200,20 +278,6 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                             },
                           );
                         })
-
-                  // widget.checkBoxId == 1
-                  //     ? Container()
-                  //     : Obx(() {
-                  //         return Checkbox(
-                  //           activeColor: kMainColor,
-                  //           value: checkboxController.checkedMedicines
-                  //               .contains(medicine.id),
-                  //           onChanged: (newValue) {
-                  //             checkboxController.toggleItem(
-                  //                 medicine.id!, widget.medicines.length);
-                  //           },
-                  //         );
-                  //       }),
                 ],
               ),
             ),

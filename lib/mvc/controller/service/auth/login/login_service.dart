@@ -20,7 +20,7 @@ class LoginService {
       var response =
           await DioClient.dio.post("$baseUrl/auth/login", data: formData);
       LoginModel model = LoginModel.fromJson(response.data);
-      log("....................${model}");
+      log("....................$model");
       log("res dfgdfhdfhfg ${model.message}");
       log("servise strt       ${model.status}");
       log(response.data.toString());

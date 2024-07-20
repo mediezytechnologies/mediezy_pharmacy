@@ -18,18 +18,18 @@ class PreviousHistoryScreen extends StatefulWidget {
 }
 
 class _PreviousHistoryScreenState extends State<PreviousHistoryScreen> {
-  DateTime selectedDate = DateTime.now();
   final PreviousHistoryController previousHistoryController =
       Get.put(PreviousHistoryController());
 
+  late DateTime selectedDate;
+
   @override
   void initState() {
-    String formattedDate = DateFormat('yyy-MM-dd').format(selectedDate);
-    log("aaaaaaaaaaaaaaaa $formattedDate");
-
-    previousHistoryController.getPreviousHistory(date: formattedDate);
-
     super.initState();
+    selectedDate = DateTime.now().subtract(Duration(days: 1));
+    String formattedDate = DateFormat('yyyy-MM-dd').format(selectedDate);
+    log("Initial date: $formattedDate");
+    previousHistoryController.getPreviousHistory(date: formattedDate);
   }
 
   @override
@@ -48,9 +48,7 @@ class _PreviousHistoryScreenState extends State<PreviousHistoryScreen> {
               onDateChange: (date) {
                 String formattedDate = DateFormat('yyyy-MM-dd').format(date);
                 log(formattedDate);
-                // setState(() {
                 selectedDate = date;
-                // });
                 previousHistoryController.getPreviousHistory(
                     date: formattedDate);
               },
@@ -112,15 +110,18 @@ class _PreviousHistoryScreenState extends State<PreviousHistoryScreen> {
     DateTime currentDate = DateTime.now();
     List<DateTime> disabledDates = [];
 
-    // Add all future dates after today
-    for (int day = currentDate.day + 1; day <= 31; day++) {
-      disabledDates.add(DateTime(currentDate.year, currentDate.month, day));
+    disabledDates.add(currentDate);
+
+    for (int i = 1; i <= 365; i++) {
+      disabledDates.add(currentDate.add(Duration(days: i)));
     }
 
-    // Iterate through the remaining months and add all dates in those months
-    for (int month = currentDate.month + 1; month <= 12; month++) {
-      for (int day = 1; day <= 31; day++) {
-        disabledDates.add(DateTime(currentDate.year, month, day));
+    DateTime endOfYear = DateTime(currentDate.year, 12, 31);
+    if (endOfYear.difference(currentDate).inDays > 365) {
+      DateTime futureDate = currentDate.add(Duration(days: 366));
+      while (futureDate.year > currentDate.year) {
+        disabledDates.add(futureDate);
+        futureDate = futureDate.add(Duration(days: 1));
       }
     }
 

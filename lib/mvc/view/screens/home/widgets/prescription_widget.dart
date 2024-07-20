@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/get.dart';
 import 'package:mediezy_medical/mvc/controller/controller/checkbox_controller/checkbox_controller.dart';
 import 'package:mediezy_medical/mvc/model/new_order/new_order_model.dart';
@@ -82,48 +79,87 @@ class PrescriptionWidget extends StatelessWidget {
                                 Text("Image ${index + 1}", style: black13B500),
                               ],
                             ),
-                            // prescriptionImages![index].status != 1
-                            //     ? Container()
-                            //     : Container(
+                            checkBoxId == 1
+                                ? Obx(() {
+                                    final isChecked = checkboxController
+                                        .checkedPrescriptions
+                                        .contains(
+                                            prescriptionImages![index].id);
+                                    return checkboxController.isEditing.value
+                                        ? Checkbox(
+                                            activeColor: kMainColor,
+                                            value: isChecked,
+                                            onChanged: (newValue) {
+                                              checkboxController.toggleItem(
+                                                prescriptionImages![index].id!,
+                                                medicines.length,
+                                                prescriptionImages!.length,
+                                                false,
+                                              );
+                                            },
+                                          )
+                                        : (prescriptionImages![index].status ==
+                                                0
+                                            ? Container()
+                                            : Container(
+                                                height: 25.h,
+                                                width: 50.w,
+                                                child: ClipRRect(
+                                                  child: Image.asset(
+                                                      "assets/images/delivered.png"),
+                                                ),
+                                              ));
+                                  })
+                                : Obx(() {
+                                    final isChecked = checkboxController
+                                        .checkedPrescriptions
+                                        .contains(
+                                            prescriptionImages![index].id);
+                                    return Checkbox(
+                                      activeColor: kMainColor,
+                                      value: isChecked,
+                                      onChanged: (newValue) {
+                                        checkboxController.toggleItem(
+                                          prescriptionImages![index].id!,
+                                          medicines.length,
+                                          prescriptionImages!.length,
+                                          false,
+                                        );
+                                      },
+                                    );
+                                  }),
+                            // prescriptionImages![index].status == 1
+                            //     ? Container(
                             //         height: 25.h,
                             //         width: 50.w,
                             //         child: ClipRRect(
                             //           child: Image.asset(
                             //               "assets/images/delivered.png"),
                             //         ),
-                            //       ),
-                            prescriptionImages![index].status == 1
-                                ? Container(
-                                    height: 25.h,
-                                    width: 50.w,
-                                    child: ClipRRect(
-                                      child: Image.asset(
-                                          "assets/images/delivered.png"),
-                                    ),
-                                  )
-                                : (checkBoxId == 1
-                                    ? Container()
-                                    : Obx(() {
-                                        return Checkbox(
-                                          activeColor: kMainColor,
-                                          value: checkboxController
-                                              .checkedPrescriptions
-                                              .contains(
-                                                  prescriptionImages![index]
-                                                      .id),
-                                          onChanged: (newValue) {
-                                            log(prescriptionImages![index]
-                                                .id
-                                                .toString());
-                                            checkboxController.toggleItem(
-                                              prescriptionImages![index].id!,
-                                              medicines.length,
-                                              prescriptionImages!.length,
-                                              false,
-                                            );
-                                          },
-                                        );
-                                      })),
+                            //       )
+                            //     : (checkBoxId == 1
+                            //         ? Container()
+                            //         : Obx(() {
+                            //             return Checkbox(
+                            //               activeColor: kMainColor,
+                            //               value: checkboxController
+                            //                   .checkedPrescriptions
+                            //                   .contains(
+                            //                       prescriptionImages![index]
+                            //                           .id),
+                            //               onChanged: (newValue) {
+                            //                 log(prescriptionImages![index]
+                            //                     .id
+                            //                     .toString());
+                            //                 checkboxController.toggleItem(
+                            //                   prescriptionImages![index].id!,
+                            //                   medicines.length,
+                            //                   prescriptionImages!.length,
+                            //                   false,
+                            //                 );
+                            //               },
+                            //             );
+                            //           })),
                           ],
                         ),
                       ),

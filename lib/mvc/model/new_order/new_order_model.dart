@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class NewOrderModel {
   NewOrderModel({
     this.status,

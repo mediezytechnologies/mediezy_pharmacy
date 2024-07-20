@@ -11,7 +11,7 @@ class LoginModel {
   LoginModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     medicalShop = json['medical_shop'] != null
-        ? new MedicalShop.fromJson(json['medical_shop'])
+        ? MedicalShop.fromJson(json['medical_shop'])
         : null;
     token = json['token'];
     role = json['role'];
@@ -19,7 +19,7 @@ class LoginModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['status'] = this.status;
     if (this.medicalShop != null) {
       data['medical_shop'] = this.medicalShop!.toJson();
@@ -40,7 +40,12 @@ class MedicalShop {
   String? image;
 
   MedicalShop(
-      {this.id, this.firstname, this.mobileNo, this.email, this.userRole, this.image});
+      {this.id,
+      this.firstname,
+      this.mobileNo,
+      this.email,
+      this.userRole,
+      this.image});
 
   MedicalShop.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -48,11 +53,11 @@ class MedicalShop {
     mobileNo = json['mobileNo'];
     email = json['email'];
     userRole = json['user_role'];
-        image = json['image'];
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['id'] = this.id;
     data['firstname'] = this.firstname;
     data['mobileNo'] = this.mobileNo;

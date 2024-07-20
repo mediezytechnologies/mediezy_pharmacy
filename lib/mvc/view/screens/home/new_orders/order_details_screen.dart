@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mediezy_medical/mvc/controller/controller/new_order_submit/new_order_submit_controller.dart';
 import 'package:mediezy_medical/mvc/controller/controller/checkbox_controller/checkbox_controller.dart';
+import 'package:mediezy_medical/mvc/controller/controller/update_order_submit/update_order_submit_controller.dart';
 import 'package:mediezy_medical/mvc/model/new_order/new_order_model.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/text_style_widget.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/widgets/builder_card_widget.dart';
@@ -53,10 +54,18 @@ class OrderDetailsScreen extends StatefulWidget {
 
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   final CheckboxController checkboxController = Get.put(CheckboxController());
+  final UpdateOrderSubmitController updateOrderSubmitController =
+      Get.put(UpdateOrderSubmitController());
   final NewOrderSubmitController newOrderSubmitController =
       Get.put(NewOrderSubmitController());
 
   final TextEditingController remarksController = TextEditingController();
+
+  @override
+  void initState() {
+    remarksController.text = widget.notes ?? '';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +73,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
-        checkboxController.allChecked.value = false;
-        checkboxController.checkedMedicines.clear();
-        checkboxController.checkedPrescriptions.clear();
+        if (widget.checkBoxVisibleId == 1) {
+          // checkboxController.allChecked.value = true;
+          checkboxController.isEditing.value = true;
+        } else {
+          checkboxController.allChecked.value = false;
+          checkboxController.checkedMedicines.clear();
+          checkboxController.checkedPrescriptions.clear();
+        }
         checkboxController.isEditing.value = false;
         Navigator.pop(context);
         return Future.value(false);
@@ -79,9 +93,14 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           centerTitle: true,
           leading: IconButton(
               onPressed: () {
-                checkboxController.allChecked.value = false;
-                checkboxController.checkedMedicines.clear();
-                checkboxController.checkedPrescriptions.clear();
+                if (widget.checkBoxVisibleId == 1) {
+                  // checkboxController.allChecked.value = true;
+                  checkboxController.isEditing.value = true;
+                } else {
+                  checkboxController.allChecked.value = false;
+                  checkboxController.checkedMedicines.clear();
+                  checkboxController.checkedPrescriptions.clear();
+                }
                 checkboxController.isEditing.value = false;
                 Navigator.pop(context);
               },
@@ -111,17 +130,24 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             padding: EdgeInsets.symmetric(
                                 vertical: 5.h, horizontal: 8.w),
                             child: CommonButtonWidget(
-                                title: "Update", onTapFunction: () {}),
+                                title: "Update",
+                                onTapFunction: () {
+                                  updateOrderSubmitController
+                                      .updateNewOrderSubmit(
+                                          appointmentId:
+                                              widget.appointmentId.toString(),
+                                          notes: remarksController.text,
+                                          context: context,
+                                          imageIdList: checkboxController
+                                              .checkedPrescriptionImages,
+                                          medicineList: checkboxController
+                                              .checkedMedicineIds);
+                                }),
                           )
                         : SizedBox());
               })
             : checkboxController.isEditing.value
-                ? Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
-                    child: CommonButtonWidget(
-                        title: "Update", onTapFunction: () {}),
-                  )
+                ? Container()
                 : Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
@@ -229,13 +255,18 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         checkBoxId: widget.checkBoxVisibleId,
                         prescriptionImages: widget.prescriptionImages,
                       ),
-                widget.type == 1
-                    ? Container()
-                    : Text("Remarks : ", style: greyMain),
+                widget.type != 1
+                    ? Text("Remarks : ", style: greyMain)
+                    : Obx(() {
+                        if (!checkboxController.isEditing.value &&
+                            widget.notes == null) {
+                          return SizedBox();
+                        }
+                        return Text("Remarks : ", style: greyMain);
+                      }),
                 const VerticalSpacingWidget(height: 5),
-                widget.type == 1
-                    ? Container()
-                    : TextFormField(
+                widget.type != 1
+                    ? TextFormField(
                         style: TextStyle(
                             fontSize: size.width > 450 ? 9.sp : 14.sp),
                         cursorColor: kMainColor,
@@ -254,26 +285,34 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             borderSide: BorderSide.none,
                           ),
                         ),
-                      ),
-                widget.type != 1 || widget.notes == null
-                    ? Container()
-                    : Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Remarks : ",
-                            style: size.width > 450 ? greyTabMain : greyMain,
-                          ),
-                          Expanded(
-                            child: Text(
-                              widget.notes!,
-                              style: size.width > 450
-                                  ? blackTabMainText
-                                  : blackMainText,
+                      )
+                    : Obx(() {
+                        if (widget.notes == null &&
+                            !checkboxController.isEditing.value) {
+                          return SizedBox();
+                        }
+                        return TextFormField(
+                          style: TextStyle(
+                              fontSize: size.width > 450 ? 9.sp : 14.sp),
+                          cursorColor: kMainColor,
+                          controller: remarksController,
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          readOnly: !checkboxController.isEditing.value,
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            hintStyle:
+                                size.width > 450 ? greyTab10B600 : grey13B600,
+                            hintText: "Add your notes",
+                            filled: true,
+                            fillColor: kCardColor,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(4),
+                              borderSide: BorderSide.none,
                             ),
                           ),
-                        ],
-                      ),
+                        );
+                      })
               ],
             ),
           ),
