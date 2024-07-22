@@ -2,16 +2,13 @@
 
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mediezy_medical/mvc/controller/controller/profile/get_profile_controller.dart';
-import 'package:mediezy_medical/mvc/controller/service/profile/get_profile_service.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 
@@ -47,13 +44,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void initState() {
     log(getProfileController.getProfileModel.value.medicalShopName.toString());
     super.initState();
-   firstNameController.text = getProfileController.getProfileModel.value.medicalShopName ?? '';
-    emailController.text = getProfileController.getProfileModel.value.email ?? '';
-    addressController.text = getProfileController.getProfileModel.value.address ?? '';
-    phoneNumberController.text = getProfileController.getProfileModel.value.mobileNumber ?? '';
-    locationController.text = getProfileController.getProfileModel.value.location ?? '';
-    pincodeController.text = getProfileController.getProfileModel.value.pincode.toString()??"";
-
+    firstNameController.text =
+        getProfileController.getProfileModel.value.medicalShopName ?? '';
+    emailController.text =
+        getProfileController.getProfileModel.value.email ?? '';
+    addressController.text =
+        getProfileController.getProfileModel.value.address ?? '';
+    phoneNumberController.text =
+        getProfileController.getProfileModel.value.mobileNumber ?? '';
+    locationController.text =
+        getProfileController.getProfileModel.value.location ?? '';
+    pincodeController.text =
+        getProfileController.getProfileModel.value.pincode.toString() ?? "";
   }
 
   String? imagePath;
@@ -80,40 +82,42 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: Column(
             children: [
               Obx(() {
-        //            firstNameController.text = getProfileController
-        //     .getProfileModel.value.medicalShopName
-        //     .toString();
-        // emailController.text =
-        //     getProfileController.getProfileModel.value.email.toString();
-        // addressController.text =
-        //     getProfileController.getProfileModel.value.address.toString();
-        // phoneNumberController.text =
-        //     getProfileController.getProfileModel.value.mobileNumber.toString();
-        // locationController.text =
-        //     getProfileController.getProfileModel.value.location.toString();
-        // pincodeController.text =
-        //     getProfileController.getProfileModel.value.pincode.toString();
-              return getProfileController.isEdit.value
-                        ? SizedBox()
-                        : getProfileController.isUpdating.value
-                            ? CupertinoActivityIndicator(
-                                color: kCardColor,
-                              )
-                            : CommonButtonWidget(
-                                title: "Update",
-                                onTapFunction: () {
-                                  final isValidate = _formKey.currentState!.validate();
-                                  if (isValidate) {
-                                    getProfileController.editProfile(
-                                      firstNameController.text,
-                                      phoneNumberController.text,
-                                      addressController.text,
-                                      firstNameController.text, // Assuming this is for medicalshop
-                                      locationController.text,
-                                    );
-                                  }
-                                },
-                              );
+                //            firstNameController.text = getProfileController
+                //     .getProfileModel.value.medicalShopName
+                //     .toString();
+                // emailController.text =
+                //     getProfileController.getProfileModel.value.email.toString();
+                // addressController.text =
+                //     getProfileController.getProfileModel.value.address.toString();
+                // phoneNumberController.text =
+                //     getProfileController.getProfileModel.value.mobileNumber.toString();
+                // locationController.text =
+                //     getProfileController.getProfileModel.value.location.toString();
+                // pincodeController.text =
+                //     getProfileController.getProfileModel.value.pincode.toString();
+                return getProfileController.isEdit.value
+                    ? SizedBox()
+                    : getProfileController.isUpdating.value
+                        ? CupertinoActivityIndicator(
+                            color: kCardColor,
+                          )
+                        : CommonButtonWidget(
+                            title: "Update",
+                            onTapFunction: () {
+                              final isValidate =
+                                  _formKey.currentState!.validate();
+                              if (isValidate) {
+                                getProfileController.editProfile(
+                                  firstNameController.text,
+                                  phoneNumberController.text,
+                                  addressController.text,
+                                  firstNameController
+                                      .text, // Assuming this is for medicalshop
+                                  locationController.text,
+                                );
+                              }
+                            },
+                          );
               }),
             ],
           ),
@@ -122,12 +126,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       appBar: AppBar(
         actions: [
           Obx(() {
-          
-                       return IconButton(
+            return IconButton(
               onPressed: getProfileController.toggleEditMode,
-              icon: Icon(getProfileController.isEdit.value ? Icons.edit : Icons.check),
+              icon: Icon(
+                  getProfileController.isEdit.value ? Icons.edit : Icons.check),
             );
-
           })
         ],
         title: Obx(() {
@@ -144,8 +147,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
           );
         }
-
-      
 
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
