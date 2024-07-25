@@ -2,6 +2,7 @@ import 'package:animation_wrappers/animations/faded_scale_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
+import 'package:mediezy_medical/mvc/view/common_widgets/text_style_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/horizontal_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
@@ -22,11 +23,12 @@ class BuilderCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Container(
       decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: Color.fromARGB(255, 224, 221, 221))
-          ),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Color.fromARGB(255, 224, 221, 221))),
       child: Column(
         children: [
           VerticalSpacingWidget(height: 10),
@@ -53,8 +55,8 @@ class BuilderCardWidget extends StatelessWidget {
                           : ClipOval(
                               child: Image.network(
                                 patientImage!,
-                                height: 50.h,
-                                width: 50.h,
+                                height: width > 450 ? 80.h : 50.h,
+                                width: 60.w,
                                 fit: BoxFit.fill,
                               ),
                             ),
@@ -66,10 +68,11 @@ class BuilderCardWidget extends StatelessWidget {
                         const VerticalSpacingWidget(height: 5),
                         Text(
                           name,
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: width > 450 ? blackTab12B600 : blackMainText,
+                          // style: TextStyle(
+                          //   fontSize: 15.sp,
+                          //   fontWeight: FontWeight.bold,
+                          // ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -81,13 +84,13 @@ class BuilderCardWidget extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            const Text(
+                            Text(
                               "Prescribed by : ",
+                              style: width > 450 ? blackTab9B400 : black12Bb400,
                             ),
                             Text(
                               "Dr. $drName",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 13.sp),
+                              style: width > 450 ? blackTab12B600 : black13B500,
                             ),
                           ],
                         ),

@@ -8,7 +8,7 @@ final black14B600 =
     TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600, color: kTextColor);
 
 final blackMainText =
-    TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w600, color: kTextColor);
+    TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600, color: kTextColor);
 
 final black12B500 =
     TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: kTextColor);
@@ -30,6 +30,9 @@ final black10B500 =
 
 final black11Bbold =
     TextStyle(fontSize: 11.sp, fontWeight: FontWeight.bold, color: kTextColor);
+
+final black12Bb400 =
+    TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400, color: kTextColor);
 
 //* tab black
 final blackTabMainText =
@@ -111,7 +114,7 @@ final greyTab12B500 = TextStyle(
     fontSize: 12.sp, fontWeight: FontWeight.w500, color: kSubTextColor);
 
 final greyTab11B400 = TextStyle(
-    fontSize: 12.sp, fontWeight: FontWeight.w400, color: kSubTextColor);
+    fontSize: 12.sp, fontWeight: FontWeight.w600, color: kSubTextColor);
 
 final greyTab15B500 = TextStyle(
     fontSize: 15.sp, fontWeight: FontWeight.w500, color: kSubTextColor);

@@ -24,7 +24,7 @@ class MediezyMedical extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Mediezy',
-          theme: appThemeStyle(),
+          theme: appThemeStyle(context),
           home: const SplashScreen(),
         );
       },

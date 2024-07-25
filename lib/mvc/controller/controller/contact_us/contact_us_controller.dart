@@ -5,7 +5,7 @@ import 'package:mediezy_medical/mvc/controller/service/contact_us/contact_us_ser
 import 'package:mediezy_medical/mvc/model/new_order_submit/new_order_submit_model.dart';
 
 class ContactUsController extends GetxController {
-  RxBool loading = true.obs;
+  RxBool loading = false.obs;
 
   var newOrderSubmitModel = NewOrderSubmitModel().obs;
 
@@ -14,6 +14,7 @@ class ContactUsController extends GetxController {
     required String description,
   }) async {
     try {
+      loading.value = true;
       var data = await ContactUsService.contactUsService(
           email: email, description: description);
 
@@ -28,7 +29,7 @@ class ContactUsController extends GetxController {
       }
     } catch (e) {
       log(e.toString());
-
+    } finally {
       loading.value = false;
     }
     return null;

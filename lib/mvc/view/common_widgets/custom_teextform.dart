@@ -5,17 +5,17 @@ import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 
 // ignore: must_be_immutable
 class CustomFomField extends StatelessWidget {
-  CustomFomField({
-    super.key,
-    required this.titles,
-    required this.textinputType,
-    required this.validator,
-    required this.controller,
-    this.focusNode,
-    required this.prefixIcon,
-    required this.readOnly
-  });
-
+  CustomFomField(
+      {super.key,
+      required this.titles,
+      required this.textinputType,
+      required this.validator,
+      required this.controller,
+      this.focusNode,
+      required this.prefixIcon,
+      required this.readOnly,
+      this.maxLength});
+  final int? maxLength;
   String titles;
   final TextInputType textinputType;
 
@@ -28,8 +28,11 @@ class CustomFomField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return TextFormField(
+      style: TextStyle(fontSize: width > 450 ? 11.sp : 13.sp),
       readOnly: readOnly,
+      maxLength: maxLength,
       cursorColor: kMainColor,
       keyboardType: textinputType,
       controller: controller,
@@ -37,11 +40,14 @@ class CustomFomField extends StatelessWidget {
       validator: validator,
       focusNode: focusNode,
       decoration: InputDecoration(
+        counterText: '',
         prefixIcon: Icon(
           prefixIcon,
           color: kMainColor,
+          size: width > 450 ? 15.sp : 22.sp,
         ),
-        hintStyle: TextStyle(fontSize: 15.sp, color: kSubTextColor),
+        hintStyle: TextStyle(
+            fontSize: width > 450 ? 12.sp : 13.sp, color: kSubTextColor),
         hintText: titles,
         filled: true,
         fillColor: kCardColor,

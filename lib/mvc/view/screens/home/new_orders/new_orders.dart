@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:mediezy_medical/mvc/controller/controller/checkbox_controller/checkbox_controller.dart';
 import 'package:mediezy_medical/mvc/controller/controller/completed/completed_controller.dart';
 import 'package:mediezy_medical/mvc/controller/controller/new_order_controller/new_order_controller.dart';
+import 'package:mediezy_medical/mvc/controller/controller/profile/get_profile_controller.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/new_orders/completed_other.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/new_orders/date_get_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
@@ -29,6 +30,8 @@ class _NewOrderScreenState extends State<NewOrderScreen>
 
   final MedicineController medicineController = Get.put(MedicineController());
   final CheckboxController checkboxController = Get.put(CheckboxController());
+  final GetProfileController getProfileController =
+      Get.put(GetProfileController());
 
   final UpcomingDateController upcomingDateController =
       Get.put(UpcomingDateController());
@@ -63,10 +66,13 @@ class _NewOrderScreenState extends State<NewOrderScreen>
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: kMainColor,
-        title: Text(
-          userName.toString(),
-          style: TextStyle(color: Colors.white),
-        ),
+        title: Obx(() {
+          return Text(
+            getProfileController.getProfileModel.value.medicalShopName
+                .toString(),
+            style: TextStyle(color: Colors.white),
+          );
+        }),
         centerTitle: true,
       ),
       drawer: CustomDrawer(),
@@ -78,7 +84,7 @@ class _NewOrderScreenState extends State<NewOrderScreen>
           children: [
             VerticalSpacingWidget(height: 10),
             CustomTabbarWidget(
-              height: size.width > 450 ? 60.h : 35.h,
+              height: size.width > 450 ? size.height * .07 : size.height * .055,
               marginHorizontal: 8,
               controller: tabController!,
               unselectedLebelSize: size.width > 450 ? 10.sp : 13.sp,

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:mediezy_medical/mvc/controller/controller/profile/get_profile_controller.dart';
 import 'package:mediezy_medical/mvc/view/screens/drawer_section/edit_profile/edit_profile_screen.dart';
 import 'package:mediezy_medical/mvc/view/screens/drawer_section/previous_history/previous_history.dart';
+import 'package:mediezy_medical/mvc/view/screens/drawer_section/reset_password/reset_password_screen.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/widgets/patient_image_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 import 'package:mediezy_medical/mvc/view/services/general_services.dart';
@@ -35,49 +36,66 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Drawer(
-      width: size.width > 450 ? 170.w : 250.w,
+      width: size.width > 450 ? 190.w : 250.w,
       child: ListView(
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         padding: EdgeInsets.zero,
         children: [
-          SizedBox(
-            height: size.width > 450 ? 160.h : 200.h,
-            child: DrawerHeader(
-              decoration: BoxDecoration(color: kMainColor),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FadedScaleAnimation(
-                    scaleDuration: const Duration(milliseconds: 400),
-                    fadeDuration: const Duration(milliseconds: 400),
-                    child:
-                        PatientImageWidget(patientImage: image, radius: 30.r),
-                  ),
-                  Text(
-                    userName.toString(),
-                    style: size.width > 450
-                        ? TextStyle(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)
-                        : TextStyle(
-                            fontSize: 17.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white),
-                  ),
-                  Text(
-                    mobileNo == "null" || mobileNo == null
-                        ? "+91 XXX XXX XXXX"
-                        : "+91 $mobileNo",
-                    style: size.width > 450
-                        ? TextStyle(fontSize: 9.sp, color: Colors.white)
-                        : TextStyle(fontSize: 14.sp, color: Colors.white),
-                  ),
-                ],
+          Obx(() {
+            return SizedBox(
+              height: size.width > 450 ? 180.h : 200.h,
+              child: DrawerHeader(
+                decoration: BoxDecoration(color: kMainColor),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    FadedScaleAnimation(
+                      scaleDuration: const Duration(milliseconds: 400),
+                      fadeDuration: const Duration(milliseconds: 400),
+                      child: PatientImageWidget(
+                          patientImage: getProfileController
+                              .getProfileModel.value.medicalshopImage,
+                          radius: 30.r),
+                    ),
+                    Text(
+                      getProfileController.getProfileModel.value.medicalShopName
+                          .toString(),
+                      style: size.width > 450
+                          ? TextStyle(
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)
+                          : TextStyle(
+                              fontSize: 17.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                    ),
+                    Text(
+                      getProfileController
+                          .getProfileModel.value.mediezyMedicalshopId
+                          .toString(),
+                      style: size.width > 450
+                          ? TextStyle(fontSize: 9.sp, color: Colors.white)
+                          : TextStyle(fontSize: 14.sp, color: Colors.white),
+                    ),
+                    Text(
+                      getProfileController.getProfileModel.value.mobileNumber ==
+                                  "null" ||
+                              getProfileController
+                                      .getProfileModel.value.mobileNumber ==
+                                  null
+                          ? "+91 XXX XXX XXXX"
+                          : "+91 ${getProfileController.getProfileModel.value.mobileNumber}",
+                      style: size.width > 450
+                          ? TextStyle(fontSize: 9.sp, color: Colors.white)
+                          : TextStyle(fontSize: 14.sp, color: Colors.white),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ),
+            );
+          }),
           ListTile(
             title: Text('Profile',
                 style: size.width > 450 ? blackTab9B400 : black14B400),
@@ -86,7 +104,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               size: size.width > 450 ? 13.sp : 20.sp,
             ),
             onTap: () {
-getProfileController.getProfile();
+              getProfileController.getProfile();
               Get.to(EditProfileScreen());
             },
           ),
@@ -161,6 +179,17 @@ getProfileController.getProfile();
                   builder: (context) => const ContactUsScreen(),
                 ),
               );
+            },
+          ),
+          ListTile(
+            title: Text('Reset password',
+                style: size.width > 450 ? blackTab9B400 : black14B400),
+            trailing: Icon(
+              Icons.vpn_key,
+              size: size.width > 450 ? 13.sp : 20.sp,
+            ),
+            onTap: () {
+              Get.to(() => ResetPasswordScreen());
             },
           ),
           ListTile(

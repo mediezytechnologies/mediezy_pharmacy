@@ -5,6 +5,9 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:mediezy_medical/mvc/controller/controller/auth/login/login_controller.dart';
+import 'package:mediezy_medical/mvc/view/common_widgets/custom_form_field_widget.dart';
+import 'package:mediezy_medical/mvc/view/common_widgets/text_style_widget.dart';
+import 'package:mediezy_medical/mvc/view/screens/auth/forgot_password/forgot_password_one.dart';
 import 'package:mediezy_medical/mvc/view/screens/auth/signup_screen.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/common_button_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
@@ -22,13 +25,11 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final FocusNode passwordFocusController = FocusNode();
-  bool hidePassword = true;
 
   final LoginController loginController = Get.put(LoginController());
   @override
   Widget build(BuildContext context) {
-    // emailController.text  ='Wellness@gmail.com';
-    // passwordController.text="Wellness";
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
         body: FadedSlideAnimation(
       beginOffset: const Offset(0, 0.3),
@@ -60,98 +61,93 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Form(
                   key: fomkey,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       const VerticalSpacingWidget(height: 400),
                       //! email
-                      TextFormField(
-                        cursorColor: kMainColor,
+                      CustomeFormFieldWidget(
+                        hideText: false,
                         controller: emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(
-                            Icons.email_outlined,
-                            color: kMainColor,
+                        hintText: "Enter your email",
+                        textInputType: TextInputType.emailAddress,
+                        textInputAction: TextInputAction.done,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return "Please enter valid email";
+                          } else {
+                            return null;
+                          }
+                        },
+                        icon: Icons.email_outlined,
+                      ),
+
+                      const VerticalSpacingWidget(height: 10),
+                      //! password
+                      Obx(() {
+                        return CustomeFormFieldWidget(
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              loginController.changeHidePassword();
+                            },
+                            icon: Icon(
+                              loginController.hidePassword.value
+                                  ? IconlyLight.hide
+                                  : IconlyLight.show,
+                              color: kMainColor,
+                            ),
                           ),
-                          hintStyle:
-                              TextStyle(fontSize: 15.sp, color: kSubTextColor),
-                          hintText: "Enter your email",
-                          filled: true,
-                          fillColor: kCardColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4),
-                            borderSide: BorderSide.none,
-                          ),
+                          obscureText: loginController.hidePassword.value,
+                          hideText: false,
+                          controller: passwordController,
+                          hintText: "Enter your password",
+                          textInputType: TextInputType.name,
+                          textInputAction: TextInputAction.done,
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please enter valid password";
+                            } else {
+                              return null;
+                            }
+                          },
+                          icon: IconlyLight.password,
+                        );
+                      }),
+
+                      const VerticalSpacingWidget(height: 10),
+                      InkWell(
+                        onTap: () {
+                          Get.to(() => ForgotPasswordOne());
+                        },
+                        child: Text(
+                          "Forgot password ?",
+                          style: width > 450 ? blackTabMainText : blackMainText,
                         ),
                       ),
                       const VerticalSpacingWidget(height: 10),
-                      //! password
-                      TextFormField(
-                        cursorColor: kMainColor,
-                        controller: passwordController,
-                        keyboardType: TextInputType.text,
-                        focusNode: passwordFocusController,
-                        textInputAction: TextInputAction.done,
-                        obscureText: hidePassword,
-                        decoration: InputDecoration(
-                          prefixIcon:
-                              Icon(IconlyLight.password, color: kMainColor),
-                          suffixIcon: hidePassword
-                              ? IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      hidePassword = !hidePassword;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    IconlyLight.hide,
-                                    color: kMainColor,
-                                  ),
-                                )
-                              : IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      hidePassword = !hidePassword;
-                                    });
-                                  },
-                                  icon: Icon(
-                                    IconlyLight.show,
-                                    color: kMainColor,
-                                  ),
-                                ),
-                          hintStyle:
-                              TextStyle(fontSize: 15.sp, color: kSubTextColor),
-                          hintText: "Enter your password",
-                          filled: true,
-                          fillColor: kCardColor,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4),
-                            borderSide: BorderSide.none,
-                          ),
-                        ),
-                      ),
-
-                      const VerticalSpacingWidget(height: 30),
                       //! login
-                      CommonButtonWidget(
-                        title: "Login",
-                        onTapFunction: () {
-                          log(emailController.text);
-                          log(passwordController.text);
-                          loginController.addLogin(
-                              email: emailController.text,
-                              password: passwordController.text);
-                          // bool isValid = fomkey.currentState!.validate();
-                          // if (isValid) {
+                      Obx(() {
+                        return CommonButtonWidget(
+                          isLoading: loginController.loading.value,
+                          title: "Login",
+                          onTapFunction: () {
+                            log(emailController.text);
+                            log(passwordController.text);
+                            loginController.addLogin(
+                                email: emailController.text,
+                                password: passwordController.text);
+                            // bool isValid = fomkey.currentState!.validate();
+                            // if (isValid) {
 
-                          // }
-                        },
-                      ),
+                            // }
+                          },
+                        );
+                      }),
                       const VerticalSpacingWidget(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("You don't have an account?"),
+                          Text("You don't have an account?",
+                              style: width > 450 ? blackTab9B400 : black12B500),
                           InkWell(
                             onTap: () {
                               Navigator.push(
@@ -159,11 +155,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   MaterialPageRoute(
                                       builder: (ctx) => RegistrationPage()));
                             },
-                            child: Text(
-                              " Signup",
-                              style: TextStyle(
-                                  fontSize: 14.sp, fontWeight: FontWeight.bold),
-                            ),
+                            child: Text(" Sign up",
+                                style: width > 450
+                                    ? blackTabMainText
+                                    : blackMainText),
                           ),
                         ],
                       )

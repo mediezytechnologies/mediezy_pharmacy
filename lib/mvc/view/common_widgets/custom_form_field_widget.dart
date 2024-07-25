@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 
@@ -18,7 +17,8 @@ class CustomeFormFieldWidget extends StatelessWidget {
       this.hideText = false,
       this.maxLine = 1,
       this.maxLength,
-      this.onPressed});
+      this.onPressed,
+      this.suffixIcon});
 
   final TextEditingController controller;
   final String hintText;
@@ -28,6 +28,7 @@ class CustomeFormFieldWidget extends StatelessWidget {
   bool hideText;
   bool obscureText;
   final IconData icon;
+  final Widget? suffixIcon;
   int? maxLine;
   int? maxLength;
   void Function()? onPressed;
@@ -37,7 +38,7 @@ class CustomeFormFieldWidget extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return TextFormField(
-      style: TextStyle(fontSize: 13.sp),
+      style: TextStyle(fontSize: width > 450 ? 11.sp : 13.sp),
       maxLines: maxLine,
       maxLength: maxLength,
       cursorColor: kMainColor,
@@ -51,23 +52,11 @@ class CustomeFormFieldWidget extends StatelessWidget {
         prefixIcon: Icon(
           icon,
           color: kMainColor,
-          size: 22.sp,
+          size: width > 450 ? 15.sp : 22.sp,
         ),
-        suffixIcon: hideText
-            ? IconButton(
-                onPressed: onPressed,
-                icon: obscureText
-                    ? Icon(
-                        IconlyLight.hide,
-                        color: kMainColor,
-                      )
-                    : Icon(
-                        IconlyLight.show,
-                        color: kMainColor,
-                      ),
-              )
-            : const SizedBox(),
-        hintStyle: TextStyle(fontSize: 13.sp, color: kSubTextColor),
+        suffixIcon: suffixIcon,
+        hintStyle: TextStyle(
+            fontSize: width > 450 ? 10.sp : 13.sp, color: kSubTextColor),
         hintText: hintText,
         filled: true,
         fillColor: kCardColor,

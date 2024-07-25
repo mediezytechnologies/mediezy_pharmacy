@@ -25,7 +25,7 @@ class ShortNamesWidget extends StatelessWidget {
               ),
               Text(
                 secondText,
-                style: size.width > 450 ? blackTabMainText : blackMainText,
+                style: size.width > 450 ? blackTabMainText : black13B500,
               ),
             ],
           )

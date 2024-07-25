@@ -10,6 +10,7 @@ class GetLocalStorage {
     storage.write('firstname', user['firstname']);
     storage.write('mobileNo', user['mobileNo']);
     storage.write('image', user['image']);
+    storage.write('user_id', user['user_id']);
   }
 
   //* get user token and id
@@ -25,5 +26,6 @@ class GetLocalStorage {
     storage.remove('firstname');
     storage.remove('mobileNo');
     storage.remove('image');
+    storage.remove('user_id');
   }
 }

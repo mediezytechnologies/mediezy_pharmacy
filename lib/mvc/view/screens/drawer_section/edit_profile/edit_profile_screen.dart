@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mediezy_medical/mvc/controller/controller/profile/get_profile_controller.dart';
+import 'package:mediezy_medical/mvc/view/common_widgets/text_style_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
 
@@ -55,7 +57,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     locationController.text =
         getProfileController.getProfileModel.value.location ?? '';
     pincodeController.text =
-        getProfileController.getProfileModel.value.pincode.toString() ?? "";
+        getProfileController.getProfileModel.value.pincode.toString();
   }
 
   String? imagePath;
@@ -71,10 +73,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final width = MediaQuery.of(context).size.width;
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {},
-      // ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       bottomNavigationBar: Padding(
         padding: EdgeInsets.symmetric(horizontal: size.width * 0.03),
         child: SizedBox(
@@ -82,19 +80,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           child: Column(
             children: [
               Obx(() {
-                //            firstNameController.text = getProfileController
-                //     .getProfileModel.value.medicalShopName
-                //     .toString();
-                // emailController.text =
-                //     getProfileController.getProfileModel.value.email.toString();
-                // addressController.text =
-                //     getProfileController.getProfileModel.value.address.toString();
-                // phoneNumberController.text =
-                //     getProfileController.getProfileModel.value.mobileNumber.toString();
-                // locationController.text =
-                //     getProfileController.getProfileModel.value.location.toString();
-                // pincodeController.text =
-                //     getProfileController.getProfileModel.value.pincode.toString();
                 return getProfileController.isEdit.value
                     ? SizedBox()
                     : getProfileController.isUpdating.value
@@ -102,19 +87,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             color: kCardColor,
                           )
                         : CommonButtonWidget(
+                            isLoading: getProfileController.updateLoading.value,
                             title: "Update",
                             onTapFunction: () {
                               final isValidate =
                                   _formKey.currentState!.validate();
                               if (isValidate) {
                                 getProfileController.editProfile(
-                                  firstNameController.text,
-                                  phoneNumberController.text,
-                                  addressController.text,
-                                  firstNameController
-                                      .text, // Assuming this is for medicalshop
-                                  locationController.text,
-                                );
+                                    firstNameController.text,
+                                    phoneNumberController.text,
+                                    addressController.text,
+                                    firstNameController.text,
+                                    locationController.text,
+                                    pincodeController.text,
+                                    imagePath.toString());
                               }
                             },
                           );
@@ -154,87 +140,64 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             key: _formKey,
             child: SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const VerticalSpacingWidget(height: 45),
+                  const VerticalSpacingWidget(height: 15),
                   Stack(
                     children: [
                       Align(
                         alignment: Alignment.center,
                         child: Container(
-                          height: height * .120,
-                          width: width * .250,
+                          height: width > 450 ? width * .19 : height * .14,
+                          width: width > 450 ? width * .19 : width * .30,
                           decoration: const BoxDecoration(),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.circular(30.r),
-                              child:
-                                  // imagePath == null
-                                  // ?
-                                  //  getProfileController.getProfileModel.value.medicalshopImage==null ||   getProfileController.getProfileModel.value.medicalshopImage=="null"?
-                                  Image.asset(
-                                //   getProfileController.getProfileModel.value.medicalshopImage??"",
-                                "assets/images/person.jpg",
-                                // color: kMainColor,
-                                height: height * .080,
-                                width: width * .080,
-                                fit: BoxFit.cover,
-                              )
-                              //   :   Image.network(
-                              //    getProfileController.getProfileModel.value.medicalshopImage.toString(),
-                              //  //  "assets/images/person.jpg",
-                              //     // color: kMainColor,
-                              //     height: height * .080,
-                              //     width: width * .080,
-                              //     fit: BoxFit.cover,
-                              //   )
-                              // : Image.file(
-                              //     File(imagePath!),
-                              //     height: height * .080,
-                              //     width: width * .080,
-                              //     fit: BoxFit.cover,
-                              //   ),
-                              ),
-                          // ClipRRect(
-                          //     borderRadius: BorderRadius.circular(30.r),
-                          //     child:
-                          //             imagePath == null
-                          //             ?
-                          //         Image.asset(
-                          //       "assets/images/person.jpg",
-                          //       // color: kMainColor,
-                          //       height: height * .080,
-                          //       width: width * .080,
-                          //       fit: BoxFit.cover,
-                          //     )
-                          //     : Image.file(
-                          //         File(imagePath!),
-                          //         height: height * .080,
-                          //         width: width * .080,
-                          //         fit: BoxFit.cover,
-                          //       ),
-                          //     ),
+                          child: ClipOval(
+                            child: imagePath == null
+                                ? getProfileController.getProfileModel.value
+                                            .medicalshopImage ==
+                                        null
+                                    ? Image.asset(
+                                        "assets/images/person.jpg",
+                                      )
+                                    : Image.network(
+                                        getProfileController.getProfileModel
+                                            .value.medicalshopImage
+                                            .toString(),
+                                        height: height * .080,
+                                        width: width * .080,
+                                        fit: BoxFit.cover,
+                                      )
+                                : Image.file(
+                                    File(imagePath!),
+                                    height: height * .080,
+                                    width: width * .080,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
                         ),
                       ),
-                      // Positioned(
-                      //   //  top: 69,
-                      //   top: height * .075,
-                      //   right: width * .285,
-                      //   child: IconButton(
-                      //     onPressed: () async {
-                      //       await placePicImage();
-                      //       log(">>>>>>>>>>>>>>>${imagePath.toString()}");
-                      //     },
-                      //     icon: Icon(
-                      //       Icons.add_a_photo,
-                      //       size: 26.sp,
-                      //       weight: 5,
-                      //       color: kMainColor,
-                      //     ),
-                      //   ),
-                      // ),
+                      Positioned(
+                        top: width > 450 ? height * .09 : height * .09,
+                        right: width > 450 ? width * .36 : width * .290,
+                        child: IconButton(
+                          onPressed: () async {
+                            await placePicImage();
+                            log(">>>>>>>>>>>>>>>${imagePath.toString()}");
+                          },
+                          icon: Icon(
+                            Icons.add_a_photo,
+                            size: width > 450 ? 20.sp : 26.sp,
+                            weight: 5,
+                            color: kMainColor,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                  const VerticalSpacingWidget(height: 35),
+                  const VerticalSpacingWidget(height: 20),
+                  Text("Name :",
+                      style: size.width > 450 ? grey10B400 : greyMain),
+                  const VerticalSpacingWidget(height: 5),
                   CustomFomField(
                     readOnly: getProfileController.isEdit.value,
                     titles: "",
@@ -249,9 +212,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     controller: firstNameController,
                     prefixIcon: IconlyLight.profile,
                   ),
-                  const VerticalSpacingWidget(height: 10),
+                  const VerticalSpacingWidget(height: 5),
+                  Text("email :",
+                      style: size.width > 450 ? grey10B400 : greyMain),
+                  const VerticalSpacingWidget(height: 3),
                   CustomFomField(
-                    readOnly: getProfileController.isEdit.value,
+                    readOnly: true,
                     focusNode: emailFocusController,
                     titles: "email",
                     textinputType: TextInputType.name,
@@ -263,9 +229,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       }
                     },
                     controller: emailController,
-                    prefixIcon: IconlyLight.profile,
+                    prefixIcon: Icons.email_outlined,
                   ),
-                  const VerticalSpacingWidget(height: 10),
+                  const VerticalSpacingWidget(height: 5),
+                  Text("Address :",
+                      style: size.width > 450 ? grey10B400 : greyMain),
+                  const VerticalSpacingWidget(height: 3),
                   CustomFomField(
                     readOnly: getProfileController.isEdit.value,
                     focusNode: addressFocusController,
@@ -279,12 +248,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       }
                     },
                     controller: addressController,
-                    prefixIcon: IconlyLight.profile,
+                    prefixIcon: Iconsax.map,
                   ),
-                  const VerticalSpacingWidget(height: 10),
+                  const VerticalSpacingWidget(height: 5),
+                  Text("Pincode :",
+                      style: size.width > 450 ? grey10B400 : greyMain),
+                  const VerticalSpacingWidget(height: 3),
                   CustomFomField(
                     readOnly: getProfileController.isEdit.value,
                     focusNode: pincodeFocusController,
+                    maxLength: 6,
                     titles: "pincode",
                     textinputType: TextInputType.name,
                     validator: (value) {
@@ -295,9 +268,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       }
                     },
                     controller: pincodeController,
-                    prefixIcon: IconlyLight.profile,
+                    prefixIcon: Icons.location_city,
                   ),
-                  const VerticalSpacingWidget(height: 10),
+                  const VerticalSpacingWidget(height: 5),
+                  Text("Location :",
+                      style: size.width > 450 ? grey10B400 : greyMain),
+                  const VerticalSpacingWidget(height: 3),
                   CustomFomField(
                     readOnly: getProfileController.isEdit.value,
                     focusNode: locationFocusController,
@@ -311,10 +287,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       }
                     },
                     controller: locationController,
-                    prefixIcon: IconlyLight.profile,
+                    prefixIcon: Iconsax.location,
                   ),
-                  const VerticalSpacingWidget(height: 10),
+                  const VerticalSpacingWidget(height: 5),
+                  Text("Phone number :",
+                      style: size.width > 450 ? grey10B400 : greyMain),
+                  const VerticalSpacingWidget(height: 3),
                   CustomFomField(
+                      maxLength: 10,
                       readOnly: getProfileController.isEdit.value,
                       titles: "Phone number",
                       focusNode: phoneNumberFocusController,
@@ -338,93 +318,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  // Stack editImage(Size size) {
-  //   return Stack(
-  //     children: [
-  //       Align(
-  //         alignment: Alignment.center,
-  //         child: Container(
-  //           height: size.height * 0.16,
-  //           width: size.width * 0.33,
-  //           decoration: BoxDecoration(
-  //             borderRadius: BorderRadius.circular(70.r),
-  //           ),
-  //           child: FadedScaleAnimation(
-  //             scaleDuration: const Duration(milliseconds: 400),
-  //             fadeDuration: const Duration(milliseconds: 400),
-  //             child: ClipRRect(
-  //               borderRadius: BorderRadius.circular(70.r),
-  //               child: imagePath != null
-  //                   ? Image.file(
-  //                       imagePath!,
-  //                       height: 80.h,
-  //                       width: 80.w,
-  //                       fit: BoxFit.cover,
-  //                     )
-  //                   : (widget.patientImage == ""
-  //                       ? Image.asset(
-  //                           "assets/icons/profile pic.png",
-  //                           height: 80.h,
-  //                           width: 80.w,
-  //                           color: kMainColor,
-  //                         )
-  //                       : Image.network(
-  //                           widget.patientImage,
-  //                           height: 80.h,
-  //                           width: 80.w,
-  //                           fit: BoxFit.cover,
-  //                           errorBuilder: (context, error, stackTrace) =>
-  //                               Padding(
-  //                             padding: const EdgeInsets.all(3.0),
-  //                             child: Image.asset(
-  //                               "assets/icons/profile pic.png",
-  //                               height: 80.h,
-  //                               width: 80.w,
-  //                               color: kMainColor,
-  //                             ),
-  //                           ),
-  //                           loadingBuilder: (BuildContext context, Widget child,
-  //                               ImageChunkEvent? loadingProgress) {
-  //                             if (loadingProgress == null) {
-  //                               return child;
-  //                             }
-  //                             return Center(
-  //                               child: Shimmer.fromColors(
-  //                                 baseColor: Colors.grey.shade300,
-  //                                 highlightColor: Colors.grey.shade100,
-  //                                 child: Container(
-  //                                   decoration: BoxDecoration(
-  //                                     color: Colors.white,
-  //                                     borderRadius: BorderRadius.circular(80.r),
-  //                                   ),
-  //                                 ),
-  //                               ),
-  //                             );
-  //                           },
-  //                         )),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //       Positioned(
-  //         bottom: 0.h,
-  //         right: size.width * 0.26,
-  //         child: IconButton(
-  //           onPressed: () {
-  //             placePicImage();
-  //           },
-  //           icon: Icon(
-  //             Icons.add_a_photo,
-  //             size: 26.sp,
-  //             weight: 5,
-  //             color: kMainColor,
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-
   Future<void> placePicImage() async {
     var image = await imagePicker.pickImage(
       source: ImageSource.gallery,
@@ -439,21 +332,4 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       log("$imageTemporary======= image");
     });
   }
-
-  // Future<void> pickImageFromCamera() async {
-  //   final picker = ImagePicker();
-  //   final pickedFile = await picker.pickImage(source: ImageSource.camera);
-  //
-  //   if (pickedFile != null) {
-  //     try {
-  //       File compressedImage = await compressImage(pickedFile.path);
-  //       imageFromCamera = File(pickedFile.path);
-  //     } catch (e) {
-  //       print('Error compressing image: $e');
-  //       GeneralServices.instance.showToastMessage('Error compressing image');
-  //     }
-  //   } else {
-  //     GeneralServices.instance.showToastMessage('No image selected');
-  //   }
-  // }
 }

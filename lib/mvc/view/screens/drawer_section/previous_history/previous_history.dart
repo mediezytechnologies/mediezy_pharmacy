@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mediezy_medical/mvc/controller/controller/previous_history_controller/previous_history_controller.dart';
+import 'package:mediezy_medical/mvc/view/common_widgets/text_style_widget.dart';
 import 'package:mediezy_medical/mvc/view/common_widgets/vertical_spacing_widget.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/widgets/order_list_widget.dart';
 import 'package:mediezy_medical/mvc/view/services/app_colors.dart';
@@ -34,6 +35,7 @@ class _PreviousHistoryScreenState extends State<PreviousHistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Text("History"),
@@ -53,28 +55,35 @@ class _PreviousHistoryScreenState extends State<PreviousHistoryScreen> {
                     date: formattedDate);
               },
               activeColor: kMainColor,
-              headerProps: const EasyHeaderProps(
+              headerProps: EasyHeaderProps(
+                selectedDateStyle: width > 450 ? blackTabMainText : black14B600,
+                monthStyle: width > 450 ? blackTabMainText : black14B600,
                 // ignore: deprecated_member_use
                 selectedDateFormat: SelectedDateFormat.monthOnly,
               ),
               dayProps: EasyDayProps(
-                height: 50.h,
-                width: 50.w,
+                height: width > 450 ? 70.h : 50.h,
+                width: width > 450 ? 40.w : 50.w,
                 dayStructure: DayStructure.dayNumDayStr,
                 inactiveDayStyle: DayStyle(
+                  dayStrStyle: TextStyle(
+                      fontSize: width > 450 ? 9.sp : 11.sp,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.black),
                   borderRadius: 10,
-                  dayNumStyle: TextStyle(fontSize: 18.0, color: kTextColor),
+                  dayNumStyle: TextStyle(
+                      fontSize: width > 450 ? 12.sp : 17.sp, color: kTextColor),
                 ),
                 activeDayStyle: DayStyle(
                   borderRadius: 10,
                   dayNumStyle: TextStyle(
-                      fontSize: 18.0,
+                      fontSize: width > 450 ? 13.sp : 17.sp,
                       fontWeight: FontWeight.bold,
                       color: kCardColor),
                 ),
                 // ignore: deprecated_member_use
                 activeDayStrStyle: TextStyle(
-                    fontSize: 12.0,
+                    fontSize: width > 450 ? 9.sp : 11.sp,
                     fontWeight: FontWeight.w400,
                     color: kCardColor),
               ),

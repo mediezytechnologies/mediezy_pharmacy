@@ -120,13 +120,16 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                   ),
                   const VerticalSpacingWidget(height: 20),
                   //! submit
-                  CommonButtonWidget(
-                      title: "Submit",
-                      onTapFunction: () {
-                        contactUsController.addContactUs(
-                            email: emailController.text,
-                            description: messageController.text);
-                      }),
+                  Obx(() {
+                    return CommonButtonWidget(
+                        isLoading: contactUsController.loading.value,
+                        title: "Submit",
+                        onTapFunction: () {
+                          contactUsController.addContactUs(
+                              email: emailController.text,
+                              description: messageController.text);
+                        });
+                  }),
                   const VerticalSpacingWidget(height: 20),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),

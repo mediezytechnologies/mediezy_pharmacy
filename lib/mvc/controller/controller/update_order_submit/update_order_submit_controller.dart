@@ -12,7 +12,7 @@ class UpdateOrderSubmitController extends GetxController {
       Get.put(CompletedController());
 
   final CheckboxController checkboxController = Get.put(CheckboxController());
-  RxBool loading = true.obs;
+  RxBool loading = false.obs;
 
   var newOrderSubmitModel = NewOrderSubmitModel().obs;
 

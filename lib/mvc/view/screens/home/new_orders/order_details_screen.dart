@@ -104,7 +104,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                 checkboxController.isEditing.value = false;
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.arrow_back_outlined)),
+              icon: Icon(
+                Icons.arrow_back_outlined,
+                size: size.width > 450 ? 16.sp : 22.sp,
+              )),
           actions: [
             widget.type != 1
                 ? Container()
@@ -118,6 +121,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               ? Icons.check
                               : Icons.mode_edit_outlined,
                           color: Colors.black,
+                          size: size.width > 450 ? 16.sp : 22.sp,
                         ));
                   })
           ],
@@ -130,6 +134,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             padding: EdgeInsets.symmetric(
                                 vertical: 5.h, horizontal: 8.w),
                             child: CommonButtonWidget(
+                                isLoading:
+                                    updateOrderSubmitController.loading.value,
                                 title: "Update",
                                 onTapFunction: () {
                                   updateOrderSubmitController
@@ -148,27 +154,30 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               })
             : checkboxController.isEditing.value
                 ? Container()
-                : Padding(
-                    padding:
-                        EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
-                    child: CommonButtonWidget(
-                        title: "Submit",
-                        onTapFunction: () {
-                          newOrderSubmitController.addNewOrderSubmit(
-                              context: context,
-                              patientId: widget.patientId!,
-                              tokenId: widget.tokenId!,
-                              doctorId: widget.drId!,
-                              orderStatus: "1",
-                              medicineList:
-                                  checkboxController.checkedMedicineIds,
-                              prescriptionImage:
-                                  checkboxController.checkedPrescriptionImages,
-                              submitDate: widget.date!,
-                              notes: remarksController.text,
-                              appointmentId: widget.appointmentId);
-                        }),
-                  ),
+                : Obx(() {
+                    return Padding(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 5.h, horizontal: 8.w),
+                      child: CommonButtonWidget(
+                          isLoading: newOrderSubmitController.loading.value,
+                          title: "Submit",
+                          onTapFunction: () {
+                            newOrderSubmitController.addNewOrderSubmit(
+                                context: context,
+                                patientId: widget.patientId!,
+                                tokenId: widget.tokenId!,
+                                doctorId: widget.drId!,
+                                orderStatus: "1",
+                                medicineList:
+                                    checkboxController.checkedMedicineIds,
+                                prescriptionImage: checkboxController
+                                    .checkedPrescriptionImages,
+                                submitDate: widget.date!,
+                                notes: remarksController.text,
+                                appointmentId: widget.appointmentId);
+                          }),
+                    );
+                  }),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: SingleChildScrollView(
@@ -192,24 +201,28 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                       children: [
                                         const Text('Select all'),
                                         Obx(() {
-                                          return Checkbox(
-                                            activeColor: kMainColor,
-                                            value: checkboxController
-                                                .allChecked.value,
-                                            onChanged: (newValue) {
-                                              final medicineIds = widget
-                                                  .medicines!
-                                                  .map((medicine) =>
-                                                      medicine.id!)
-                                                  .toList();
-                                              final prescriptionImageIds =
-                                                  widget.prescriptionImages!
-                                                      .map((image) => image.id!)
-                                                      .toList();
-                                              checkboxController.toggleAllItems(
-                                                  medicineIds,
-                                                  prescriptionImageIds);
-                                            },
+                                          return Transform.scale(
+                                            scale: size.width > 450 ? 1.5 : 1,
+                                            child: Checkbox(
+                                              activeColor: kMainColor,
+                                              value: checkboxController
+                                                  .allChecked.value,
+                                              onChanged: (newValue) {
+                                                final medicineIds = widget
+                                                    .medicines!
+                                                    .map((medicine) =>
+                                                        medicine.id!)
+                                                    .toList();
+                                                final prescriptionImageIds =
+                                                    widget.prescriptionImages!
+                                                        .map((image) =>
+                                                            image.id!)
+                                                        .toList();
+                                                checkboxController
+                                                    .toggleAllItems(medicineIds,
+                                                        prescriptionImageIds);
+                                              },
+                                            ),
                                           );
                                         }),
                                       ],
@@ -220,22 +233,28 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         : Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              const Text('Select all'),
+                              Text('Select all',
+                                  style: size.width > 450
+                                      ? blackTab9B400
+                                      : black12Bb400),
                               Obx(() {
-                                return Checkbox(
-                                  activeColor: kMainColor,
-                                  value: checkboxController.allChecked.value,
-                                  onChanged: (newValue) {
-                                    final medicineIds = widget.medicines!
-                                        .map((medicine) => medicine.id!)
-                                        .toList();
-                                    final prescriptionImageIds = widget
-                                        .prescriptionImages!
-                                        .map((image) => image.id!)
-                                        .toList();
-                                    checkboxController.toggleAllItems(
-                                        medicineIds, prescriptionImageIds);
-                                  },
+                                return Transform.scale(
+                                  scale: size.width > 450 ? 1.5 : 1,
+                                  child: Checkbox(
+                                    activeColor: kMainColor,
+                                    value: checkboxController.allChecked.value,
+                                    onChanged: (newValue) {
+                                      final medicineIds = widget.medicines!
+                                          .map((medicine) => medicine.id!)
+                                          .toList();
+                                      final prescriptionImageIds = widget
+                                          .prescriptionImages!
+                                          .map((image) => image.id!)
+                                          .toList();
+                                      checkboxController.toggleAllItems(
+                                          medicineIds, prescriptionImageIds);
+                                    },
+                                  ),
                                 );
                               }),
                             ],
@@ -256,13 +275,15 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         prescriptionImages: widget.prescriptionImages,
                       ),
                 widget.type != 1
-                    ? Text("Remarks : ", style: greyMain)
+                    ? Text("Remarks : ",
+                        style: size.width > 450 ? grey10B400 : greyMain)
                     : Obx(() {
                         if (!checkboxController.isEditing.value &&
                             widget.notes == null) {
                           return SizedBox();
                         }
-                        return Text("Remarks : ", style: greyMain);
+                        return Text("Remarks : ",
+                            style: size.width > 450 ? grey10B400 : greyMain);
                       }),
                 const VerticalSpacingWidget(height: 5),
                 widget.type != 1

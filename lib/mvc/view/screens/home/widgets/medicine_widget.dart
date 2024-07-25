@@ -71,7 +71,7 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                               medicine.medicineName!,
                               style: size.width > 450
                                   ? blackTabMainText
-                                  : blackMainText,
+                                  : black13B500,
                             )),
                           ],
                         ),
@@ -130,7 +130,7 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                                     "Morning",
                                     style: size.width > 450
                                         ? blackTabMainText
-                                        : blackMainText,
+                                        : black13B500,
                                   ),
                                 if (medicine.morning == 1 &&
                                     (medicine.noon == 1 ||
@@ -140,14 +140,14 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                                     ",",
                                     style: size.width > 450
                                         ? blackTabMainText
-                                        : blackMainText,
+                                        : black13B500,
                                   ),
                                 if (medicine.noon == 1)
                                   Text(
                                     "Noon",
                                     style: size.width > 450
                                         ? blackTabMainText
-                                        : blackMainText,
+                                        : black13B500,
                                   ),
                                 if (medicine.noon == 1 &&
                                     (medicine.evening == 1 ||
@@ -156,14 +156,14 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                                     ",",
                                     style: size.width > 450
                                         ? blackTabMainText
-                                        : blackMainText,
+                                        : black13B500,
                                   ),
                                 if (medicine.evening == 1)
                                   Text(
                                     "Evening",
                                     style: size.width > 450
                                         ? blackTabMainText
-                                        : blackMainText,
+                                        : black13B500,
                                   ),
                                 if (medicine.evening == 1 &&
                                     medicine.night == 1)
@@ -171,14 +171,14 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                                     ",",
                                     style: size.width > 450
                                         ? blackTabMainText
-                                        : blackMainText,
+                                        : black13B500,
                                   ),
                                 if (medicine.night == 1)
                                   Text(
                                     "Night",
                                     style: size.width > 450
                                         ? blackTabMainText
-                                        : blackMainText,
+                                        : black13B500,
                                   ),
                               ],
                             ),
@@ -187,53 +187,6 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                       ],
                     ),
                   ),
-                  // widget.checkBoxId == 1
-                  //     ? Obx(() {
-                  //         final isChecked = checkboxController.checkedMedicines
-                  //                 .contains(medicine.id) ||
-                  //             medicine.status == 1;
-                  //         return checkboxController.isEditing.value
-                  //             ? Checkbox(
-                  //                 activeColor: kMainColor,
-                  //                 value: isChecked,
-                  //                 onChanged: (newValue) {
-                  //                   checkboxController.toggleItem(
-                  //                     medicine.id!,
-                  //                     widget.medicines.length,
-                  //                     widget.prescriptionImages!.length,
-                  //                     true,
-                  //                   );
-                  //                 },
-                  //               )
-                  //             : (medicine.status == 0
-                  //                 ? Container()
-                  //                 : Container(
-                  //                     height: 25.h,
-                  //                     width: 50.w,
-                  //                     child: ClipRRect(
-                  //                       child: Image.asset(
-                  //                           "assets/images/delivered.png"),
-                  //                     ),
-                  //                   ));
-                  //       })
-                  //     : Obx(() {
-                  //         final isChecked = checkboxController.checkedMedicines
-                  //                 .contains(medicine.id) ||
-                  //             medicine.status == 1;
-                  //         return Checkbox(
-                  //           activeColor: kMainColor,
-                  //           value: isChecked,
-                  //           onChanged: (newValue) {
-                  //             checkboxController.toggleItem(
-                  //               medicine.id!,
-                  //               widget.medicines.length,
-                  //               widget.prescriptionImages!.length,
-                  //               true,
-                  //             );
-                  //           },
-                  //         );
-                  //       })
-
                   widget.checkBoxId == 1
                       ? Obx(() {
                           var isChecked = checkboxController.checkedMedicines
@@ -250,18 +203,21 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                           }
 
                           return checkboxController.isEditing.value
-                              ? Checkbox(
-                                  activeColor: kMainColor,
-                                  value: isChoption(),
-                                  //isChecked,
-                                  onChanged: (newValue) {
-                                    checkboxController.toggleItem(
-                                      medicine.id!,
-                                      widget.medicines.length,
-                                      widget.prescriptionImages!.length,
-                                      true,
-                                    );
-                                  },
+                              ? Transform.scale(
+                                  scale: size.width > 450 ? 1.5 : 1,
+                                  child: Checkbox(
+                                    activeColor: kMainColor,
+                                    value: isChoption(),
+                                    //isChecked,
+                                    onChanged: (newValue) {
+                                      checkboxController.toggleItem(
+                                        medicine.id!,
+                                        widget.medicines.length,
+                                        widget.prescriptionImages!.length,
+                                        true,
+                                      );
+                                    },
+                                  ),
                                 )
                               : (medicine.status == 0
                                   ? Container()
@@ -277,17 +233,20 @@ class _GetMedicinesWidgetState extends State<GetMedicinesWidget> {
                       : Obx(() {
                           final isChecked = checkboxController.checkedMedicines
                               .contains(medicine.id);
-                          return Checkbox(
-                            activeColor: kMainColor,
-                            value: isChecked,
-                            onChanged: (newValue) {
-                              checkboxController.toggleItem(
-                                medicine.id!,
-                                widget.medicines.length,
-                                widget.prescriptionImages!.length,
-                                true,
-                              );
-                            },
+                          return Transform.scale(
+                            scale: size.width > 450 ? 1.5 : 1,
+                            child: Checkbox(
+                              activeColor: kMainColor,
+                              value: isChecked,
+                              onChanged: (newValue) {
+                                checkboxController.toggleItem(
+                                  medicine.id!,
+                                  widget.medicines.length,
+                                  widget.prescriptionImages!.length,
+                                  true,
+                                );
+                              },
+                            ),
                           );
                         })
                 ],

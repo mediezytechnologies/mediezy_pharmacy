@@ -9,7 +9,7 @@ import '../new_order_controller/new_order_controller.dart';
 
 class NewOrderSubmitController extends GetxController {
   final MedicineController medicineController = Get.put(MedicineController());
-  RxBool loading = true.obs;
+  RxBool loading = false.obs;
 
   String formattedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
 

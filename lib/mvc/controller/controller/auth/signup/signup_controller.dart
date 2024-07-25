@@ -6,9 +6,16 @@ import 'package:mediezy_medical/mvc/model/auth/signup/signup_model.dart';
 import 'package:mediezy_medical/mvc/view/screens/auth/login_screen.dart';
 
 class SignupController extends GetxController {
-  RxBool loading = true.obs;
+  RxBool loading = false.obs;
+  RxBool hidePassword = true.obs;
 
   var signupModel = SignupModel().obs;
+
+  void changeHidePassword() {
+    hidePassword.value = !hidePassword.value;
+    log(hidePassword.value.toString());
+    update();
+  }
 
   Future<SignupModel?> addSignup({
     required String name,
@@ -21,6 +28,7 @@ class SignupController extends GetxController {
     String? medicalshopImage,
   }) async {
     try {
+      loading.value = true;
       var data = await SignupService.signupService(
           name: name,
           email: email,

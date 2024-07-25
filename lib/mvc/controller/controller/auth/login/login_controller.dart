@@ -6,18 +6,25 @@ import 'package:mediezy_medical/mvc/model/auth/login/login_model.dart';
 import 'package:mediezy_medical/mvc/view/screens/home/new_orders/new_orders.dart';
 
 class LoginController extends GetxController {
-  RxBool loading = true.obs;
+  RxBool loading = false.obs;
+  var hidePassword = true.obs;
 
   var loginModel = LoginModel().obs;
+
+  void changeHidePassword() {
+    hidePassword.value = !hidePassword.value;
+    log(hidePassword.value.toString());
+    update();
+  }
 
   Future<LoginModel?> addLogin({
     required String email,
     required String password,
   }) async {
     try {
+      loading.value = true;
       var data =
-          await LoginService.loginService(
-            email: email, password: password);
+          await LoginService.loginService(email: email, password: password);
       loginModel.value = data!;
 
       log(">>>>>>>>>>>>>>>>>>${loginModel.value.message.toString()}");
@@ -26,6 +33,7 @@ class LoginController extends GetxController {
             snackPosition: SnackPosition.BOTTOM);
         Get.offAll(NewOrderScreen());
       }
+
       loading.value = false;
       update();
       return loginModel.value;

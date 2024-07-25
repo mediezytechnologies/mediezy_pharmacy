@@ -7,7 +7,6 @@ class DioClient {
   static Dio dio = Dio(
     BaseOptions(
       baseUrl: baseUrl,
-       
       headers: {'Authorization': 'Bearer $token'},
       contentType: 'application/json',
     ),

@@ -24,6 +24,7 @@ class PrescriptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final CheckboxController checkboxController = Get.put(CheckboxController());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +37,8 @@ class PrescriptionWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Prescription images : ", style: greyMain),
+              Text("Prescription images : ",
+                  style: size.width > 450 ? grey10B400 : greyMain),
               const VerticalSpacingWidget(height: 2),
               ListView.builder(
                 itemCount: prescriptionImages!.length,
@@ -73,10 +75,14 @@ class PrescriptionWidget extends StatelessWidget {
                                 Icon(
                                   IconlyLight.image,
                                   color: kMainColor,
+                                  size: size.width > 450 ? 15.sp : 22.sp,
                                 ),
                                 HorizontalSpacingWidget(width: 5),
                                 const HorizontalSpacingWidget(width: 5),
-                                Text("Image ${index + 1}", style: black13B500),
+                                Text("Image ${index + 1}",
+                                    style: size.width > 450
+                                        ? blackTab10B600
+                                        : black13B500),
                               ],
                             ),
                             checkBoxId == 1
@@ -86,17 +92,21 @@ class PrescriptionWidget extends StatelessWidget {
                                         .contains(
                                             prescriptionImages![index].id);
                                     return checkboxController.isEditing.value
-                                        ? Checkbox(
-                                            activeColor: kMainColor,
-                                            value: isChecked,
-                                            onChanged: (newValue) {
-                                              checkboxController.toggleItem(
-                                                prescriptionImages![index].id!,
-                                                medicines.length,
-                                                prescriptionImages!.length,
-                                                false,
-                                              );
-                                            },
+                                        ? Transform.scale(
+                                            scale: size.width > 450 ? 1.5 : 1,
+                                            child: Checkbox(
+                                              activeColor: kMainColor,
+                                              value: isChecked,
+                                              onChanged: (newValue) {
+                                                checkboxController.toggleItem(
+                                                  prescriptionImages![index]
+                                                      .id!,
+                                                  medicines.length,
+                                                  prescriptionImages!.length,
+                                                  false,
+                                                );
+                                              },
+                                            ),
                                           )
                                         : (prescriptionImages![index].status ==
                                                 0
@@ -115,17 +125,20 @@ class PrescriptionWidget extends StatelessWidget {
                                         .checkedPrescriptions
                                         .contains(
                                             prescriptionImages![index].id);
-                                    return Checkbox(
-                                      activeColor: kMainColor,
-                                      value: isChecked,
-                                      onChanged: (newValue) {
-                                        checkboxController.toggleItem(
-                                          prescriptionImages![index].id!,
-                                          medicines.length,
-                                          prescriptionImages!.length,
-                                          false,
-                                        );
-                                      },
+                                    return Transform.scale(
+                                      scale: size.width > 450 ? 1.5 : 1,
+                                      child: Checkbox(
+                                        activeColor: kMainColor,
+                                        value: isChecked,
+                                        onChanged: (newValue) {
+                                          checkboxController.toggleItem(
+                                            prescriptionImages![index].id!,
+                                            medicines.length,
+                                            prescriptionImages!.length,
+                                            false,
+                                          );
+                                        },
+                                      ),
                                     );
                                   }),
                             // prescriptionImages![index].status == 1
