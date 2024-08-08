@@ -141,38 +141,6 @@ class PrescriptionWidget extends StatelessWidget {
                                       ),
                                     );
                                   }),
-                            // prescriptionImages![index].status == 1
-                            //     ? Container(
-                            //         height: 25.h,
-                            //         width: 50.w,
-                            //         child: ClipRRect(
-                            //           child: Image.asset(
-                            //               "assets/images/delivered.png"),
-                            //         ),
-                            //       )
-                            //     : (checkBoxId == 1
-                            //         ? Container()
-                            //         : Obx(() {
-                            //             return Checkbox(
-                            //               activeColor: kMainColor,
-                            //               value: checkboxController
-                            //                   .checkedPrescriptions
-                            //                   .contains(
-                            //                       prescriptionImages![index]
-                            //                           .id),
-                            //               onChanged: (newValue) {
-                            //                 log(prescriptionImages![index]
-                            //                     .id
-                            //                     .toString());
-                            //                 checkboxController.toggleItem(
-                            //                   prescriptionImages![index].id!,
-                            //                   medicines.length,
-                            //                   prescriptionImages!.length,
-                            //                   false,
-                            //                 );
-                            //               },
-                            //             );
-                            //           })),
                           ],
                         ),
                       ),
